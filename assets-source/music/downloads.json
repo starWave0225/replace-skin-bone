@@ -1,0 +1,107 @@
+[
+  {
+    "name": "Chinatown_Healing",
+    "page": "https://peritune.com/blog/2017/06/22/chinatown/",
+    "zip": "https://peritune.com/loop/PerituneMaterial_Chinatown_Healing_loop.zip",
+    "files": [
+      {
+        "name": "PerituneMaterial_Chinatown_Healing_loop.ogg",
+        "size": 2270431
+      },
+      {
+        "name": "PerituneMaterial_Chinatown_Healing_loop.m4a",
+        "size": 1830422
+      }
+    ]
+  },
+  {
+    "name": "Folk_Chinese",
+    "page": "https://peritune.com/blog/2018/01/14/folk_chinese/",
+    "zip": "https://peritune.com/loop/PerituneMaterial_Folk_Chinese_loop.zip",
+    "files": [
+      {
+        "name": "PerituneMaterial_Folk_Chinese_loop.ogg",
+        "size": 1801508
+      },
+      {
+        "name": "PerituneMaterial_Folk_Chinese_loop.m4a",
+        "size": 1428827
+      }
+    ]
+  },
+  {
+    "name": "Taohua",
+    "page": "https://peritune.com/blog/2021/03/03/taohua/",
+    "zip": "https://peritune.com/loop/PerituneMaterial_Taohua_loop.zip",
+    "files": [
+      {
+        "name": "PerituneMaterial_Taohua_loop.m4a",
+        "size": 1941864
+      },
+      {
+        "name": "PerituneMaterial_Taohua_loop.ogg",
+        "size": 2427567
+      }
+    ]
+  },
+  {
+    "name": "Shenxian_Drumless",
+    "page": "https://peritune.com/blog/2020/06/05/shenxian/",
+    "zip": "https://peritune.com/loop/PerituneMaterial_Shenxian_Drumless_loop.zip",
+    "files": [
+      {
+        "name": "PerituneMaterial_Shenxian_Drumless_loop.m4a",
+        "size": 3015951
+      },
+      {
+        "name": "PerituneMaterial_Shenxian_Drumless_loop.ogg",
+        "size": 3599597
+      }
+    ]
+  },
+  {
+    "name": "Wuxia2_Guzheng_Pipa",
+    "page": "https://peritune.com/blog/2018/10/13/wuxia2/",
+    "zip": "https://peritune.com/loop/PerituneMaterial_Wuxia2_Guzheng_Pipa_loop.zip",
+    "files": [
+      {
+        "name": "PerituneMaterial_Wuxia2_Guzheng_Pipa_loop.ogg",
+        "size": 4101419
+      },
+      {
+        "name": "PerituneMaterial_Wuxia2_Guzheng_Pipa_loop.m4a",
+        "size": 2992248
+      }
+    ]
+  },
+  {
+    "name": "Suspense",
+    "page": "https://peritune.com/blog/2015/05/10/suspense1/",
+    "zip": "https://peritune.com/music/PerituneMaterial_Suspense.zip",
+    "files": [
+      {
+        "name": "PerituneMaterial_Suspense.ogg",
+        "size": 3602805
+      },
+      {
+        "name": "PerituneMaterial_Suspense.m4a",
+        "size": 3421713
+      }
+    ]
+  },
+  {
+    "name": "Suspense3",
+    "page": "https://peritune.com/blog/2015/08/29/suspense3/",
+    "zip": "https://peritune.com/music/PerituneMaterial_Suspense3.zip",
+    "files": [
+      {
+        "name": "PerituneMaterial_Suspense3.ogg",
+        "size": 3472158
+      },
+      {
+        "name": "PerituneMaterial_Suspense3.m4a",
+        "size": 2973773
+      }
+    ]
+  }
+]

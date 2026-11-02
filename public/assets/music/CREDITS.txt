@@ -1,0 +1,19 @@
+
+
+场景与战斗配乐（2026-10-31 接入）
+
+音乐作者：PeriTune / むつき醒 (Sei Mutsuki)，https://peritune.com/ 。以下七首均为 2015—2021 年公开的旧作，按 CC BY 4.0（https://creativecommons.org/licenses/by/4.0/）使用。作者当前使用条款 https://peritune.com/about/ 及 2026-03-01 公告 https://peritune.com/blog/2026/03/01/terms-update/ 明确旧作继续保留此许可；本项目未使用 2026 年 3 月之后适用新条款的曲目。
+
+| 原曲 | 本作场景 | 官方来源 |
+| --- | --- | --- |
+| Chinatown_Healing | 标题、客舍 | https://peritune.com/blog/2017/06/22/chinatown/ |
+| Folk_Chinese | 白昼南街 | https://peritune.com/blog/2018/01/14/folk_chinese/ |
+| Taohua | 戚家小院、斗法胜利 | https://peritune.com/blog/2021/03/03/taohua/ |
+| Shenxian_Drumless | 无面茶楼、王宅 | https://peritune.com/blog/2020/06/05/shenxian/ |
+| Wuxia2_Guzheng_Pipa | 县衙、后井、夜间查案、败退 | https://peritune.com/blog/2018/10/13/wuxia2/ |
+| Suspense | 序章入夜、第一人称梦境 | https://peritune.com/blog/2015/05/10/suspense1/ |
+| Suspense3 | 回合制斗法 | https://peritune.com/blog/2015/08/29/suspense3/ |
+
+五首民乐曲取自作者提供的免费循环版 ZIP，Suspense 与 Suspense3 使用官方免费完整版本。原 OGG / M4A 文件未修改；游戏运行时循环播放、调整音量，并在切景时作 900 毫秒淡入淡出。两首悬疑曲为氛围配乐，不将其标注为中国传统民乐。界面中文曲签由本作命名，不是作者原曲名。
+
+下载包与网页许可证据保存在 assets-source/music/；运行文件在 public/assets/music/，按需加载 OGG，浏览器不支持时使用 M4A。每个文件的 SHA-256、原下载链接、日期与场景映射见 docs/music-public-assets.json。游戏内「配乐」面板和「画外拾遗」提供原曲、作者与许可链接。

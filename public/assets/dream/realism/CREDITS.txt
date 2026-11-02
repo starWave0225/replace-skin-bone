@@ -1,0 +1,16 @@
+Poly Haven CC0 assets for Painted Skin: Borrowed Face
+License: https://polyhaven.com/license
+CC0 1.0: https://creativecommons.org/publicdomain/zero/1.0/
+Downloaded for local use on 2026-10-31. Runtime makes no API requests.
+
+chinese_chandelier | Kirill Sannikov | https://polyhaven.com/a/chinese_chandelier
+chinese_console_table | Kirill Sannikov | https://polyhaven.com/a/chinese_console_table
+chinese_armchair | Kirill Sannikov | https://polyhaven.com/a/chinese_armchair
+chinese_screen_panels | Kirill Sannikov | https://polyhaven.com/a/chinese_screen_panels
+chinese_tea_table | Kirill Sannikov | https://polyhaven.com/a/chinese_tea_table
+chinese_cabinet | Kirill Sannikov | https://polyhaven.com/a/chinese_cabinet
+old_wood_floor | Guillaume Monsergent | https://polyhaven.com/a/old_wood_floor
+dark_wood | Dario Barresi, Dimitrios Savva, Rico Cilliers | https://polyhaven.com/a/dark_wood
+worn_plaster_wall | Dimitrios Savva | https://polyhaven.com/a/worn_plaster_wall
+rough_linen | colormass, Rico Cilliers | https://polyhaven.com/a/rough_linen
+moonless_golf | Greg Zaal | https://polyhaven.com/a/moonless_golf

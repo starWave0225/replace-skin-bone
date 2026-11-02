@@ -1,0 +1,131 @@
+{
+  "provider": "Poly Haven",
+  "license": "https://polyhaven.com/license",
+  "downloaded": "2026-10-31",
+  "assets": [
+    {
+      "id": "chinese_chandelier",
+      "kind": "model",
+      "author": {
+        "Kirill Sannikov": "All"
+      },
+      "source": "https://polyhaven.com/a/chinese_chandelier",
+      "license": "CC0-1.0",
+      "resolution": "1k",
+      "runtime": "public/assets/dream/realism/chinese_chandelier/model.gltf"
+    },
+    {
+      "id": "chinese_console_table",
+      "kind": "model",
+      "author": {
+        "Kirill Sannikov": "All"
+      },
+      "source": "https://polyhaven.com/a/chinese_console_table",
+      "license": "CC0-1.0",
+      "resolution": "1k",
+      "runtime": "public/assets/dream/realism/chinese_console_table/model.gltf"
+    },
+    {
+      "id": "chinese_armchair",
+      "kind": "model",
+      "author": {
+        "Kirill Sannikov": "All"
+      },
+      "source": "https://polyhaven.com/a/chinese_armchair",
+      "license": "CC0-1.0",
+      "resolution": "1k",
+      "runtime": "public/assets/dream/realism/chinese_armchair/model.gltf"
+    },
+    {
+      "id": "chinese_screen_panels",
+      "kind": "model",
+      "author": {
+        "Kirill Sannikov": "All"
+      },
+      "source": "https://polyhaven.com/a/chinese_screen_panels",
+      "license": "CC0-1.0",
+      "resolution": "1k",
+      "runtime": "public/assets/dream/realism/chinese_screen_panels/model.gltf"
+    },
+    {
+      "id": "chinese_tea_table",
+      "kind": "model",
+      "author": {
+        "Kirill Sannikov": "All"
+      },
+      "source": "https://polyhaven.com/a/chinese_tea_table",
+      "license": "CC0-1.0",
+      "resolution": "1k",
+      "runtime": "public/assets/dream/realism/chinese_tea_table/model.gltf"
+    },
+    {
+      "id": "chinese_cabinet",
+      "kind": "model",
+      "author": {
+        "Kirill Sannikov": "All"
+      },
+      "source": "https://polyhaven.com/a/chinese_cabinet",
+      "license": "CC0-1.0",
+      "resolution": "1k",
+      "runtime": "public/assets/dream/realism/chinese_cabinet/model.gltf"
+    },
+    {
+      "id": "old_wood_floor",
+      "kind": "material",
+      "author": {
+        "Guillaume Monsergent": "All"
+      },
+      "source": "https://polyhaven.com/a/old_wood_floor",
+      "license": "CC0-1.0",
+      "resolution": "2k",
+      "runtime": "public/assets/dream/realism/old_wood_floor"
+    },
+    {
+      "id": "dark_wood",
+      "kind": "material",
+      "author": {
+        "Dario Barresi": "Baking",
+        "Dimitrios Savva": "Photography",
+        "Rico Cilliers": "Tiling"
+      },
+      "source": "https://polyhaven.com/a/dark_wood",
+      "license": "CC0-1.0",
+      "resolution": "2k",
+      "runtime": "public/assets/dream/realism/dark_wood"
+    },
+    {
+      "id": "worn_plaster_wall",
+      "kind": "material",
+      "author": {
+        "Dimitrios Savva": "All"
+      },
+      "source": "https://polyhaven.com/a/worn_plaster_wall",
+      "license": "CC0-1.0",
+      "resolution": "2k",
+      "runtime": "public/assets/dream/realism/worn_plaster_wall"
+    },
+    {
+      "id": "rough_linen",
+      "kind": "material",
+      "author": {
+        "colormass": "Photography",
+        "Rico Cilliers": "Processing"
+      },
+      "source": "https://polyhaven.com/a/rough_linen",
+      "license": "CC0-1.0",
+      "resolution": "2k",
+      "runtime": "public/assets/dream/realism/rough_linen"
+    },
+    {
+      "id": "moonless_golf",
+      "kind": "environment",
+      "author": {
+        "Greg Zaal": "All"
+      },
+      "source": "https://polyhaven.com/a/moonless_golf",
+      "license": "CC0-1.0",
+      "resolution": "1k",
+      "runtime": "public/assets/dream/realism/night.hdr"
+    }
+  ]
+}

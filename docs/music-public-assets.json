@@ -1,0 +1,186 @@
+{
+  "retrieved": "2026-10-31",
+  "source": "https://peritune.com/",
+  "licenseEvidence": [
+    "https://peritune.com/about/",
+    "https://peritune.com/blog/2026/03/01/terms-update/"
+  ],
+  "licenseScope": "All selected works were published before March 2026 and retain CC BY 4.0. No claim that newer PeriTune works share this license.",
+  "tracks": [
+    {
+      "name": "Chinatown_Healing",
+      "page": "https://peritune.com/blog/2017/06/22/chinatown/",
+      "zip": "https://peritune.com/loop/PerituneMaterial_Chinatown_Healing_loop.zip",
+      "runtime": {
+        "ogg": {
+          "path": "public/assets/music/chinatown_healing.ogg",
+          "bytes": 2270431,
+          "sha256": "3a9116e1b6b45f574c494d3d5c668f4d547fda98059c58773d6f44046b2eba48"
+        },
+        "m4a": {
+          "path": "public/assets/music/chinatown_healing.m4a",
+          "bytes": 1830422,
+          "sha256": "b98d41830b50c6abe5c961d049a30a2f5102a57ffe0d50775178ad16d29633e2"
+        }
+      },
+      "duration": 81.818,
+      "sampleRate": 44100,
+      "published": "2017-06-22",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "author": "PeriTune / むつき醒 (Sei Mutsuki)",
+      "modification": "Unmodified official OGG and M4A files. Runtime looping, volume adjustment and 900ms scene crossfades.",
+      "variant": "Official loop version"
+    },
+    {
+      "name": "Folk_Chinese",
+      "page": "https://peritune.com/blog/2018/01/14/folk_chinese/",
+      "zip": "https://peritune.com/loop/PerituneMaterial_Folk_Chinese_loop.zip",
+      "runtime": {
+        "ogg": {
+          "path": "public/assets/music/folk_chinese.ogg",
+          "bytes": 1801508,
+          "sha256": "5477f6846a341bb11f0b5ea6d3a18265a8f80162e36118f970a993d423c4b948"
+        },
+        "m4a": {
+          "path": "public/assets/music/folk_chinese.m4a",
+          "bytes": 1428827,
+          "sha256": "9a32a2493213a12a1c9faa31e73c5b7f526e72652eb6e6793b021ce8ee671230"
+        }
+      },
+      "duration": 65.085,
+      "sampleRate": 44100,
+      "published": "2018-01-14",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "author": "PeriTune / むつき醒 (Sei Mutsuki)",
+      "modification": "Unmodified official OGG and M4A files. Runtime looping, volume adjustment and 900ms scene crossfades.",
+      "variant": "Official loop version"
+    },
+    {
+      "name": "Taohua",
+      "page": "https://peritune.com/blog/2021/03/03/taohua/",
+      "zip": "https://peritune.com/loop/PerituneMaterial_Taohua_loop.zip",
+      "runtime": {
+        "ogg": {
+          "path": "public/assets/music/taohua.ogg",
+          "bytes": 2427567,
+          "sha256": "8e8bf72c4c4ab0a69cdb5573722dead6bbc2df72ad1935e71f94203d3fd92210"
+        },
+        "m4a": {
+          "path": "public/assets/music/taohua.m4a",
+          "bytes": 1941864,
+          "sha256": "451a6f1793ee4fea6177c8c2368554f06699ada87c8295c7742440746ce2b22d"
+        }
+      },
+      "duration": 84.375,
+      "sampleRate": 48000,
+      "published": "2021-03-03",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "author": "PeriTune / むつき醒 (Sei Mutsuki)",
+      "modification": "Unmodified official OGG and M4A files. Runtime looping, volume adjustment and 900ms scene crossfades.",
+      "variant": "Official loop version"
+    },
+    {
+      "name": "Shenxian_Drumless",
+      "page": "https://peritune.com/blog/2020/06/05/shenxian/",
+      "zip": "https://peritune.com/loop/PerituneMaterial_Shenxian_Drumless_loop.zip",
+      "runtime": {
+        "ogg": {
+          "path": "public/assets/music/shenxian_drumless.ogg",
+          "bytes": 3599597,
+          "sha256": "0f1058cf9d73aa78a25d61fa29031fb1a51fd1e792cdf4ac01855c03cd9a5bd9"
+        },
+        "m4a": {
+          "path": "public/assets/music/shenxian_drumless.m4a",
+          "bytes": 3015951,
+          "sha256": "c04eac02ba909144c78a33fefc23ef03fcfc4de59c902ccb20b462ae597d255b"
+        }
+      },
+      "duration": 144.493,
+      "sampleRate": 48000,
+      "published": "2020-06-05",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "author": "PeriTune / むつき醒 (Sei Mutsuki)",
+      "modification": "Unmodified official OGG and M4A files. Runtime looping, volume adjustment and 900ms scene crossfades.",
+      "variant": "Official loop version"
+    },
+    {
+      "name": "Wuxia2_Guzheng_Pipa",
+      "page": "https://peritune.com/blog/2018/10/13/wuxia2/",
+      "zip": "https://peritune.com/loop/PerituneMaterial_Wuxia2_Guzheng_Pipa_loop.zip",
+      "runtime": {
+        "ogg": {
+          "path": "public/assets/music/wuxia2_guzheng_pipa.ogg",
+          "bytes": 4101419,
+          "sha256": "6051618511dca41174208e74fb3506220a0dcb11e7505e4a4c0ace8bd5b5c66d"
+        },
+        "m4a": {
+          "path": "public/assets/music/wuxia2_guzheng_pipa.m4a",
+          "bytes": 2992248,
+          "sha256": "4da711f31343585d48105586f2901e5f586fa49efa29d10a408e6ca1472bf73e"
+        }
+      },
+      "duration": 125.827,
+      "sampleRate": 44100,
+      "published": "2018-10-13",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "author": "PeriTune / むつき醒 (Sei Mutsuki)",
+      "modification": "Unmodified official OGG and M4A files. Runtime looping, volume adjustment and 900ms scene crossfades.",
+      "variant": "Official loop version"
+    },
+    {
+      "name": "Suspense",
+      "page": "https://peritune.com/blog/2015/05/10/suspense1/",
+      "zip": "https://peritune.com/music/PerituneMaterial_Suspense.zip",
+      "runtime": {
+        "ogg": {
+          "path": "public/assets/music/suspense.ogg",
+          "bytes": 3602805,
+          "sha256": "fbda1fc954f7e11e6d253c0b73d50c7c64c3ea385c42b5b38b2712144ee748f9"
+        },
+        "m4a": {
+          "path": "public/assets/music/suspense.m4a",
+          "bytes": 3421713,
+          "sha256": "ec5fe49d1833031b483602eed26f8f6dd58fd867569e7a7d6c2603f0e45e732d"
+        }
+      },
+      "duration": 148.493,
+      "sampleRate": 44100,
+      "published": "2015-05-10",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "author": "PeriTune / むつき醒 (Sei Mutsuki)",
+      "modification": "Unmodified official OGG and M4A files. Runtime looping, volume adjustment and 900ms scene crossfades.",
+      "variant": "Official full version"
+    },
+    {
+      "name": "Suspense3",
+      "page": "https://peritune.com/blog/2015/08/29/suspense3/",
+      "zip": "https://peritune.com/music/PerituneMaterial_Suspense3.zip",
+      "runtime": {
+        "ogg": {
+          "path": "public/assets/music/suspense3.ogg",
+          "bytes": 3472158,
+          "sha256": "db717881f0480752b1104a9ac48da01f0923ac280fc4d9c634314da04c6f7961"
+        },
+        "m4a": {
+          "path": "public/assets/music/suspense3.m4a",
+          "bytes": 2973773,
+          "sha256": "41fe33be4228b8a17182fac47a44c85eaf9c44a56a2ef8171e780a2eaf4a93f8"
+        }
+      },
+      "duration": 141.372,
+      "sampleRate": 44100,
+      "published": "2015-08-29",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "author": "PeriTune / むつき醒 (Sei Mutsuki)",
+      "modification": "Unmodified official OGG and M4A files. Runtime looping, volume adjustment and 900ms scene crossfades.",
+      "variant": "Official full version"
+    }
+  ]
+}

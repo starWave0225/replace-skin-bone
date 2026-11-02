@@ -1,0 +1,22 @@
+{
+  "mode": "built-in imagegen",
+  "created": "2026-10-31",
+  "assets": [
+    {
+      "id": "protagonist",
+      "source": "assets-source/prologue/lu-v1.png",
+      "runtime": "public/assets/portraits/lu-v1.webp",
+      "transparent": true,
+      "generated_file": "C:\\Users\\junji\\.codex\\generated_images\\01a1900b-3653-7d03-8eff-0053a729d011\\exec-adbf44e3-8396-4001-9f6b-4c200802c0ce.png",
+      "prompt": "Use case: stylized-concept. Asset: original transparent dialogue portrait for Chinese historical mystery RPG 《画皮：借面》. One Chinese man 陆知微 aged 27, an ordinary itinerant letter-writer and book-copyist in a fictional early Qing county. He has his own identity before borrowing faces. Thin but not fragile body, slightly rounded ordinary face distinct from a handsome angular scholar, modest broad nose, uneven small thoughtful eyes, tired unpainted eyelids, one faint freckle at cheek, natural skin and asymmetry. Plain dark indigo cotton side-fastening robe, warm brown sleeveless outer vest, modest soft cloth scholar cap with an unobtrusive braid behind, a cloth satchel with the corner of a wrapped book, holds one folded letter at waist. No weapons, no supernatural effects. Traditional Chinese illustrated-novel figure, 明清绣像、白描淡彩、绢本设色, visible dry ink contours and quiet mineral pigment washes, realistic observed anatomy and work-worn clothing, readable calm expression, dignified ordinary person. Muted indigo, brown, old ivory. One standing person, head through mid-thigh, entire head and hands visible, 1024x1536 vertical, slight conversational three-quarter toward viewer right. Actual transparent alpha background, no scenery, no gradient, no vignette, no ground shadow, no text or watermark. No photo, film still, 3D rendering, anime, Japanese costume, flawless model features, modern makeup, hero posing, uniformly torn fabric."
+    },
+    {
+      "id": "scroll",
+      "source": "assets-source/prologue/dream-scroll-v1.png",
+      "runtime": "public/assets/dream/borrowed-likeness.webp",
+      "transparent": false,
+      "generated_file": "C:\\Users\\junji\\.codex\\generated_images\\01a1900b-3653-7d03-8eff-0053a729d011\\exec-2de78b32-cdf2-41f9-8e72-327d384f8bf8.png",
+      "prompt": "Use case: historical-scene. Asset: a flat rectangular illustrated scroll texture used ON a physical hanging scroll in a 3D Chinese folk-horror dream exploration. Front-facing traditional Chinese ink and mineral pigment painting on aged ivory silk. A pale broad Chinese paper-effigy face without human skin realism lies upon a narrow low wooden couch beside a dark inkstone and one fine pigment brush; a cinnabar thread loosely curls toward its cheek. Several restrained ink-painted willow branches and quiet ochre pigment at one corner. Evoke the making of a borrowed likeness in Liaozhai, without depicting injury, gore, a corpse, or peeling living flesh. Ordinary blunt mask features, not Japanese Noh. Fine Chinese ink outline, mineral celadon and ochre, muted cinnabar, faded old-silk texture, elegant museum-quality illustrated-book artwork, restrained and unsettling. Image is just the painted flat artwork, no frame, no room, no perspective, no modern object, no written characters or inscription, no logos or watermark. Portrait orientation 1024x1536, opaque aged ivory background edge to edge."
+    }
+  ]
+}

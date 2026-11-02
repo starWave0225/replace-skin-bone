@@ -1,0 +1,102 @@
+{
+  "downloaded": "2026-10-31",
+  "provider": "Poly Haven",
+  "license": "https://polyhaven.com/license",
+  "processing": "1K diffuse to 512px WebP; runtime Canvas color grading; no preview renders used",
+  "assets": [
+    {
+      "id": "grey_roof_tiles",
+      "author": {
+        "Rob Tuytel": "All"
+      },
+      "source": "https://polyhaven.com/a/grey_roof_tiles",
+      "license": "CC0-1.0",
+      "download": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/grey_roof_tiles/grey_roof_tiles_diff_1k.jpg",
+      "md5": "9a0d2c1ca66e79972c7c35cefa238cf7",
+      "use": "青灰旧瓦",
+      "runtime": "public/assets/world/roof.webp",
+      "sha256": "9024093667b12a64775e3d6f15ff34d6283d9a89f4ab5d0dd7ef402577d1c2c2"
+    },
+    {
+      "id": "mossy_cobblestone",
+      "author": {
+        "Sơn Nguyễn": "All"
+      },
+      "source": "https://polyhaven.com/a/mossy_cobblestone",
+      "license": "CC0-1.0",
+      "download": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/mossy_cobblestone/mossy_cobblestone_diff_1k.jpg",
+      "md5": "e400e051cac040e67d759dbd9a51ca3d",
+      "use": "苔缝石板路与桥面",
+      "runtime": "public/assets/world/stone.webp",
+      "sha256": "6881f2334cfbd6eb9679551f518d18ad9855148f31d17ad47db9e40a7dcb22d2"
+    },
+    {
+      "id": "forest_ground_04",
+      "author": {
+        "Rob Tuytel": "Photography, Processing",
+        "Rico Cilliers": "Minor adjustment"
+      },
+      "source": "https://polyhaven.com/a/forest_ground_04",
+      "license": "CC0-1.0",
+      "download": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/forest_ground_04/forest_ground_04_diff_1k.jpg",
+      "md5": "6ad9df4d731a238299806f739a26af83",
+      "use": "草地、庭院和后井的腐叶湿土",
+      "runtime": "public/assets/world/earth.webp",
+      "sha256": "dbd2c373107dc4b2440ebedaa2af8d945ffd1f7def6ec536e92fcfb97b13fb46"
+    },
+    {
+      "id": "worn_mossy_plasterwall",
+      "author": {
+        "Amal Kumar": "All"
+      },
+      "source": "https://polyhaven.com/a/worn_mossy_plasterwall",
+      "license": "CC0-1.0",
+      "download": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/worn_mossy_plasterwall/worn_mossy_plasterwall_diff_1k.jpg",
+      "md5": "f396a70667b8b383a7ebc207a6344481",
+      "use": "斑驳灰墙",
+      "runtime": "public/assets/world/plaster.webp",
+      "sha256": "8542b0321b9287b4f84afa4fd64e48ec68c6561bfe363657b0d403436e7dd973"
+    },
+    {
+      "id": "mossy_stone_wall",
+      "author": {
+        "Amal Kumar": "All"
+      },
+      "source": "https://polyhaven.com/a/mossy_stone_wall",
+      "license": "CC0-1.0",
+      "download": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/mossy_stone_wall/mossy_stone_wall_diff_1k.jpg",
+      "md5": "ae70425d2aec4b8f454dc1762c1ec881",
+      "use": "院墙、河岸与井沿",
+      "runtime": "public/assets/world/brick.webp",
+      "sha256": "0f373f4765ea177e39a61b2afb91fcb7e73d144037ecfbb7e181f443f06c318a"
+    },
+    {
+      "id": "old_wood_floor",
+      "author": {
+        "Guillaume Monsergent": "All"
+      },
+      "source": "https://polyhaven.com/a/old_wood_floor",
+      "license": "CC0-1.0",
+      "download": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/old_wood_floor/old_wood_floor_diff_1k.jpg",
+      "md5": "ffaa68add0544811b30459e58cc9b4fd",
+      "use": "客舍、茶楼与王宅旧木地板",
+      "runtime": "public/assets/world/floor.webp",
+      "sha256": "05f301b3538024ff6f8f280e3337c0f49ea3c73a5e3db7b951fd86612dc132b3"
+    },
+    {
+      "id": "dark_wood",
+      "author": {
+        "Dario Barresi": "Baking",
+        "Dimitrios Savva": "Photography",
+        "Rico Cilliers": "Tiling"
+      },
+      "source": "https://polyhaven.com/a/dark_wood",
+      "license": "CC0-1.0",
+      "download": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/dark_wood/dark_wood_diff_1k.jpg",
+      "md5": "47fa883f1bb33acc5711245f64b75975",
+      "use": "木柱、门扇与桌案",
+      "runtime": "public/assets/world/wood.webp",
+      "sha256": "9cf32df77edfac9da8b767949648bb8de8775f6e1705a000a63de143909e0c52"
+    }
+  ]
+}

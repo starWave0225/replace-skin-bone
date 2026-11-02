@@ -1,0 +1,39 @@
+{
+  "generated": "2026-10-31",
+  "method": "built-in imagegen",
+  "style": "Original Liaozhai pixel battle assets. Handheld turn-based battle composition; no franchise characters or logos.",
+  "assets": [
+    {
+      "id": "courtyard-v1",
+      "transparent": false,
+      "prompt": "Use case: stylized-concept. Original 2D game asset for a Chinese Liaozhai folktale turn-based RPG. Polished charming 16-bit pixel art, clearly visible square pixel clusters, limited coordinated palette of jade/teal, warm cream, muted indigo, coral and ochre, clean dark pixel outlines, hand-placed pixel shading. Friendly, whimsical and slightly eerie. NO logos, NO words or letters, NO interface. Not photorealistic, not watercolor, not vector. Do not depict any existing franchise characters. Asset type: wide landscape battle background, aspect ratio 16:9. A moonlit little Chinese Ming/Qing village courtyard seen from the side at a slightly elevated classic handheld RPG battle angle, with blue-grey curved tiled roofs, white plaster walls, wooden lattice windows glowing warm orange, a willow and bamboo at the edges, distant layered jade hills under a dusty periwinkle sky, a large pale warm moon and a few stars. A small old circular stone well sits at the upper right rear beside the wall. The foreground and midground are broad uncluttered sandy jade-green and light ochre courtyard ground so two separate character sprites can be overlaid at lower-left and upper-right. Leave these battle positions clear. Flat horizontal ground plane, no strong perspective grid. Keep the scene much lighter and more playful than realistic horror. Balanced bright dusk colors, cozy lanterns, gentle mystery. No people, no creatures, no masks, no UI, no typography.",
+      "generatedPath": "C:/Users/junji/.codex/generated_images/01a1900b-3653-7d03-8eff-0053a729d011/exec-46af0d7d-a371-4d68-8b67-e4c03b837f13.png",
+      "source": "assets-source/combat/courtyard-v1.png",
+      "runtime": "public/assets/combat/courtyard-v1.webp"
+    },
+    {
+      "id": "shen-back-v1",
+      "transparent": true,
+      "prompt": "Use case: stylized-concept. Original 2D game asset for a Chinese Liaozhai folktale turn-based RPG. Polished charming 16-bit pixel art, clearly visible square pixel clusters, limited coordinated palette of jade/teal, warm cream, muted indigo, coral and ochre, clean dark pixel outlines, hand-placed pixel shading. Friendly, whimsical and slightly eerie. NO logos, NO words or letters, NO interface. Not photorealistic, not watercolor, not vector. Do not depict any existing franchise characters. Asset type: SINGLE transparent-background battle sprite. One original ancient Chinese adult male painter, Shen Yan, in a dynamic THREE-QUARTER BACK VIEW, facing upper-right toward an opponent. His back is the dominant view, only a small sliver of his cheek visible. Full figure from head to shoes, entire figure centered, 12% transparent margin. Stylized compact 3-heads-tall proportions suitable for a handheld RPG battle sprite. Dark hair in a loose Chinese topknot with a simple pale cloth headband, sage-green hanfu scholar robe with wide sleeves, cream collar, indigo belt and soft brown shoes. A rolled painting tucked in his belt, holding a long calligraphy brush extended in his right hand; energetic but friendly ready stance, robe hem fluttering. A few crisp jade ink specks near the brush tip. Crisp low-resolution pixel-art shapes, not a detailed anime illustration. No floor, no ground shadow, no scenery, no border, no text. Actual transparent alpha background.",
+      "generatedPath": "C:/Users/junji/.codex/generated_images/01a1900b-3653-7d03-8eff-0053a729d011/exec-91438d64-03cc-4d5f-b2c1-93d84a274b0f.png",
+      "source": "assets-source/combat/shen-back-v1.png",
+      "runtime": "public/assets/combat/shen-back-v1.webp"
+    },
+    {
+      "id": "guard-back-v1",
+      "transparent": true,
+      "prompt": "Use case: stylized-concept. Original 2D game asset for a Chinese Liaozhai folktale turn-based RPG. Polished charming 16-bit pixel art, clearly visible square pixel clusters, limited coordinated palette of jade/teal, warm cream, muted indigo, coral and ochre, clean dark pixel outlines, hand-placed pixel shading. Friendly, whimsical and slightly eerie. NO logos, NO words or letters, NO interface. Not photorealistic, not watercolor, not vector. Do not depict any existing franchise characters. Asset type: SINGLE transparent-background battle sprite. One original ancient Chinese adult male constable, Zhou Ping, in a dynamic THREE-QUARTER BACK VIEW, facing upper-right toward an opponent. His back is the dominant view, only a small sliver of his weathered cheek visible. Full figure head to shoes, entire figure centered with 12% transparent margin. Compact sturdy 3-heads-tall proportions for a handheld RPG battle sprite. A simple low black Ming-era cloth cap, dark indigo Chinese long coat with broad teal cuffs, ochre belt, small bronze waist badge, muted coral sash tails, black cloth boots. Holds a plain Chinese dao with a small brass guard forward and outward in his right hand, steady braced ready stance. No armor fantasy, no samurai clothing, no Japanese motifs. Crisp low-resolution pixel-art shapes, not a detailed anime illustration. No floor, no ground shadow, no scenery, no border, no text. Actual transparent alpha background.",
+      "generatedPath": "C:/Users/junji/.codex/generated_images/01a1900b-3653-7d03-8eff-0053a729d011/exec-3e6b24fe-66ab-450c-b88f-3b43e36bf503.png",
+      "source": "assets-source/combat/guard-back-v1.png",
+      "runtime": "public/assets/combat/guard-back-v1.webp"
+    },
+    {
+      "id": "spirit-v1",
+      "transparent": true,
+      "prompt": "Use case: stylized-concept. Original 2D game asset for a Chinese Liaozhai folktale turn-based RPG. Polished charming 16-bit pixel art, clearly visible square pixel clusters, limited coordinated palette of jade/teal, warm cream, muted indigo, coral and ochre, clean dark pixel outlines, hand-placed pixel shading. Friendly, whimsical and slightly eerie. NO logos, NO words or letters, NO interface. Not photorealistic, not watercolor, not vector. Do not depict any existing franchise characters. Asset type: SINGLE transparent-background enemy battle sprite. Original Liaozhai creature called a tangled-mask well spirit: a small whimsical teal ghost in a tattered swirling Chinese robe, viewed three-quarter FRONT facing lower-left toward an opponent. Compact large rounded head and flowing little body, whole sprite fully visible centered with 12% transparent margin. Its TRUE FACE is visible: dark jade face, two warm yellow glowing eyes, asymmetrical raised brows, a slightly sheepish jagged little grin, more mischievous than evil. Wisps of dark ink coil around the small tapering body, ragged pale paper strips tied with coral-red string flutter from the sleeves, tiny blue-green spirit flame at its tail. Crooked playful ready stance, floating, original folktale monster design. Do NOT cover the face with a mask; masks will be separate game overlays. No gore, no human corpse, not a western Halloween ghost. Crisp visible chunky pixels and dark stepped outlines, not a detailed anime illustration. No floor, no shadow, no scenery, no border, no text. Actual transparent alpha background.",
+      "generatedPath": "C:/Users/junji/.codex/generated_images/01a1900b-3653-7d03-8eff-0053a729d011/exec-8fa77b66-fe09-478e-8ae4-2f3eecd9fa00.png",
+      "source": "assets-source/combat/spirit-v1.png",
+      "runtime": "public/assets/combat/spirit-v1.webp"
+    }
+  ]
+}
