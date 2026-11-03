@@ -66,11 +66,11 @@ onUnmounted(()=>{window.removeEventListener('keydown',keyboard);if(animation)cle
   <main class="combat-preview" aria-label="画皮回合制战斗试玩">
     <div class="combat-inner">
       <header class="combat-header">
-        <a class="combat-logo" href="./">画皮 <i>借面</i></a><span class="combat-edition">像素斗法 · 井边练习</span>
+        <a class="combat-logo" href="./">画皮 <i>借面</i></a><span class="combat-edition">斗法试玩</span>
         <nav><MusicControls/><a href="./">返回首页</a><button @click="reset()">重开一局 ↻</button></nav>
       </header>
       <section class="combat-heading">
-        <div><h1>借张脸，过两招！</h1><p>先破皮相，再让它露出真身。</p></div>
+        <div><h1>斗法</h1></div>
         <div class="combat-starting-face"><label for="combat-start-face">起手之面</label><select id="combat-start-face" v-model="startingFace" :disabled="started" @change="reset(startingFace)"><option value="shen">沈砚 · 画师</option><option value="guard">周平 · 故捕快</option></select></div>
       </section>
 
@@ -83,7 +83,7 @@ onUnmounted(()=>{window.removeEventListener('keydown',keyboard);if(animation)cle
             <header><b>井中缠面影</b><span class="combat-type">怨灵</span></header>
             <div class="combat-stat-row"><span>皮相</span><div class="combat-meter skin" role="progressbar" aria-label="敌人皮相" :aria-valuenow="battle.enemy.skin" aria-valuemin="0" aria-valuemax="24"><i :style="{width:`${battle.enemy.skin/24*100}%`}"></i></div><b>{{battle.enemy.skin}}/24</b></div>
             <div class="combat-stat-row"><span>形</span><div class="combat-meter enemy" role="progressbar" aria-label="敌人的形" :aria-valuenow="battle.enemy.hp" aria-valuemin="0" aria-valuemax="24"><i :style="{width:`${battle.enemy.hp/24*100}%`}"></i></div><b>{{battle.enemy.hp}}/24</b></div>
-            <div class="combat-enemy-state"><span v-if="battle.enemy.skin===0">原形露馅！<template v-if="active">余 {{battle.exposure}} 次行动</template></span><span v-else-if="battle.mark">识破 · 余 {{battle.mark}} 次行动</span><span v-else>这张脸，还能撑一会儿…</span></div>
+            <div class="combat-enemy-state"><span v-if="battle.enemy.skin===0">已破相<template v-if="active">余 {{battle.exposure}} 次行动</template></span><span v-else-if="battle.mark">识破 · 余 {{battle.mark}} 次行动</span><span v-else>未破相</span></div>
           </section>
 
           <div class="combat-platform enemy-platform" aria-hidden="true"></div>
@@ -105,21 +105,21 @@ onUnmounted(()=>{window.removeEventListener('keydown',keyboard);if(animation)cle
             <div class="combat-ink" :aria-label="`墨息 ${battle.ink} / 6`"><span>墨息</span><div><i v-for="n in 6" :key="n" :class="{filled:n<=battle.ink}"></i></div><b>{{battle.ink}}/6</b></div>
             <span v-if="battle.counter" class="combat-counter">反击势 · 下一击 +4</span>
           </section>
-          <div v-if="pulse==='break'" class="combat-break-callout" aria-hidden="true">露馅啦！<small>破相 · 显形两次行动</small></div>
+          <div v-if="pulse==='break'" class="combat-break-callout" aria-hidden="true">破相<small>破相 · 显形两次行动</small></div>
 
           <section v-if="!active&&!busy" class="combat-result" role="status">
             <span class="combat-result-stamp">{{battle.status==='won'?'破相成功':'再来一回'}}</span>
-            <h2>{{battle.status==='won'?'假脸掉了，怨气散了。':'这张面，有点撑不住啦。'}}</h2>
-            <p>{{battle.status==='won'?`第 ${battle.turn} 回合胜出，余形 ${battle.hp}。`:'留意下一招，守息攒墨，换张面再试试。'}}<br/>这里只试招，井边归宿留给剧情。</p>
+            <h2>{{battle.status==='won'?'获胜':'落败'}}</h2>
+            <p>{{battle.status==='won'?`第 ${battle.turn} 回合胜出，余形 ${battle.hp}。`:'留意下一招，守息攒墨，换张面再试试。'}}</p>
             <div><button @click="reset()">再试一阵 →</button><button @click="reset(startingFace==='shen'?'guard':'shen')">换一面起手</button></div>
           </section>
         </section>
 
         <section class="combat-command-deck" aria-label="选择本回合招式">
           <div class="combat-message-box">
-            <div class="combat-turnline"><b>第 {{battle.turn}} 回合</b><span>{{active?(busy?'招式结算中…':'轮到你啦'):(battle.status==='won'?'这回你赢了！':'暂退重整')}}</span></div>
+            <div class="combat-turnline"><b>第 {{battle.turn}} 回合</b><span>{{active?(busy?'招式结算中…':'选择招式'):(battle.status==='won'?'获胜':'暂退重整')}}</span></div>
             <section class="combat-intent" aria-label="敌人本回合意图" :class="{heavy:intent.danger==='重'}"><span>对方下招</span><h2>{{hiddenIntent?'藏了一手？':intent.name}}<i v-if="intent.interruptible">可截断</i></h2><p>{{hiddenIntent?'假脸遮住了术势，试试辨相。':intent.description}}</p></section>
-            <p v-if="lastReport" class="combat-last-report" aria-live="polite">{{lastReport}}</p><p v-else class="combat-welcome">井里的家伙，借了不止一张脸。</p>
+            <p v-if="lastReport" class="combat-last-report" aria-live="polite">{{lastReport}}</p>
             <p class="combat-selected-note"><b>{{selection.name}}</b> · {{selection.reason||selection.description}}</p>
           </div>
           <div class="combat-action-panel">
@@ -131,7 +131,7 @@ onUnmounted(()=>{window.removeEventListener('keydown',keyboard);if(animation)cle
       </div>
 
       <details class="combat-notebook"><summary>招式小抄与斗法录 <span>1–4 出招 · Q 守息 · F 换面</span></summary><div class="combat-notebook-grid"><section class="combat-face-note"><h2>{{face.name}} · {{face.passive}}</h2><p>{{face.passiveText}}</p><p><b>沈砚</b>：辨相标记、勾线破相、落笔伤形。<br/><b>周平</b>：架刀反击、拘影截招、断案伤形。</p><details class="combat-guide"><summary>看一条两面配合的走法</summary><p>辨相 → 换周平 → 横刀 → 拘影 → 守息 → 断案。</p><p>有皮相时只破相，伤害不溢出。破相取消当回合敌意，随后两次显形行动仍要接招；守息与换面也占用行动。</p></details></section><section class="combat-log"><h2>斗法录</h2><p v-if="!latest.length">等你落下第一招。</p><ol v-else aria-label="战斗结算记录"><li v-for="(line,index) in latest" :key="`${latest.length}-${index}`" :class="line.side"><span>第 {{line.turn}} 回合 · {{line.side==='player'?'我方':line.side==='enemy'?'敌方':'形势'}}</span><p>{{line.text}}</p></li></ol></section></div></details>
-      <footer class="combat-footer"><blockquote>“{{original.text}}”<cite>《聊斋志异 · 画皮》</cite></blockquote><p>两面一身 · 独立练习，不改剧情存档</p></footer>
+      <footer class="combat-footer"><blockquote>“{{original.text}}”<cite>《聊斋志异 · 画皮》</cite></blockquote><p>独立试玩，不影响剧情存档</p></footer>
     </div>
   </main>
 </template>

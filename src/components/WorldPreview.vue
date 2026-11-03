@@ -11,14 +11,14 @@ import type { PlayerAppearance } from '../game/player-sprite'
 const location=ref<Location>('street'),world=ref(worldSpawn('street',[20,11])),night=ref(false),appearance=ref<PlayerAppearance>('self'),message=ref('')
 useSceneMusic(computed(() => musicSceneForMap(location.value, night.value ? 'night' : 'day')))
 function visit(id:Location,arrival?:[number,number]){location.value=id;world.value=worldSpawn(id,arrival);message.value=''}
-function interact(spot:WorldSpot){if(spot.destination)visit(spot.destination,spot.arrival);else message.value=`${spot.name}：这里可查看行走与景物；人物对白请进入正式剧情。`}
+function interact(spot:WorldSpot){if(spot.destination)visit(spot.destination,spot.arrival);else message.value=`${spot.name}：请在正式剧情中交谈。`}
 function remember(value:WorldState){world.value=value}
 </script>
 <template>
   <main class="world-preview-page"><header><a href="./" class="world-preview-logo">画皮 <span>借面</span></a><div><b>槐阴行图</b><p>青瓦旧墙，雨后苔生。</p></div><MusicControls/><a href="./">返回首页 ↗</a></header>
     <section class="world-preview-controls" aria-label="行图预览设置"><label>场景<select v-model="location" @change="visit(location)"><option v-for="map in Object.values(worldMaps)" :key="map.id" :value="map.id">{{map.name}}</option></select></label><label>形貌<select v-model="appearance"><option value="self">陆知微</option><option value="shen">沈砚之面</option><option value="guard">周平之面</option></select></label><button @click="night=!night">{{night?'切至白昼':'切至夜雨'}}</button><span>WASD 行走 · E 交互 · 点击寻路</span></section>
-    <div class="world-preview-map"><WorldView :key="world.map" :world="world" :paused="false" :night="night" :appearance="appearance" :motion="true" quest="可步行游览，循右上方寻路栏进入相邻场景。" @position="remember" @interact="interact"/></div>
-    <footer><p role="status">{{message||'此处独立查看主场景美术与行走，不读写剧情存档。'}}</p><a href="https://polyhaven.com/license" target="_blank" rel="noopener">公开材质：Poly Haven · CC0 ↗</a></footer>
+    <div class="world-preview-map"><WorldView :key="world.map" :world="world" :paused="false" :night="night" :appearance="appearance" :motion="true" quest="走近出口，按 E 切换场景。" @position="remember" @interact="interact"/></div>
+    <footer><p role="status">{{message||'行图试玩，不影响剧情存档。'}}</p><a href="https://polyhaven.com/license" target="_blank" rel="noopener">公开材质：Poly Haven · CC0 ↗</a></footer>
   </main>
 </template>
 <style>
