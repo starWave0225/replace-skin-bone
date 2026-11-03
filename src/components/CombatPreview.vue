@@ -77,7 +77,7 @@ onUnmounted(()=>{window.removeEventListener('keydown',keyboard);if(animation)cle
       <div class="combat-machine">
         <section class="combat-arena" :class="[pulse,`face-${battle.face}`,{'exposed':battle.enemy.skin===0,'enemy-hit':enemyImpact>0,'hero-hit':heroImpact>0,'hero-attacking':!!lastAction&&attacks.includes(lastAction)}]" aria-label="井边斗法场景">
           <img class="combat-landscape" src="/assets/combat/courtyard-v1.webp" alt=""/><div class="combat-scanlines" aria-hidden="true"></div>
-          <span class="combat-scene-tag">槐阴 · 月下小院</span>
+          <span class="combat-scene-tag">未闻县 · 月下小院</span>
 
           <section class="combat-enemy-hud" aria-label="缠面影状态">
             <header><b>井中缠面影</b><span class="combat-type">怨灵</span></header>

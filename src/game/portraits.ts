@@ -6,7 +6,7 @@ export const characterPortraits = {
   shen: { id: 'shen', name: '沈砚之面', role: '借面之人', src: assetUrl('/assets/portraits/shen-v2.webp'), side: 'left' },
   guard: { id: 'guard', name: '周平之面', role: '故捕快之相', src: assetUrl('/assets/portraits/guard-v2.webp'), side: 'left' },
   mother: { id: 'mother', name: '戚婆婆', role: '沈砚的养母', src: assetUrl('/assets/portraits/mother-v2.webp'), side: 'right' },
-  han: { id: 'han', name: '韩七', role: '槐阴县捕快', src: assetUrl('/assets/portraits/han-v2.webp'), side: 'right' },
+  han: { id: 'han', name: '韩七', role: '未闻县捕快', src: assetUrl('/assets/portraits/han-v2.webp'), side: 'right' },
   faceless: { id: 'faceless', name: '无面娘', role: '无面茶楼之主', src: assetUrl('/assets/portraits/faceless-v2.webp'), side: 'right' },
   child: { id: 'child', name: '井中童影', role: '等候天明的孩子', src: assetUrl('/assets/portraits/child-v2.webp'), side: 'right' },
   tea: { id: 'tea', name: '茶摊老板', role: '南街卖茶人', src: assetUrl('/assets/portraits/tea-v2.webp'), side: 'right' },

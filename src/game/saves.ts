@@ -28,6 +28,8 @@ export async function readSave(slot: string): Promise<SaveData | undefined> {
     request.onsuccess = () => {
       const value = request.result as SaveData | undefined
       if (value && (value.version !== 1 || !isValidState(value.state))) { reject(new Error('此存档版本或内容无法读取')); return }
+      // Existing saves keep a copy of past dialogue, including the former place name.
+      if (value) for (const entry of value.state.history) entry.text = entry.text.replace(/槐阴(?:县)?/g, '未闻县')
       resolve(value)
     }
     request.onerror = () => reject(new Error('存档读取失败'))
