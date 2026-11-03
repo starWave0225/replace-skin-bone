@@ -227,7 +227,18 @@ onUnmounted(() => { dialogueObserver?.disconnect(); window.removeEventListener('
       <header class="title-header"><div class="wordmark"><span class="tiny-seal">志怪</span><span>槐阴异闻录</span></div><div class="title-header-right"><MusicControls/><button class="icon-button" aria-label="设置" @click="openPanel('settings')"><Icon name="settings"/></button></div></header>
       <main class="title-main">
         <div class="title-visual"><SceneArt location="street" cover/><img class="title-own-character" src="/assets/portraits/lu-v1.webp" alt=""/><div class="moon-disc"></div><div class="visual-border"></div><span class="art-inscription">世人以貌识人<br/>以心辨善恶</span><span class="art-index">槐阴 · 壹</span></div>
-        <div class="title-copy"><div class="main-title"><h1>画皮</h1><div class="subtitle-column"><span class="title-seal">借面</span></div></div><div class="title-rule"></div><p class="title-verse">一纸旧约，人已不在。<br/>一城烟雨，谁在借相。</p><div class="title-actions"><button class="primary-button" @click="game.saves.auto ? openPanel('restart') : start()"><span>赴槐阴</span><Icon name="arrow" :size="22"/></button><button class="continue-button" :disabled="!game.saves.auto || !game.ready" @click="resume()"><Icon name="history" :size="17"/><span>续梦</span></button></div><nav class="title-previews" aria-label="独立试玩"><a href="?view=dream" target="_blank" rel="noopener">梦境试玩 <span>↗</span></a><a href="?view=combat" target="_blank" rel="noopener">战斗试玩 <span>↗</span></a></nav></div>
+        <div class="title-copy">
+          <div class="main-title"><h1>画皮</h1><div class="subtitle-column"><span class="title-seal">借面</span></div></div>
+          <div class="title-rule"></div>
+          <p class="title-verse">一纸旧约，人已不在。<br/>一城烟雨，谁在借相。</p>
+          <div class="title-actions">
+            <button class="primary-button" :disabled="!game.ready" @click="game.saves.auto ? resume() : start()">
+              <span>{{ !game.ready ? '读取存档…' : game.saves.auto ? '继续游戏' : '赴槐阴' }}</span><Icon name="arrow" :size="22"/>
+            </button>
+            <button v-if="game.ready && game.saves.auto" class="continue-button" @click="openPanel('restart')">重新开始</button>
+          </div>
+          <nav class="title-previews" aria-label="独立试玩"><a href="?view=dream" target="_blank" rel="noopener">梦境试玩 <span>↗</span></a><a href="?view=combat" target="_blank" rel="noopener">战斗试玩 <span>↗</span></a></nav>
+        </div>
       </main>
       <footer class="title-footer"><div><span class="chapter-number">壹</span><div><span>雨抵槐阴</span></div></div><button @click="openPanel('credits')">画外拾遗 <span>↗</span></button></footer>
     </template>

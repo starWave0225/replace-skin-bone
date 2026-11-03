@@ -1,6 +1,6 @@
 # 画皮借面文案审阅稿
 
-版本：2026-11-03 本地工作区，基准提交 750472e，包含未提交的文案调整。
+版本：2026-11-03 本地工作区，基准提交 218e400，包含未提交的文案调整。
 
 正文保留当前代码原句，按剧情和用途编排。全部分支均列出，不代表一次游玩会全部出现。界面附录收录提示、动态文案模板、辅助标签及源码中的中文候选；其中个别数据字段暂未显示。{{动态值}} 代表姓名、数值等运行时内容。
 
@@ -14,7 +14,7 @@
 | 梦境查验点 | 5 |
 | 物品说明 | 11 |
 | 因果录条目 | 19 |
-| 源码文案候选 | 1424 |
+| 源码文案候选 | 1426 |
 
 目录：
 
@@ -2177,661 +2177,667 @@
 - 模板正文 · span · src/App.vue:229
   > 槐阴 · 壹
 
-- 模板正文 · h1 · src/App.vue:230
+- 模板正文 · h1 · src/App.vue:231
   > 画皮
 
-- 模板正文 · span · src/App.vue:230
+- 模板正文 · span · src/App.vue:231
   > 借面
 
-- 模板正文 · p · src/App.vue:230
+- 模板正文 · p · src/App.vue:233
   > 一纸旧约，人已不在。
 
-- 模板正文 · p · src/App.vue:230
+- 模板正文 · p · src/App.vue:233
   > 一城烟雨，谁在借相。
 
-- 模板正文 · span · src/App.vue:230
+- 模板条件文案 · src/App.vue:236
+  > 读取存档…
+
+- 模板条件文案 · src/App.vue:236
+  > 继续游戏
+
+- 模板条件文案 · src/App.vue:236
   > 赴槐阴
 
-- 模板正文 · span · src/App.vue:230
-  > 续梦
+- 模板正文 · button · src/App.vue:238
+  > 重新开始
 
-- 模板正文 · a · src/App.vue:230
+- 模板正文 · a · src/App.vue:240
   > 梦境试玩
 
-- 模板正文 · a · src/App.vue:230
+- 模板正文 · a · src/App.vue:240
   > 战斗试玩
 
-- 模板正文 · span · src/App.vue:232
+- 模板正文 · span · src/App.vue:243
   > 壹
 
-- 模板正文 · span · src/App.vue:232
+- 模板正文 · span · src/App.vue:243
   > 雨抵槐阴
 
-- 模板正文 · button · src/App.vue:232
+- 模板正文 · button · src/App.vue:243
   > 画外拾遗
 
-- 模板条件文案 · src/App.vue:237
+- 模板条件文案 · src/App.vue:248
   > 存档异常
 
-- 模板条件文案 · src/App.vue:237
+- 模板条件文案 · src/App.vue:248
   > 随行记事
 
-- 模板正文 · span · src/App.vue:237
+- 模板正文 · span · src/App.vue:248
   > 画皮
 
-- 模板正文 · i · src/App.vue:237
+- 模板正文 · i · src/App.vue:248
   > 借面
 
-- 模板正文 · span · src/App.vue:237
+- 模板正文 · span · src/App.vue:248
   > 卷一
 
-- 模板正文 · b · src/App.vue:237
+- 模板正文 · b · src/App.vue:248
   > 借皮入世
 
-- 模板正文 · span · src/App.vue:239
+- 模板正文 · span · src/App.vue:250
   > 槐
 
-- 模板正文 · span · src/App.vue:239
+- 模板正文 · span · src/App.vue:250
   > 阴
 
-- 模板条件文案 · src/App.vue:244
+- 模板条件文案 · src/App.vue:255
   > 壹
-
-- 模板条件文案 · src/App.vue:244
-  > 贰
-
-- 模板条件文案 · src/App.vue:244
-  > 叁
-
-- 模板条件文案 · src/App.vue:244
-  > 肆
-
-- 模板条件文案 · src/App.vue:244
-  > 继续行旅
-
-- 模板条件文案 · src/App.vue:244
-  > 旁白
-
-- 模板条件文案 · src/App.vue:244
-  > 空格继续
-
-- 模板条件文案 · src/App.vue:244
-  > 空格继续
-
-- 模板条件文案 · src/App.vue:244
-  > 继续行旅
-
-- 模板条件文案 · src/App.vue:244
-  > 落定此章
-
-- 模板条件文案 · src/App.vue:244
-  > 继续
-
-- 模板条件文案 · src/App.vue:247
-  > 一愿已偿，归路有灯
-
-- 模板条件文案 · src/App.vue:247
-  > 以你之名，留一双筷子
-
-- 模板条件文案 · src/App.vue:247
-  > 暂安灯中，来日须偿
-
-- 模板条件文案 · src/App.vue:247
-  > 依附相随，又添旧债
-
-- 模板条件文案 · src/App.vue:247
-  > 以真相相伴，等她慢慢接受
-
-- 模板条件文案 · src/App.vue:247
-  > 借旧名，续一场陪伴
-
-- 模板条件文案 · src/App.vue:247
-  > 灯仍亮着，人已远去
-
-- 模板正文 · span · src/App.vue:247
-  > 第一章 · 借皮入世 · 章末
-
-- 模板条件文案 · src/App.vue:247
-  > 真话已明，尚待来日
-
-- 模板正文 · span · src/App.vue:247
-  > 与戚婆婆
-
-- 模板正文 · span · src/App.vue:247
-  > 与井中童影
-
-- 模板正文 · span · src/App.vue:247
-  > 旧事寻访
-
-- 模板正文 · b · src/App.vue:247
-  > / 6 桩 ·
-
-- 模板正文 · b · src/App.vue:247
-  > 条记忆
-
-- 模板正文 · p · src/App.vue:247
-  > 第一章结束。
-
-- 模板正文 · small · src/App.vue:247
-  > 后续章节尚未开放。
-
-- 模板正文 · button · src/App.vue:247
-  > 回望因果
-
-- 模板正文 · button · src/App.vue:247
-  > 再借一面
-
-- 模板条件文案 · src/App.vue:249
-  > 白昼
-
-- 模板条件文案 · src/App.vue:249
-  > 故捕快
-
-- 模板条件文案 · src/App.vue:249
-  > 黄昏
-
-- 模板条件文案 · src/App.vue:249
-  > 子夜
-
-- 模板条件文案 · src/App.vue:249
-  > 面谱 · 查看身份
-
-- 模板条件文案 · src/App.vue:249
-  > 本来面目
-
-- 模板条件文案 · src/App.vue:249
-  > 沈砚
-
-- 模板条件文案 · src/App.vue:249
-  > 陆知微
-
-- 模板正文 · div · src/App.vue:249
-  > 时辰
-
-- 模板正文 · span · src/App.vue:249
-  > 今日余力
-
-- 模板正文 · small · src/App.vue:249
-  > / 3
-
-- 模板正文 · div · src/App.vue:249
-  > 当前目标
-
-- 模板正文 · h3 · src/App.vue:249
-  > 借皮入世
-
-- 模板正文 · small · src/App.vue:249
-  > 此刻借相
-
-- 模板正文 · button · src/App.vue:249
-  > 因果已记
-
-- 模板正文 · button · src/App.vue:249
-  > 笔
-
-- 模板正文 · span · src/App.vue:251
-  > 休息
-
-- 模板正文 · small · src/App.vue:251
-  > 候时
-
-- 模板正文 · span · src/App.vue:251
-  > 存档
-
-- 模板正文 · span · src/App.vue:254
-  > 画皮 · 借面
-
-- 动态文案模板 · src/App.vue:255
-  > {{动态值}}{{动态值}} · 余力 {{动态值}} 点。步行不耗时；完成调查推进一个时段。
-
-- 动态文案模板 · src/App.vue:255
-  > {{动态值}} · 消耗一点行动
 
 - 模板条件文案 · src/App.vue:255
-  > 循地图步行至人物或物件旁，按 E 交谈或调查。
-
-- 模板正文 · span · src/App.vue:255
-  > 无面茶楼
-
-- 模板正文 · span · src/App.vue:255
-  > 槐阴南街
-
-- 模板正文 · span · src/App.vue:255
-  > 戚家小院
-
-- 模板正文 · span · src/App.vue:255
-  > 县衙值房
-
-- 模板正文 · span · src/App.vue:255
-  > 戚家后井
-
-- 模板条件文案 · src/App.vue:256
-  > 物
-
-- 模板正文 · button · src/App.vue:256
-  > 展读《画皮》残卷
-
-- 模板正文 · p · src/App.vue:256
-  > 两手空空，尚未入世。
-
-- 模板正文 · h3 · src/App.vue:256
-  > 拾得的记忆
-
-- 模板条件文案 · src/App.vue:257
-  > 此刻可以换面，不消耗行动。不同身份会改变入口与交涉。
-
-- 模板条件文案 · src/App.vue:257
-  > 此刻正借
-
-- 模板条件文案 · src/App.vue:257
-  > 已故捕快 · 查案 / 交涉
-
-- 模板条件文案 · src/App.vue:257
-  > 故捕快之面
-
-- 模板条件文案 · src/App.vue:257
-  > 韩七交付的周平面谱。
-
-- 模板条件文案 · src/App.vue:257
-  > 旧职 · 以捕快身份查阅封存卷宗
-
-- 模板条件文案 · src/App.vue:257
-  > 借用此面
-
-- 模板条件文案 · src/App.vue:257
-  > 未见之面
-
-- 模板条件文案 · src/App.vue:257
-  > 查阅县衙旧案后获得。
-
-- 模板条件文案 · src/App.vue:257
-  > 因果未至
-
-- 模板条件文案 · src/App.vue:257
-  > 面皮只取亡者遗存或术法仿面
-
-- 模板条件文案 · src/App.vue:257
-  > 换面需在自由寻访、县衙查卷或井边抉择时进行。
-
-- 模板条件文案 · src/App.vue:257
-  > 此刻正借
-
-- 模板条件文案 · src/App.vue:257
-  > 借用此面
-
-- 模板正文 · span · src/App.vue:257
-  > 已故画师 · 观察 / 绘像
-
-- 模板正文 · h3 · src/App.vue:257
-  > 沈砚之面
-
-- 模板正文 · span · src/App.vue:257
-  > 面契
-
-- 模板正文 · small · src/App.vue:257
-  > / 100
-
-- 模板正文 · p · src/App.vue:257
-  > 辨相 · 留意对方神情，发现隐藏交涉
-
-- 模板正文 · span · src/App.vue:257
-  > 面契
-
-- 模板正文 · small · src/App.vue:257
-  > / 100
-
-- 模板正文 · span · src/App.vue:257
-  > 本心
-
-- 模板正文 · span · src/App.vue:257
-  > 业债
-
-- 模板条件文案 · src/App.vue:258
-  > 可以交谈
-
-- 模板条件文案 · src/App.vue:258
-  > 愿意亲近
-
-- 模板条件文案 · src/App.vue:258
-  > 以忆换术 · 仍有隐瞒
-
-- 模板条件文案 · src/App.vue:258
-  > 执念已解 · 安息
-
-- 模板条件文案 · src/App.vue:258
-  > 知晓身份 · 愿意合作
-
-- 模板条件文案 · src/App.vue:258
-  > 心存戒备
-
-- 模板条件文案 · src/App.vue:258
-  > 知晓真相 · 接受你
-
-- 模板条件文案 · src/App.vue:258
-  > 小满
-
-- 模板条件文案 · src/App.vue:258
-  > 知晓你的本相
-
-- 模板条件文案 · src/App.vue:258
-  > 井中童影
-
-- 模板条件文案 · src/App.vue:258
-  > 满
-
-- 模板条件文案 · src/App.vue:258
-  > 试探来往
-
-- 模板条件文案 · src/App.vue:258
-  > 安置灯中 · 归期待定
-
-- 模板条件文案 · src/App.vue:258
-  > 旧情未明
-
-- 模板条件文案 · src/App.vue:258
-  > 旧事已揭 · 戒心未除
-
-- 模板条件文案 · src/App.vue:258
-  > 已知真相 · 尚待时日
-
-- 模板条件文案 · src/App.vue:258
-  > 起疑 · 正在查证
-
-- 模板条件文案 · src/App.vue:258
-  > 认你为沈砚 · 依附相随
-
-- 模板条件文案 · src/App.vue:258
-  > 尚未相见
-
-- 模板条件文案 · src/App.vue:258
-  > 有所察觉
-
-- 模板正文 · span · src/App.vue:258
-  > 戚
-
-- 模板正文 · small · src/App.vue:258
-  > 沈砚的养母 · 六十一岁
-
-- 模板条件文案 · src/App.vue:258
-  > 旧面相认
-
-- 模板条件文案 · src/App.vue:258
-  > 尚未相见
-
-- 模板条件文案 · src/App.vue:258
-  > 等候之中
-
-- 模板正文 · h3 · src/App.vue:258
-  > 戚婆婆
-
-- 模板条件文案 · src/App.vue:258
-  > 尚未相见
-
-- 模板正文 · p · src/App.vue:258
-  > 门前留着一盏灯，等一个迟迟不归的孩子。
-
-- 模板正文 · small · src/App.vue:258
-  > 对沈砚之面的羁绊 ·
-
-- 模板正文 · span · src/App.vue:258
-  > 韩
-
-- 模板正文 · small · src/App.vue:258
-  > 县衙捕快 · 三十四岁
-
-- 模板正文 · h3 · src/App.vue:258
-  > 韩七
-
-- 模板正文 · p · src/App.vue:258
-  > 他在追查沈砚，也在追问自己的过去。
-
-- 模板正文 · small · src/App.vue:258
-  > 对沈砚之面的羁绊 ·
-
-- 模板正文 · span · src/App.vue:258
-  > 无
-
-- 模板正文 · small · src/App.vue:258
-  > 无面茶楼之主 · 年岁不详
-
-- 模板正文 · h3 · src/App.vue:258
-  > 无面娘
-
-- 模板正文 · p · src/App.vue:258
-  > 通晓借面与安魂之术。
-
-- 模板正文 · small · src/App.vue:258
-  > 井中童影 · 一段未完的承诺
-
-- 模板正文 · p · src/App.vue:258
-  > “等天亮，带我回家。”
-
-- 模板正文 · span · src/App.vue:259
-  > 卷一
-
-- 模板正文 · p · src/App.vue:259
-  > 借皮入世
-
-- 模板正文 · small · src/App.vue:259
-  > 笔因果 ·
-
-- 模板正文 · small · src/App.vue:259
-  > 段记忆
-
-- 模板正文 · p · src/App.vue:259
-  > 故事尚未落笔。
-
-- 模板条件文案 · src/App.vue:260
-  > 你的选择
-
-- 模板条件文案 · src/App.vue:261
-  > 随
-
-- 模板条件文案 · src/App.vue:261
-  > 随行记事 · 自动
-
-- 模板条件文案 · src/App.vue:261
-  > 封存中
-
-- 模板条件文案 · src/App.vue:261
-  > 壹
-
-- 模板条件文案 · src/App.vue:261
   > 贰
 
-- 动态文案模板 · src/App.vue:261
-  > 旧梦 {{动态值}}
-
-- 模板条件文案 · src/App.vue:261
+- 模板条件文案 · src/App.vue:255
   > 叁
 
-- 模板条件文案 · src/App.vue:261
-  > 确认覆盖
+- 模板条件文案 · src/App.vue:255
+  > 肆
 
-- 模板条件文案 · src/App.vue:261
-  > 空存档
+- 模板条件文案 · src/App.vue:255
+  > 继续行旅
 
-- 模板条件文案 · src/App.vue:261
-  > 封存
+- 模板条件文案 · src/App.vue:255
+  > 旁白
 
-- 模板正文 · p · src/App.vue:261
-  > 剧情推进时自动记事。手动存档独立保留在当前浏览器中。
+- 模板条件文案 · src/App.vue:255
+  > 空格继续
 
-- 模板正文 · button · src/App.vue:261
-  > 续梦
+- 模板条件文案 · src/App.vue:255
+  > 空格继续
 
-- 模板正文 · button · src/App.vue:261
-  > 导出当前存档
+- 模板条件文案 · src/App.vue:255
+  > 继续行旅
 
-- 模板正文 · p · src/App.vue:261
-  > 。可先导出当前存档留存。
+- 模板条件文案 · src/App.vue:255
+  > 落定此章
 
-- 模板正文 · h3 · src/App.vue:262
-  > 场景配乐与雨声
+- 模板条件文案 · src/App.vue:255
+  > 继续
 
-- 模板正文 · p · src/App.vue:262
-  > 随场景切换
+- 模板条件文案 · src/App.vue:258
+  > 一愿已偿，归路有灯
 
-- 模板正文 · b · src/App.vue:262
-  > 声量
+- 模板条件文案 · src/App.vue:258
+  > 以你之名，留一双筷子
 
-- 模板正文 · b · src/App.vue:262
-  > 阅读字号
+- 模板条件文案 · src/App.vue:258
+  > 暂安灯中，来日须偿
 
-- 模板正文 · small · src/App.vue:262
-  > 对话与故事面板
+- 模板条件文案 · src/App.vue:258
+  > 依附相随，又添旧债
 
-- 模板正文 · option · src/App.vue:262
-  > 常规
+- 模板条件文案 · src/App.vue:258
+  > 以真相相伴，等她慢慢接受
 
-- 模板正文 · option · src/App.vue:262
-  > 较大
+- 模板条件文案 · src/App.vue:258
+  > 借旧名，续一场陪伴
 
-- 模板正文 · h3 · src/App.vue:262
-  > 灯影与浮尘
+- 模板条件文案 · src/App.vue:258
+  > 灯仍亮着，人已远去
 
-- 模板正文 · p · src/App.vue:262
-  > 关闭后减少动态效果
+- 模板正文 · span · src/App.vue:258
+  > 第一章 · 借皮入世 · 章末
 
-- 模板正文 · h3 · src/App.vue:262
-  > 操作
+- 模板条件文案 · src/App.vue:258
+  > 真话已明，尚待来日
 
-- 模板正文 · p · src/App.vue:262
-  > 用 WASD 或方向键行走，Shift 疾行，E 交谈或调查；也可点击地面寻路。走到门口按 E 出入场景。交谈时点击「继续」或按空格阅读。步行不耗行动，完成调查才推进时段。
+- 模板正文 · span · src/App.vue:258
+  > 与戚婆婆
 
-- 模板正文 · p · src/App.vue:262
-  > 存档保存在当前浏览器。清理网站数据会移除存档，重要节点可另行导出。
+- 模板正文 · span · src/App.vue:258
+  > 与井中童影
 
-- 模板正文 · button · src/App.vue:262
-  > 返回标题页
+- 模板正文 · span · src/App.vue:258
+  > 旧事寻访
 
-- 模板正文 · span · src/App.vue:263
-  > 聊斋志异 · 卷一
+- 模板正文 · b · src/App.vue:258
+  > / 6 桩 ·
 
-- 模板正文 · h3 · src/App.vue:263
-  > 画皮
+- 模板正文 · b · src/App.vue:258
+  > 条记忆
 
-- 模板正文 · p · src/App.vue:263
-  > 清 · 蒲松龄
+- 模板正文 · p · src/App.vue:258
+  > 第一章结束。
 
-- 模板正文 · p · src/App.vue:263
-  > 原文摘句。游戏人物与情节为衍生创作。
+- 模板正文 · small · src/App.vue:258
+  > 后续章节尚未开放。
 
-- 模板正文 · span · src/App.vue:263
-  > 原典摘句 ·
+- 模板正文 · button · src/App.vue:258
+  > 回望因果
 
-- 模板正文 · a · src/App.vue:263
-  > 核读《画皮》原文
+- 模板正文 · button · src/App.vue:258
+  > 再借一面
 
-- 模板正文 · span · src/App.vue:263
-  > 画皮
+- 模板条件文案 · src/App.vue:260
+  > 白昼
 
-- 模板正文 · span · src/App.vue:263
-  > 借面
+- 模板条件文案 · src/App.vue:260
+  > 故捕快
 
-- 模板正文 · p · src/App.vue:263
-  > 据《画皮：借面》GDD v1.0 制作的俯视角剧情 RPG。
-
-- 模板正文 · p · src/App.vue:263
-  > 以《聊斋志异》的志怪与人情为灵感，剧情人物为本作虚构。
-
-- 模板正文 · h3 · src/App.vue:263
-  > 古画与场景
-
-- 模板正文 · p · src/App.vue:263
-  > 以下作品由大都会艺术博物馆标注为 Public Domain，并依 Open Access / CC0 提供。此处以裁切、调色与叠层构成场景，画中人物不代表剧情角色。
-
-- 模板正文 · a · src/App.vue:263
-  > 佚名《Landscape with Temple》
-
-- 模板正文 · span · src/App.vue:263
-  > 明代 · 茶楼 / 后井底图
-
-- 模板正文 · a · src/App.vue:263
-  > 佚名《Landscape with Fishing Village and Boat on Lake》
-
-- 模板正文 · span · src/App.vue:263
-  > 明或清代 · 南街底图
-
-- 模板正文 · a · src/App.vue:263
-  > 王翚等《仿古山水图》册
-
-- 模板正文 · span · src/App.vue:263
-  > 1692 年 · 行图 / 县衙底图
-
-- 模板正文 · a · src/App.vue:263
-  > 王鉴《仿古山水图》册
-
-- 模板正文 · span · src/App.vue:263
-  > 1668 年 · 庭院 / 王宅底图
-
-- 模板正文 · a · src/App.vue:263
-  > 传任熊《Woman in a garden》
-
-- 模板正文 · span · src/App.vue:263
-  > 19 世纪中期 · 残梦视觉意象
-
-- 模板正文 · h3 · src/App.vue:263
-  > 专属对话立绘
-
-- 模板正文 · p · src/App.vue:263
-  > 人物立绘由 AI 生成。
-
-- 模板正文 · a · src/App.vue:263
-  > 展看借面人物谱
-
-- 模板正文 · h3 · src/App.vue:263
-  > 场景配乐
-
-- 模板正文 · p · src/App.vue:263
-  > 。所用七首均为 2015—2021 年作品，依原 CC BY 4.0 许可使用。五首选用官方循环版，两首悬疑曲使用官方完整版本；文件未改编，游戏内循环播放并调整音量、切景淡入淡出。中文曲签为本作场景名。
-
-- 模板正文 · a · src/App.vue:263
-  > CC BY 4.0 · 查看许可 ↗
-
-- 模板正文 · h3 · src/App.vue:263
-  > 字体与原创部分
-
-- 模板正文 · p · src/App.vue:263
-  > 马善政毛笔楷体、Noto Serif SC，依 SIL Open Font License 1.1 本地使用。主地图的旧瓦、苔石、腐叶湿土、灰墙、砖石、木地板与深色木纹使用 Poly Haven CC0 公开材质；草木局部使用 Kenney Tiny Town（CC0）。中式房屋造型、窗棂门匾、长衫人物、陈设、面具与程序化环境声由本 Demo 绘制。
-
-- 模板正文 · a · src/App.vue:263
-  > 查看博物馆开放使用政策
-
-- 模板条件文案 · src/App.vue:264
-  > 明日白昼
-
-- 模板条件文案 · src/App.vue:264
+- 模板条件文案 · src/App.vue:260
   > 黄昏
 
-- 模板条件文案 · src/App.vue:264
+- 模板条件文案 · src/App.vue:260
   > 子夜
 
-- 模板正文 · p · src/App.vue:264
+- 模板条件文案 · src/App.vue:260
+  > 面谱 · 查看身份
+
+- 模板条件文案 · src/App.vue:260
+  > 本来面目
+
+- 模板条件文案 · src/App.vue:260
+  > 沈砚
+
+- 模板条件文案 · src/App.vue:260
+  > 陆知微
+
+- 模板正文 · div · src/App.vue:260
+  > 时辰
+
+- 模板正文 · span · src/App.vue:260
+  > 今日余力
+
+- 模板正文 · small · src/App.vue:260
+  > / 3
+
+- 模板正文 · div · src/App.vue:260
+  > 当前目标
+
+- 模板正文 · h3 · src/App.vue:260
+  > 借皮入世
+
+- 模板正文 · small · src/App.vue:260
+  > 此刻借相
+
+- 模板正文 · button · src/App.vue:260
+  > 因果已记
+
+- 模板正文 · button · src/App.vue:260
+  > 笔
+
+- 模板正文 · span · src/App.vue:262
+  > 休息
+
+- 模板正文 · small · src/App.vue:262
+  > 候时
+
+- 模板正文 · span · src/App.vue:262
+  > 存档
+
+- 模板正文 · span · src/App.vue:265
+  > 画皮 · 借面
+
+- 动态文案模板 · src/App.vue:266
+  > {{动态值}}{{动态值}} · 余力 {{动态值}} 点。步行不耗时；完成调查推进一个时段。
+
+- 动态文案模板 · src/App.vue:266
+  > {{动态值}} · 消耗一点行动
+
+- 模板条件文案 · src/App.vue:266
+  > 循地图步行至人物或物件旁，按 E 交谈或调查。
+
+- 模板正文 · span · src/App.vue:266
+  > 无面茶楼
+
+- 模板正文 · span · src/App.vue:266
+  > 槐阴南街
+
+- 模板正文 · span · src/App.vue:266
+  > 戚家小院
+
+- 模板正文 · span · src/App.vue:266
+  > 县衙值房
+
+- 模板正文 · span · src/App.vue:266
+  > 戚家后井
+
+- 模板条件文案 · src/App.vue:267
+  > 物
+
+- 模板正文 · button · src/App.vue:267
+  > 展读《画皮》残卷
+
+- 模板正文 · p · src/App.vue:267
+  > 两手空空，尚未入世。
+
+- 模板正文 · h3 · src/App.vue:267
+  > 拾得的记忆
+
+- 模板条件文案 · src/App.vue:268
+  > 此刻可以换面，不消耗行动。不同身份会改变入口与交涉。
+
+- 模板条件文案 · src/App.vue:268
+  > 此刻正借
+
+- 模板条件文案 · src/App.vue:268
+  > 已故捕快 · 查案 / 交涉
+
+- 模板条件文案 · src/App.vue:268
+  > 故捕快之面
+
+- 模板条件文案 · src/App.vue:268
+  > 韩七交付的周平面谱。
+
+- 模板条件文案 · src/App.vue:268
+  > 旧职 · 以捕快身份查阅封存卷宗
+
+- 模板条件文案 · src/App.vue:268
+  > 借用此面
+
+- 模板条件文案 · src/App.vue:268
+  > 未见之面
+
+- 模板条件文案 · src/App.vue:268
+  > 查阅县衙旧案后获得。
+
+- 模板条件文案 · src/App.vue:268
+  > 因果未至
+
+- 模板条件文案 · src/App.vue:268
+  > 面皮只取亡者遗存或术法仿面
+
+- 模板条件文案 · src/App.vue:268
+  > 换面需在自由寻访、县衙查卷或井边抉择时进行。
+
+- 模板条件文案 · src/App.vue:268
+  > 此刻正借
+
+- 模板条件文案 · src/App.vue:268
+  > 借用此面
+
+- 模板正文 · span · src/App.vue:268
+  > 已故画师 · 观察 / 绘像
+
+- 模板正文 · h3 · src/App.vue:268
+  > 沈砚之面
+
+- 模板正文 · span · src/App.vue:268
+  > 面契
+
+- 模板正文 · small · src/App.vue:268
+  > / 100
+
+- 模板正文 · p · src/App.vue:268
+  > 辨相 · 留意对方神情，发现隐藏交涉
+
+- 模板正文 · span · src/App.vue:268
+  > 面契
+
+- 模板正文 · small · src/App.vue:268
+  > / 100
+
+- 模板正文 · span · src/App.vue:268
+  > 本心
+
+- 模板正文 · span · src/App.vue:268
+  > 业债
+
+- 模板条件文案 · src/App.vue:269
+  > 可以交谈
+
+- 模板条件文案 · src/App.vue:269
+  > 愿意亲近
+
+- 模板条件文案 · src/App.vue:269
+  > 以忆换术 · 仍有隐瞒
+
+- 模板条件文案 · src/App.vue:269
+  > 执念已解 · 安息
+
+- 模板条件文案 · src/App.vue:269
+  > 知晓身份 · 愿意合作
+
+- 模板条件文案 · src/App.vue:269
+  > 心存戒备
+
+- 模板条件文案 · src/App.vue:269
+  > 知晓真相 · 接受你
+
+- 模板条件文案 · src/App.vue:269
+  > 小满
+
+- 模板条件文案 · src/App.vue:269
+  > 知晓你的本相
+
+- 模板条件文案 · src/App.vue:269
+  > 井中童影
+
+- 模板条件文案 · src/App.vue:269
+  > 满
+
+- 模板条件文案 · src/App.vue:269
+  > 试探来往
+
+- 模板条件文案 · src/App.vue:269
+  > 安置灯中 · 归期待定
+
+- 模板条件文案 · src/App.vue:269
+  > 旧情未明
+
+- 模板条件文案 · src/App.vue:269
+  > 旧事已揭 · 戒心未除
+
+- 模板条件文案 · src/App.vue:269
+  > 已知真相 · 尚待时日
+
+- 模板条件文案 · src/App.vue:269
+  > 起疑 · 正在查证
+
+- 模板条件文案 · src/App.vue:269
+  > 认你为沈砚 · 依附相随
+
+- 模板条件文案 · src/App.vue:269
+  > 尚未相见
+
+- 模板条件文案 · src/App.vue:269
+  > 有所察觉
+
+- 模板正文 · span · src/App.vue:269
+  > 戚
+
+- 模板正文 · small · src/App.vue:269
+  > 沈砚的养母 · 六十一岁
+
+- 模板条件文案 · src/App.vue:269
+  > 旧面相认
+
+- 模板条件文案 · src/App.vue:269
+  > 尚未相见
+
+- 模板条件文案 · src/App.vue:269
+  > 等候之中
+
+- 模板正文 · h3 · src/App.vue:269
+  > 戚婆婆
+
+- 模板条件文案 · src/App.vue:269
+  > 尚未相见
+
+- 模板正文 · p · src/App.vue:269
+  > 门前留着一盏灯，等一个迟迟不归的孩子。
+
+- 模板正文 · small · src/App.vue:269
+  > 对沈砚之面的羁绊 ·
+
+- 模板正文 · span · src/App.vue:269
+  > 韩
+
+- 模板正文 · small · src/App.vue:269
+  > 县衙捕快 · 三十四岁
+
+- 模板正文 · h3 · src/App.vue:269
+  > 韩七
+
+- 模板正文 · p · src/App.vue:269
+  > 他在追查沈砚，也在追问自己的过去。
+
+- 模板正文 · small · src/App.vue:269
+  > 对沈砚之面的羁绊 ·
+
+- 模板正文 · span · src/App.vue:269
+  > 无
+
+- 模板正文 · small · src/App.vue:269
+  > 无面茶楼之主 · 年岁不详
+
+- 模板正文 · h3 · src/App.vue:269
+  > 无面娘
+
+- 模板正文 · p · src/App.vue:269
+  > 通晓借面与安魂之术。
+
+- 模板正文 · small · src/App.vue:269
+  > 井中童影 · 一段未完的承诺
+
+- 模板正文 · p · src/App.vue:269
+  > “等天亮，带我回家。”
+
+- 模板正文 · span · src/App.vue:270
+  > 卷一
+
+- 模板正文 · p · src/App.vue:270
+  > 借皮入世
+
+- 模板正文 · small · src/App.vue:270
+  > 笔因果 ·
+
+- 模板正文 · small · src/App.vue:270
+  > 段记忆
+
+- 模板正文 · p · src/App.vue:270
+  > 故事尚未落笔。
+
+- 模板条件文案 · src/App.vue:271
+  > 你的选择
+
+- 模板条件文案 · src/App.vue:272
+  > 随
+
+- 模板条件文案 · src/App.vue:272
+  > 随行记事 · 自动
+
+- 模板条件文案 · src/App.vue:272
+  > 封存中
+
+- 模板条件文案 · src/App.vue:272
+  > 壹
+
+- 模板条件文案 · src/App.vue:272
+  > 贰
+
+- 动态文案模板 · src/App.vue:272
+  > 旧梦 {{动态值}}
+
+- 模板条件文案 · src/App.vue:272
+  > 叁
+
+- 模板条件文案 · src/App.vue:272
+  > 确认覆盖
+
+- 模板条件文案 · src/App.vue:272
+  > 空存档
+
+- 模板条件文案 · src/App.vue:272
+  > 封存
+
+- 模板正文 · p · src/App.vue:272
+  > 剧情推进时自动记事。手动存档独立保留在当前浏览器中。
+
+- 模板正文 · button · src/App.vue:272
+  > 续梦
+
+- 模板正文 · button · src/App.vue:272
+  > 导出当前存档
+
+- 模板正文 · p · src/App.vue:272
+  > 。可先导出当前存档留存。
+
+- 模板正文 · h3 · src/App.vue:273
+  > 场景配乐与雨声
+
+- 模板正文 · p · src/App.vue:273
+  > 随场景切换
+
+- 模板正文 · b · src/App.vue:273
+  > 声量
+
+- 模板正文 · b · src/App.vue:273
+  > 阅读字号
+
+- 模板正文 · small · src/App.vue:273
+  > 对话与故事面板
+
+- 模板正文 · option · src/App.vue:273
+  > 常规
+
+- 模板正文 · option · src/App.vue:273
+  > 较大
+
+- 模板正文 · h3 · src/App.vue:273
+  > 灯影与浮尘
+
+- 模板正文 · p · src/App.vue:273
+  > 关闭后减少动态效果
+
+- 模板正文 · h3 · src/App.vue:273
+  > 操作
+
+- 模板正文 · p · src/App.vue:273
+  > 用 WASD 或方向键行走，Shift 疾行，E 交谈或调查；也可点击地面寻路。走到门口按 E 出入场景。交谈时点击「继续」或按空格阅读。步行不耗行动，完成调查才推进时段。
+
+- 模板正文 · p · src/App.vue:273
+  > 存档保存在当前浏览器。清理网站数据会移除存档，重要节点可另行导出。
+
+- 模板正文 · button · src/App.vue:273
+  > 返回标题页
+
+- 模板正文 · span · src/App.vue:274
+  > 聊斋志异 · 卷一
+
+- 模板正文 · h3 · src/App.vue:274
+  > 画皮
+
+- 模板正文 · p · src/App.vue:274
+  > 清 · 蒲松龄
+
+- 模板正文 · p · src/App.vue:274
+  > 原文摘句。游戏人物与情节为衍生创作。
+
+- 模板正文 · span · src/App.vue:274
+  > 原典摘句 ·
+
+- 模板正文 · a · src/App.vue:274
+  > 核读《画皮》原文
+
+- 模板正文 · span · src/App.vue:274
+  > 画皮
+
+- 模板正文 · span · src/App.vue:274
+  > 借面
+
+- 模板正文 · p · src/App.vue:274
+  > 据《画皮：借面》GDD v1.0 制作的俯视角剧情 RPG。
+
+- 模板正文 · p · src/App.vue:274
+  > 以《聊斋志异》的志怪与人情为灵感，剧情人物为本作虚构。
+
+- 模板正文 · h3 · src/App.vue:274
+  > 古画与场景
+
+- 模板正文 · p · src/App.vue:274
+  > 以下作品由大都会艺术博物馆标注为 Public Domain，并依 Open Access / CC0 提供。此处以裁切、调色与叠层构成场景，画中人物不代表剧情角色。
+
+- 模板正文 · a · src/App.vue:274
+  > 佚名《Landscape with Temple》
+
+- 模板正文 · span · src/App.vue:274
+  > 明代 · 茶楼 / 后井底图
+
+- 模板正文 · a · src/App.vue:274
+  > 佚名《Landscape with Fishing Village and Boat on Lake》
+
+- 模板正文 · span · src/App.vue:274
+  > 明或清代 · 南街底图
+
+- 模板正文 · a · src/App.vue:274
+  > 王翚等《仿古山水图》册
+
+- 模板正文 · span · src/App.vue:274
+  > 1692 年 · 行图 / 县衙底图
+
+- 模板正文 · a · src/App.vue:274
+  > 王鉴《仿古山水图》册
+
+- 模板正文 · span · src/App.vue:274
+  > 1668 年 · 庭院 / 王宅底图
+
+- 模板正文 · a · src/App.vue:274
+  > 传任熊《Woman in a garden》
+
+- 模板正文 · span · src/App.vue:274
+  > 19 世纪中期 · 残梦视觉意象
+
+- 模板正文 · h3 · src/App.vue:274
+  > 专属对话立绘
+
+- 模板正文 · p · src/App.vue:274
+  > 人物立绘由 AI 生成。
+
+- 模板正文 · a · src/App.vue:274
+  > 展看借面人物谱
+
+- 模板正文 · h3 · src/App.vue:274
+  > 场景配乐
+
+- 模板正文 · p · src/App.vue:274
+  > 。所用七首均为 2015—2021 年作品，依原 CC BY 4.0 许可使用。五首选用官方循环版，两首悬疑曲使用官方完整版本；文件未改编，游戏内循环播放并调整音量、切景淡入淡出。中文曲签为本作场景名。
+
+- 模板正文 · a · src/App.vue:274
+  > CC BY 4.0 · 查看许可 ↗
+
+- 模板正文 · h3 · src/App.vue:274
+  > 字体与原创部分
+
+- 模板正文 · p · src/App.vue:274
+  > 马善政毛笔楷体、Noto Serif SC，依 SIL Open Font License 1.1 本地使用。主地图的旧瓦、苔石、腐叶湿土、灰墙、砖石、木地板与深色木纹使用 Poly Haven CC0 公开材质；草木局部使用 Kenney Tiny Town（CC0）。中式房屋造型、窗棂门匾、长衫人物、陈设、面具与程序化环境声由本 Demo 绘制。
+
+- 模板正文 · a · src/App.vue:274
+  > 查看博物馆开放使用政策
+
+- 模板条件文案 · src/App.vue:275
+  > 明日白昼
+
+- 模板条件文案 · src/App.vue:275
+  > 黄昏
+
+- 模板条件文案 · src/App.vue:275
+  > 子夜
+
+- 模板正文 · p · src/App.vue:275
   > 暂歇片刻，等候
 
-- 模板正文 · p · src/App.vue:264
+- 模板正文 · p · src/App.vue:275
   > 消耗一点行动，推进一个时段。
 
-- 模板正文 · button · src/App.vue:264
+- 模板正文 · button · src/App.vue:275
   > 再想一想
 
-- 模板正文 · button · src/App.vue:264
+- 模板正文 · button · src/App.vue:275
   > 静候天时
 
-- 模板正文 · p · src/App.vue:265
+- 模板正文 · p · src/App.vue:276
   > 重新开始？
 
-- 模板正文 · p · src/App.vue:265
+- 模板正文 · p · src/App.vue:276
   > 将覆盖自动存档，手动存档保留。
 
-- 模板正文 · button · src/App.vue:265
+- 模板正文 · button · src/App.vue:276
   > 留在此刻
 
-- 模板正文 · button · src/App.vue:265
+- 模板正文 · button · src/App.vue:276
   > 重入此梦
 
-- 模板正文 · small · src/App.vue:266
+- 模板正文 · small · src/App.vue:277
   > 按 Esc 收起
 
 ### components/CombatPreview.vue
@@ -4026,49 +4032,49 @@
 - 说明与辅助标签 · aria-label · src/App.vue:227
   > 设置
 
-- 说明与辅助标签 · aria-label · src/App.vue:230
+- 说明与辅助标签 · aria-label · src/App.vue:240
   > 独立试玩
 
-- 说明与辅助标签 · aria-label · src/App.vue:237
+- 说明与辅助标签 · aria-label · src/App.vue:248
   > 返回标题页
 
-- 说明与辅助标签 · aria-label · src/App.vue:237
+- 说明与辅助标签 · aria-label · src/App.vue:248
   > 存档与读档
 
-- 说明与辅助标签 · aria-label · src/App.vue:237
+- 说明与辅助标签 · aria-label · src/App.vue:248
   > 设置
 
-- 说明与辅助标签 · aria-label · src/App.vue:239
+- 说明与辅助标签 · aria-label · src/App.vue:250
   > 查看对话记录
 
-- 说明与辅助标签 · aria-label · src/App.vue:244
+- 说明与辅助标签 · aria-label · src/App.vue:255
   > 当前剧情
 
-- 说明与辅助标签 · aria-label · src/App.vue:244
+- 说明与辅助标签 · aria-label · src/App.vue:255
   > 查看对话记录
 
-- 说明与辅助标签 · alt · src/App.vue:247
+- 说明与辅助标签 · alt · src/App.vue:258
   > 公有领域中国古画山水局部
 
-- 说明与辅助标签 · aria-label · src/App.vue:251
+- 说明与辅助标签 · aria-label · src/App.vue:262
   > 游戏功能
 
-- 说明与辅助标签 · aria-label · src/App.vue:254
+- 说明与辅助标签 · aria-label · src/App.vue:265
   > 关闭面板
 
-- 说明与辅助标签 · alt · src/App.vue:255
+- 说明与辅助标签 · alt · src/App.vue:266
   > 槐阴行图，以清代公有领域山水画作底
 
-- 说明与辅助标签 · aria-label · src/App.vue:262
+- 说明与辅助标签 · aria-label · src/App.vue:273
   > 场景配乐与雨声
 
-- 说明与辅助标签 · aria-label · src/App.vue:262
+- 说明与辅助标签 · aria-label · src/App.vue:273
   > 配乐音量
 
-- 说明与辅助标签 · aria-label · src/App.vue:262
+- 说明与辅助标签 · aria-label · src/App.vue:273
   > 阅读字号
 
-- 说明与辅助标签 · aria-label · src/App.vue:262
+- 说明与辅助标签 · aria-label · src/App.vue:273
   > 灯影与浮尘
 
 - 说明与辅助标签 · aria-label · src/components/CombatPreview.vue:66
