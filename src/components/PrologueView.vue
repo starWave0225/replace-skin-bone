@@ -31,7 +31,7 @@ watch(phase,value=>{note.value=undefined;if(value==='morning')note.value={title:
 <template>
   <DreamExploration v-if="phase==='dream'" :visited="state.dreamSeen" :pose="state.dreamPose" @inspect="emit('dreamInspect',$event)" @pose="emit('dreamPose',$event)" @finish="emit('next')" @exit="emit('exit')"/>
   <main v-else class="prologue-page">
-    <header class="prologue-header"><button class="prologue-logo" @click="emit('exit')">画皮 <i>借面</i></button><span>序章 · 雨抵未闻县</span><MusicControls/><button @click="emit('exit')">暂别此事 ↗</button></header>
+    <header class="prologue-header"><button class="prologue-logo" @click="emit('exit')">画皮 <i>借面</i></button><span>序章 · 雨夜寻凶</span><MusicControls/><button @click="emit('exit')">暂别此事 ↗</button></header>
     <template v-if="phase==='arrival'">
       <div class="prologue-landscape"></div><span class="prologue-inscription">雨落旧城，故人不至。</span>
       <section class="prologue-introduction"><span class="prologue-kicker">未闻县 · 入暮</span><h1>一封旧约。</h1><p>你叫 <b>陆知微</b>，以抄书、代写书信为生。<br/>故友许文卿寄信，请你来未闻县校一部旧谱。<br/>你赶了两日的路，却在客舍门前见到封条。</p><blockquote>“知微兄：旧谱有讹，烦来一校。<br/>戌时，东厢候。”<small>—— 许文卿的来信</small></blockquote><p class="prologue-small">昨夜，许文卿死在了那间东厢里。</p><button class="prologue-primary" @click="emit('next')">进客舍 <b>→</b></button></section>

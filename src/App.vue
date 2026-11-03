@@ -224,7 +224,7 @@ onUnmounted(() => { dialogueObserver?.disconnect(); window.removeEventListener('
 <template>
   <div class="app" :class="[{ 'motion-off': !motion, 'large-text': textSize === 'large', 'in-prologue': inPrologue }, screen]">
     <template v-if="screen === 'title'">
-      <header class="title-header"><div class="wordmark"><span class="tiny-seal">志怪</span><span>未闻县异闻录</span></div><div class="title-header-right"><MusicControls/><button class="icon-button" aria-label="设置" @click="openPanel('settings')"><Icon name="settings"/></button></div></header>
+      <header class="title-header"><div class="wordmark"><span class="tiny-seal">志怪</span><span>未闻志异</span></div><div class="title-header-right"><MusicControls/><button class="icon-button" aria-label="设置" @click="openPanel('settings')"><Icon name="settings"/></button></div></header>
       <main class="title-main">
         <div class="title-visual"><SceneArt location="street" cover/><img class="title-own-character" src="/assets/portraits/lu-v1.webp" alt=""/><div class="moon-disc"></div><div class="visual-border"></div><span class="art-inscription">世人以貌识人<br/>以心辨善恶</span><span class="art-index">未闻县 · 壹</span></div>
         <div class="title-copy">
@@ -240,7 +240,7 @@ onUnmounted(() => { dialogueObserver?.disconnect(); window.removeEventListener('
           <nav class="title-previews" aria-label="独立试玩"><a href="?view=dream" target="_blank" rel="noopener">梦境试玩 <span>↗</span></a><a href="?view=combat" target="_blank" rel="noopener">战斗试玩 <span>↗</span></a></nav>
         </div>
       </main>
-      <footer class="title-footer"><div><span class="chapter-number">壹</span><div><span>雨抵未闻县</span></div></div><button @click="openPanel('credits')">画外拾遗 <span>↗</span></button></footer>
+      <footer class="title-footer"><div><span class="chapter-number">壹</span><div><span>雨夜寻凶</span></div></div><button @click="openPanel('credits')">画外拾遗 <span>↗</span></button></footer>
     </template>
 
     <PrologueView v-else-if="s?.prologue && inPrologue" :state="s.prologue" :motion="motion" @next="game.prologueNext" @inspect="game.inspectPrologue" @dream-inspect="game.inspectDreamObject" @dream-pose="game.rememberDreamPose" @position="game.rememberProloguePosition" @exit="returnTitle"/>

@@ -12,7 +12,7 @@ export const musicTracks = [
 export type MusicTrackId = typeof musicTracks[number]['id']
 export type MusicScene = 'title' | 'inn' | 'street' | 'home' | 'teahouse' | 'investigation' | 'night' | 'dream' | 'battle' | 'victory' | 'defeat'
 export const musicScenes: Record<MusicScene, { name: string; track: MusicTrackId }> = {
-  title: { name: '未闻县异闻录', track: 'chinatown_healing' }, inn: { name: '栖雨客舍', track: 'chinatown_healing' },
+  title: { name: '未闻志异', track: 'chinatown_healing' }, inn: { name: '栖雨客舍', track: 'chinatown_healing' },
   street: { name: '未闻县南街', track: 'folk_chinese' }, home: { name: '戚家小院', track: 'taohua' },
   teahouse: { name: '灯下寻人', track: 'shenxian_drumless' }, investigation: { name: '旧案寻踪', track: 'suspense' },
   night: { name: '夜雨疑踪', track: 'suspense' }, dream: { name: '灯外有魂', track: 'suspense3' },
