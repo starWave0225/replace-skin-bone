@@ -1,0 +1,29 @@
+src/App.vue
+  s_3bdda088eb163d::t_7f1043cabb2abd 227,243
+docs/MAIN_STORY-v1.md
+  s_3bdda088eb163d::t_7f1043cabb2abd 138
+docs/PROLOGUE-v2.md
+  s_3bdda088eb163d::t_7f1043cabb2abd 1
+docs/TEXT_REVIEW.md
+  s_3bdda088eb163d::t_64a969060926cb 3,1860,2169,2214,3537,4189
+src/components/PrologueView.vue
+  s_3bdda088eb163d::t_7f1043cabb2abd 34
+src/game/music-data.ts
+  s_3bdda088eb163d::t_7f1043cabb2abd 15
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "ed3bade8c62cf31516f648a6f64f38be3098dc5e",
+  "prompts": {},
+  "sessions": {
+    "s_3bdda088eb163d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a19f12-b8e8-7172-ab3a-d4d72079e464",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "junjie.qu <junjie.qu@antgroup.com>"
+    }
+  }
+}
