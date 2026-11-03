@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { assetUrl } from '../game/asset-url'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import BattlePaperMask from './BattlePaperMask.vue'
 import MusicControls from './MusicControls.vue'
@@ -17,7 +18,7 @@ const face=computed(()=>combatFaces[battle.value.face]),intent=computed(()=>curr
 const hiddenIntent=computed(()=>intent.value.concealed&&!battle.value.intentKnown)
 const moves=computed(()=>face.value.moves.map((id,index)=>({id,key:index+1,...combatMoves[id],name:id==='attack'?(battle.value.face==='shen'?'点墨':'横刀'):combatMoves[id].name,reason:combatActionReason(battle.value,id),preview:combatActionPreview(battle.value,id)})))
 const latest=computed(()=>[...battle.value.log].reverse())
-const sprite=computed(()=>`/assets/combat/${battle.value.face==='shen'?'shen-back-v1':'guard-back-v1'}.webp`)
+const sprite=computed(()=>assetUrl(`/assets/combat/${battle.value.face==='shen'?'shen-back-v1':'guard-back-v1'}.webp`))
 const selection=computed(()=>moves.value.find(m=>m.id===selected.value)??moves.value[0])
 const lastReport=computed(()=>{
   const turn=battle.value.log.at(-1)?.turn

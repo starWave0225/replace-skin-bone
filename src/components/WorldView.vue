@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { assetUrl } from '../game/asset-url'
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import type { WorldState } from '../game/types'
 import { PLAYER_SPEED, TILE, findPath, movePlayer, nearestSpot, worldMaps } from '../game/world'
@@ -106,7 +107,7 @@ function draw(now:number){
 }
 onMounted(()=>{
   alive=true;loadWorldArt().then(value=>{if(alive){art=value;background=makeBackground(map.value,atlas,art)}})
-  atlas=new Image();atlas.onload=()=>{if(alive)background=makeBackground(map.value,atlas,art)};atlas.src='/assets/tiles/tiny-town.png';setMap();resize();observer=new ResizeObserver(resize);if(host.value)observer.observe(host.value)
+  atlas=new Image();atlas.onload=()=>{if(alive)background=makeBackground(map.value,atlas,art)};atlas.src=assetUrl('/assets/tiles/tiny-town.png');setMap();resize();observer=new ResizeObserver(resize);if(host.value)observer.observe(host.value)
   window.addEventListener('keydown',keyDown);window.addEventListener('keyup',keyUp);window.addEventListener('blur',blur);raf=requestAnimationFrame(draw)
 })
 onUnmounted(()=>{alive=false;cancelAnimationFrame(raf);observer?.disconnect();window.removeEventListener('keydown',keyDown);window.removeEventListener('keyup',keyUp);window.removeEventListener('blur',blur)})

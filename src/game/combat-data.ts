@@ -1,8 +1,9 @@
+import { assetUrl } from './asset-url'
 export type CombatFace='shen'|'guard'
 export type CombatAction='attack'|'observe'|'outline'|'reveal'|'parry'|'bind'|'verdict'|'breathe'|'swap'
 export const combatFaces={
-  shen:{name:'沈砚之面',role:'画师 · 辨相与破相',portrait:'/assets/portraits/shen-v2.webp',passive:'入微',passiveText:'亲手破相时，额外回复 1 墨息。',moves:['attack','observe','outline','reveal'] as CombatAction[]},
-  guard:{name:'周平之面',role:'故捕快 · 格挡与截招',portrait:'/assets/portraits/guard-v2.webp',passive:'不退',passiveText:'守息或架刀实际减伤后，下一次攻击 +4。换面不触发。',moves:['attack','parry','bind','verdict'] as CombatAction[]},
+  shen:{name:'沈砚之面',role:'画师 · 辨相与破相',portrait:assetUrl('/assets/portraits/shen-v2.webp'),passive:'入微',passiveText:'亲手破相时，额外回复 1 墨息。',moves:['attack','observe','outline','reveal'] as CombatAction[]},
+  guard:{name:'周平之面',role:'故捕快 · 格挡与截招',portrait:assetUrl('/assets/portraits/guard-v2.webp'),passive:'不退',passiveText:'守息或架刀实际减伤后，下一次攻击 +4。换面不触发。',moves:['attack','parry','bind','verdict'] as CombatAction[]},
 }
 export const combatMoves:Record<CombatAction,{name:string;cost:number;skin:number;body:number;face?:CombatFace;description:string}>={
   attack:{name:'普攻',cost:0,skin:0,body:0,description:'结算后回复 1 墨息。'},

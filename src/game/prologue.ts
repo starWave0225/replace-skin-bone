@@ -1,7 +1,8 @@
+import { assetUrl } from './asset-url'
 import type { WorldState } from './types'
 import { classics } from './classics'
 
-export const protagonist = { name: '陆知微', age: 27, occupation: '抄书人 · 代写书信', portrait: '/assets/portraits/lu-v1.webp' }
+export const protagonist = { name: '陆知微', age: 27, occupation: '抄书人 · 代写书信', portrait: assetUrl('/assets/portraits/lu-v1.webp') }
 export type ProloguePhase = 'arrival' | 'investigation' | 'deduction' | 'night' | 'dream' | 'morning' | 'completed'
 export type DreamStationId = 'lantern' | 'brush' | 'scroll' | 'mirror' | 'door'
 export interface DreamPose { x: number; z: number; yaw: number; pitch: number }
@@ -14,7 +15,7 @@ export const caseClues = [
   { id: 'ledger', title: '客舍的入宿簿', mark: '簿', text: '掌柜把账簿推给你：许文卿在酉时入宿，只有一人。\n戌初，小二送茶，听见屋内有人交谈。\n到戌正送炭时，门已从里面闩住，无人应答。', inference: '记载只有一名住客，屋里却曾有两个人的声音。' },
   { id: 'tracks', title: '窗下的湿泥', mark: '履', text: '窗台有一小块新蹭落的灰。窗下两枚半干的鞋印，鞋头朝向屋内。\n门外的廊板仍是干的，窗闩也没有被撬断。\n有人来过。你还不能判断，他是怎样离开的。', inference: '来者可能经过后窗，但没有强行破窗的痕迹。' },
 ] as const
-export const dreamSpirit={name:'白衣女魂',portrait:'/assets/dream/wronged-spirit-v1.webp'}
+export const dreamSpirit={name:'白衣女魂',portrait:assetUrl('/assets/dream/wronged-spirit-v1.webp')}
 export const dreamStations: { id: DreamStationId; title: string; action: string; position: [number, number]; approach: [number, number]; text: string; originalId?: string; revelation: string; whisper:string; clueTitle:string; clueNote:string }[] = [
   { id: 'lantern', title: '一 · 灯外有声', action: '挑起纸灯', position: [0, 4], approach: [0, 6], text: '雨声停了。帘后却有人低低地哭。\n灯火照出一个白衣妇人的影子。她似要走近，又停在光外，反复唤着许文卿的名字。', originalId: 'night', revelation: '白衣女魂指向采笔。提灯过去，听她说完。', whisper:'戌初……窗下，尚有人。莫只看那道门闩。',clueTitle:'戌初的窗下',clueNote:'她提到的时辰，恰是小二听见交谈声的时候。窗下鞋印是否也留于此时？尚须核实。' },
   { id: 'brush', title: '二 · 采笔未干', action: '查看采笔', position: [-4.5, -1], approach: [-3, .3], text: '砚边的采笔尚湿，笔尖自行描出一道眼尾。\n妇人隔着书案伸手，指向那一处过重的收笔。你想起半笺末行，同样有一道不相称的重笔。', originalId: 'window', revelation: '信上或有添笔。帘后还有一轴旧画。',whisper:'信上的末一行……你再看一看。那笔，太重了。',clueTitle:'半笺上的异笔',clueNote:'笔锋不同，或是后来添写，也可能另有缘故。回到客舍，须将落款与末行分开细辨。' },

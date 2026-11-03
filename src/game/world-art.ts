@@ -1,3 +1,4 @@
+import { assetUrl } from './asset-url'
 /** CC0 photographic materials, prepared once for the existing pixel world renderer. */
 export const worldArtFiles = {
   earth:'/assets/world/earth.webp',stone:'/assets/world/stone.webp',roof:'/assets/world/roof.webp',
@@ -21,7 +22,7 @@ export function loadWorldArt():Promise<WorldArt>{
     await Promise.all(Object.entries(worldArtFiles).map(async([name,url])=>{
       const key=name as WorldMaterial,image=new Image()
       try{
-        await new Promise<void>((resolve,reject)=>{image.onload=()=>resolve();image.onerror=()=>reject(new Error(url));image.src=url})
+        await new Promise<void>((resolve,reject)=>{image.onload=()=>resolve();image.onerror=()=>reject(new Error(url));image.src=assetUrl(url)})
         const t=treatments[key],surface=document.createElement('canvas');surface.width=t.w;surface.height=t.h
         const ctx=surface.getContext('2d')!;ctx.filter=t.filter;ctx.drawImage(image,0,0,t.w,t.h);ctx.filter='none'
         ctx.globalAlpha=t.opacity;ctx.fillStyle=t.tint;ctx.fillRect(0,0,t.w,t.h);ctx.globalAlpha=1

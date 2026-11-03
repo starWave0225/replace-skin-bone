@@ -19,6 +19,20 @@ npm run build
 npm run preview
 ```
 
+## 在线试玩与部署
+
+GitHub Pages：[画皮：借面](https://starwave0225.github.io/replace-skin-bone/)。
+
+推送到 `main` 后，GitHub Actions 自动安装依赖、运行测试、构建并发布 `dist`。也可在仓库 Actions 中手动运行 `Deploy GitHub Pages`。部署流程从 Pages 配置读取项目目录，图片、配乐与三维素材会使用同一目录前缀；本地 `npm run dev` 仍从根目录启动。
+
+本地构建 GitHub Pages 版本：
+
+```sh
+VITE_BASE_PATH=/replace-skin-bone/ npm run build
+```
+
+主剧情新稿保存在 `docs/MAIN_STORY-v1.md`；当前发布的可玩剧情仍截止第一章。
+
 ## 怎么玩
 
 - WASD / 方向键行走，Shift 疾行，E 与附近的人物、物件或门交互。
@@ -75,6 +89,7 @@ npm run preview
 - `src/game/combat.ts`、`combat-data.ts`、`src/components/CombatPreview.vue`：独立战斗逻辑、招式与试玩界面。
 - `docs/COMBAT_DESIGN-v0.1.md`：回合制战斗设计；文末标注独立试玩实现范围，剧情接入仍待开发。
 - `docs/PROLOGUE-v2.md`：新的序章顺序、梦境演出与试玩说明。
+- `docs/MAIN_STORY-v1.md`：主剧情初稿，采用多篇《聊斋》的恐怖方向，包含六章脉络、命案真相、人物动机、分支承接和四类全篇结局；后续章节尚未接入游戏。
 - `ASSET_CREDITS.md`：公开素材与许可。
 
 自动化检查覆盖剧情跳转、分支条件、重复结算、时段取舍、九类终局组合、300 条确定性随机路线，以及地图出生点、门口落点、可达性与碰撞。

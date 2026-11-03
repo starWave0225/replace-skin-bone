@@ -1,3 +1,4 @@
+import { assetUrl } from './asset-url'
 import * as T from 'three'
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js'
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js'
@@ -93,7 +94,7 @@ export async function createDreamScene(host: HTMLElement, options: DreamSceneOpt
   }
   const cylinder=(x:number,y:number,z:number,r:number,height:number,material:T.Material=wood,parent:T.Object3D=scene)=>mesh(new T.CylinderGeometry(r,r,height,20),material,x,y,z,parent)
   function planeImage(url:string,x:number,y:number,z:number,w:number,h:number,rotation=0) {
-    const map=new T.TextureLoader().load(url, t=>{if(disposed)t.dispose()});map.colorSpace=T.SRGBColorSpace;map.anisotropy=4;textures.add(map)
+    const map=new T.TextureLoader().load(assetUrl(url), t=>{if(disposed)t.dispose()});map.colorSpace=T.SRGBColorSpace;map.anisotropy=4;textures.add(map)
     const m=mesh(new T.PlaneGeometry(w,h),new T.MeshStandardMaterial({map,roughness:.95,side:T.DoubleSide}),x,y,z);m.rotation.y=rotation;return m
   }
   scene.add(new T.HemisphereLight('#8da7b5','#2d2925',.16))
@@ -198,7 +199,7 @@ export async function createDreamScene(host: HTMLElement, options: DreamSceneOpt
   for(let i=0;i<7;i++){const ornament=mesh(new T.TorusGeometry(.09,.025,6,12),gold,-6.54,3.8,-10.8+i*.27);ornament.rotation.y=Math.PI/2}
   box(-6.6,.35,-10,.65,.65,2.4,darkWood)
   function reflectedFigure(url:string,offset:number){
-    const image=url===dreamSpirit.portrait?assets.spirit:new T.TextureLoader().load(url,t=>{if(disposed)t.dispose()});image.colorSpace=T.SRGBColorSpace;textures.add(image)
+    const image=url===dreamSpirit.portrait?assets.spirit:new T.TextureLoader().load(assetUrl(url),t=>{if(disposed)t.dispose()});image.colorSpace=T.SRGBColorSpace;textures.add(image)
     const figure=mesh(new T.PlaneGeometry(1.15,1.85),new T.MeshBasicMaterial({map:image,transparent:true,opacity:0,depthWrite:false,color:'#adc1b2',side:T.FrontSide}),-6.74+offset,2.1,-10)
     figure.rotation.y=Math.PI/2;return figure
   }

@@ -1,3 +1,4 @@
+import { assetUrl } from './asset-url'
 import { computed, onUnmounted, reactive, watch, type MaybeRefOrGetter, toValue } from 'vue'
 import { musicScenes, musicTracks, type MusicScene, type MusicTrackId } from './music-data'
 import { MusicPlayer } from './music-player'
@@ -10,7 +11,7 @@ const player = new MusicPlayer(id => {
   const media = new Audio()
   media.preload = 'auto'
   const extension = media.canPlayType('audio/ogg; codecs="vorbis"') ? 'ogg' : 'm4a'
-  media.src = `/assets/music/${id}.${extension}`
+  media.src = assetUrl(`/assets/music/${id}.${extension}`)
   media.addEventListener('error', () => {
     if (player.media !== media || !musicState.enabled) return
     player.stop(); musicState.loading = false; musicState.playing = false; musicState.error = '配乐载入失败，请重试。'

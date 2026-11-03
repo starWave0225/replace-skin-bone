@@ -1,9 +1,10 @@
+import { assetUrl } from './asset-url'
 import * as T from 'three'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import { HDRLoader } from 'three/addons/loaders/HDRLoader.js'
 import { dreamSpirit } from './prologue'
 
-const root='/assets/dream/realism/'
+const root=assetUrl('/assets/dream/realism/')
 export const dreamModelIds=['chinese_chandelier','chinese_console_table','chinese_armchair','chinese_screen_panels','chinese_tea_table','chinese_cabinet'] as const
 export type DreamModelId=typeof dreamModelIds[number]
 
