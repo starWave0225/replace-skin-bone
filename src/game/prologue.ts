@@ -1,6 +1,9 @@
 import { assetUrl } from './asset-url'
 import type { WorldState } from './types'
 import { classics } from './classics'
+import { isValidWellEncounter, newWellEncounter } from './prologue-battle'
+import type { WellEncounter } from './prologue-battle'
+import { worldMaps, worldSpawn } from './world'
 
 export const protagonist = { name: '陆知微', age: 27, occupation: '抄书人 · 代写书信', portrait: assetUrl('/assets/portraits/lu-v1.webp') }
 export type ProloguePhase = 'arrival' | 'investigation' | 'deduction' | 'night' | 'dream' | 'morning' | 'completed'
@@ -8,7 +11,7 @@ export type DreamStationId = 'lantern' | 'brush' | 'scroll' | 'mirror' | 'door'
 export interface DreamPose { x: number; z: number; yaw: number; pitch: number }
 export interface PrologueState {
   phase: ProloguePhase; clues: string[]; dreamSeen: DreamStationId[]; world: WorldState;
-  deduction?: string; dreamPose?: DreamPose;
+  deduction?: string; dreamPose?: DreamPose; wellEncounter?: WellEncounter;
 }
 export const caseClues = [
   { id: 'letter', title: '未寄出的半笺', mark: '笺', text: '书案下压着半封写给你的信。\n“知微兄：旧谱有讹，烦来一校。戌时，东厢候。”\n落款仍是许文卿，笔锋却比你熟悉的更重。末行被人沿折痕撕去。', inference: '邀约的时辰是戌时，落笔习惯却有细微不同。' },
@@ -28,6 +31,24 @@ export function discoveredDreamNotes(seen:readonly DreamStationId[]){
   while(count<dreamStations.length&&seen[count]===dreamStations[count].id)count++
   return dreamStations.slice(0,count)
 }
+export function prologueHintIds(state: PrologueState): string[] {
+  if (state.phase === 'investigation') return [...caseClues.filter(clue => !state.clues.includes(clue.id)).map(clue => clue.id), 'owner']
+  if (state.phase !== 'morning') return []
+  if (state.world.map === 'inn_well') return state.wellEncounter?.stage === 'complete' ? ['inn_door'] : ['well_spirit']
+  return state.wellEncounter?.stage === 'complete' ? ['teahouse'] : ['backyard']
+}
+export function travelPrologue(p: PrologueState, destination: string): boolean {
+  if (p.phase !== 'morning' || (p.wellEncounter && !['complete'].includes(p.wellEncounter.stage))) return false
+  if (p.world.map === 'inn' && destination === 'inn_well') p.world = worldSpawn('inn_well')
+  else if (p.world.map === 'inn_well' && destination === 'inn') p.world = worldSpawn('inn', [3, 12])
+  else return false
+  return true
+}
+export function startWellEncounter(p: PrologueState): boolean {
+  if (p.phase !== 'morning' || p.world.map !== 'inn_well' || p.wellEncounter) return false
+  p.wellEncounter = newWellEncounter()
+  return true
+}
 export function initialPrologue(): PrologueState { return { phase: 'arrival', clues: [], dreamSeen: [], world: { map: 'inn', x: 14 * 32, y: 17 * 32, facing: 'up' } } }
 export function inspectCase(p: PrologueState, id: string): boolean {
   if (p.phase !== 'investigation' || !caseClues.some(c => c.id === id) || p.clues.includes(id)) return false
@@ -43,7 +64,7 @@ export function advancePrologue(p: PrologueState, deduction?: string): boolean {
   else if (p.phase === 'deduction' && ['window', 'familiar', 'uncertain'].includes(deduction ?? '')) { p.deduction = deduction; p.phase = 'night' }
   else if (p.phase === 'night') p.phase = 'dream'
   else if (p.phase === 'dream' && p.dreamSeen.length === dreamStations.length) p.phase = 'morning'
-  else if (p.phase === 'morning') p.phase = 'completed'
+  else if (p.phase === 'morning' && p.world.map === 'inn' && p.wellEncounter?.stage === 'complete') p.phase = 'completed'
   else return false
   return true
 }
@@ -57,7 +78,11 @@ export function isValidPrologue(value: unknown): value is PrologueState {
   if (p.deduction !== undefined && !['window', 'familiar', 'uncertain'].includes(p.deduction)) return false
   if (p.phase !== 'arrival' && p.phase !== 'investigation' && !caseClues.every(c => p.clues.includes(c.id))) return false
   if (['morning', 'completed'].includes(p.phase) && p.dreamSeen.length !== dreamStations.length) return false
-  if (!p.world || p.world.map !== 'inn' || !Number.isFinite(p.world.x) || !Number.isFinite(p.world.y) || p.world.x < 0 || p.world.x > 28 * 32 || p.world.y < 0 || p.world.y > 22 * 32 || !['up','down','left','right'].includes(p.world.facing)) return false
+  if (p.wellEncounter !== undefined && (!['morning', 'completed'].includes(p.phase) || !isValidWellEncounter(p.wellEncounter))) return false
+  if (p.phase === 'completed' && p.wellEncounter && p.wellEncounter.stage !== 'complete') return false
+  if (!p.world || !['inn', 'inn_well'].includes(p.world.map) || (p.world.map === 'inn_well' && p.phase !== 'morning') || (p.wellEncounter && p.wellEncounter.stage !== 'complete' && p.world.map !== 'inn_well')) return false
+  const map = worldMaps[p.world.map]
+  if (!Number.isFinite(p.world.x) || !Number.isFinite(p.world.y) || p.world.x < 0 || p.world.x > map.width * 32 || p.world.y < 0 || p.world.y > map.height * 32 || !['up','down','left','right'].includes(p.world.facing)) return false
   if(p.dreamPose === undefined)return true
   const pose=p.dreamPose
   return !!pose && typeof pose === 'object' && ['x','z','yaw','pitch'].every(k => typeof pose[k as keyof DreamPose] === 'number' && Number.isFinite(pose[k as keyof DreamPose])) && pose.x >= -7 && pose.x <= 7 && pose.z >= -17 && pose.z <= 10 && Math.abs(pose.pitch)<=1.1

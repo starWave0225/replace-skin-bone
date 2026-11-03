@@ -6,6 +6,8 @@ test('运行素材同时支持本地根目录和 GitHub Pages 项目目录', () 
   for (const path of [
     '/assets/portraits/lu-v1.webp',
     '/assets/music/suspense3.ogg',
+    '/assets/opening-sfx/door-creak-v1.wav',
+    '/assets/opening-sfx/window-blown-open-v1.wav',
     '/assets/dream/realism/chinese_armchair/model.gltf',
   ]) {
     assert.equal(assetUrl(path, '/'), path)

@@ -152,6 +152,24 @@ function objectSprite(object: WorldObject, art: WorldArt) {
   }
   return sprite
 }
+export function renderInteractionHints(c: Ctx, map: WorldMap, ids: readonly string[], time: number, nearestId?: string, primaryIds: readonly string[] = ids) {
+  const pulse = .5 + .5 * Math.sin(time / 460)
+  c.save()
+  for (const spot of map.spots) {
+    if (!ids.includes(spot.id)) continue
+    const x = spot.x * TILE, y = spot.y * TILE, nearby = spot.id === nearestId, primary = primaryIds.includes(spot.id)
+    const radius = (primary ? 24 : nearby ? 20 : 17) + pulse * (primary ? 3 : 1.5)
+    const glow = c.createRadialGradient(x, y, 3, x, y, 34)
+    glow.addColorStop(0, primary ? '#f5d28755' : '#accca92a'); glow.addColorStop(1, '#f5d28700')
+    c.fillStyle = glow; c.fillRect(x - 34, y - 26, 68, 52)
+    c.strokeStyle = primary ? '#ffe4a9' : spot.kind === 'door' ? '#a8cfc6a8' : '#c2d2b293'; c.lineWidth = primary || nearby ? 1.7 : 1
+    c.beginPath(); c.ellipse(x, y, radius, radius * .46, 0, 0, Math.PI * 2); c.stroke()
+    if (primary || nearby) { c.strokeStyle = '#e8cf8566'; c.beginPath(); c.ellipse(x, y, radius + 5, (radius + 5) * .46, 0, 0, Math.PI * 2); c.stroke() }
+    if (spot.kind === 'object') label(c, spot.name, x, y - 27 - pulse * 2, 14, primary ? '#f1d995' : '#b9c9ad')
+  }
+  c.restore()
+}
+
 export function renderWorld(c: Ctx, background: HTMLCanvasElement, map: WorldMap, player: WorldState, time: number, walkFrame: number, night: boolean, appearance: PlayerAppearance, nearest: WorldSpot | undefined, disguise?: DisguiseFrame, art?: WorldArt) {
   c.imageSmoothingEnabled = false; c.drawImage(background, 0, 0)
   if (map.id === 'street') {

@@ -2,18 +2,20 @@ import { combatFaces, combatIntents, combatMoves } from './combat-data'
 import type { CombatAction, CombatFace } from './combat-data'
 export interface CombatLog {turn:number;side:'player'|'enemy'|'system';text:string}
 export interface CombatState {
+  context?: 'prologue';
   turn:number;face:CombatFace;hp:number;ink:number;
   enemy:{hp:number;skin:number;maxHp:number;maxSkin:number};
   intentIndex:number;exposure:number;mark:number;counter:boolean;intentKnown:boolean;
   swapReadyAt:number;bindReadyAt:number;status:'active'|'won'|'lost';
   breaks:number;damageTaken:number;log:CombatLog[];
 }
-export function createCombat(face:CombatFace='shen'):CombatState{
-  return {turn:1,face,hp:100,ink:3,enemy:{hp:24,skin:24,maxHp:24,maxSkin:24},intentIndex:0,exposure:0,mark:0,counter:false,intentKnown:false,swapReadyAt:1,bindReadyAt:1,status:'active',breaks:0,damageTaken:0,log:[]}
+export function createCombat(face:CombatFace='shen', context?:'prologue'):CombatState{
+  return {context,turn:1,face,hp:100,ink:3,enemy:{hp:24,skin:24,maxHp:24,maxSkin:24},intentIndex:0,exposure:0,mark:0,counter:false,intentKnown:false,swapReadyAt:1,bindReadyAt:1,status:'active',breaks:0,damageTaken:0,log:[]}
 }
 export function currentCombatIntent(s:CombatState){return combatIntents[s.intentIndex%combatIntents.length]}
 export function combatActionReason(s:CombatState,id:CombatAction):string{
   if(s.status!=='active')return '此阵已结束，重新试法即可再战。'
+  if(id==='swap'&&s.context==='prologue')return '尚未学会借面，须到无面茶楼问法。'
   const move=combatMoves[id]
   if(!move)return '没有这门招式。'
   if(move.face&&move.face!==s.face)return '须先换上此招所属的面。'
@@ -51,7 +53,7 @@ export function performCombatAction(previous:CombatState,id:CombatAction,expecte
   const intent=currentCombatIntent(s),alreadyExposed=s.enemy.skin===0&&s.exposure>0,oldMark=s.mark
   let broken=false,cancelled=false,markCreated=false,counterGranted=false
   const say=(side:CombatLog['side'],text:string)=>s.log.push({turn:s.turn,side,text})
-  function win(){if(s.enemy.hp<=0){s.status='won';say('system','皮相散尽，怨势暂息。此处只演练压制，不替任何人决定归宿。');return true}return false}
+  function win(){if(s.enemy.hp<=0){s.status='won';say('system',s.context==='prologue'?'皮相散尽，怨势暂息。井中哭声渐低，且听她诉说。':'皮相散尽，怨势暂息。此处只演练压制，不替任何人决定归宿。');return true}return false}
   function hitEnemy(values:{skin:number;body:number},name:string){
     const skin=s.enemy.skin>0,base=skin?values.skin:values.body
     if(base<=0)return

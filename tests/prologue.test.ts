@@ -1,6 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { advancePrologue, caseClues, discoveredDreamNotes, dreamStations, initialPrologue, inspectCase, inspectDream, isValidPrologue } from '../src/game/prologue'
+import { advancePrologue, caseClues, discoveredDreamNotes, dreamStations, initialPrologue, inspectCase, inspectDream, isValidPrologue, travelPrologue, startWellEncounter } from '../src/game/prologue'
+import { advanceWellEncounter, performWellAction, wellLessons } from '../src/game/prologue-battle'
 import { dreamBlocked, dreamPath, moveInDream } from '../src/game/dream-navigation'
 import { advance, choose, isValidState, startGame } from '../src/game/engine'
 
@@ -20,6 +21,13 @@ test('新序章先以自己的身份查命案，完成调查前不能入梦或�
   assert.equal(inspectDream(p,'mirror'),false)
   for(const station of dreamStations)assert.equal(inspectDream(p,station.id),true)
   assert.equal(advancePrologue(p),true);assert.equal(p.phase,'morning')
+  assert.equal(advancePrologue(p),false)
+  assert.equal(travelPrologue(p,'inn_well'),true)
+  assert.equal(startWellEncounter(p),true)
+  advanceWellEncounter(p.wellEncounter!)
+  for(const lesson of wellLessons)assert.equal(performWellAction(p.wellEncounter!,lesson.action),true)
+  advanceWellEncounter(p.wellEncounter!)
+  assert.equal(travelPrologue(p,'inn'),true)
   assert.equal(advancePrologue(p),true);assert.equal(p.phase,'completed')
   assert.equal(isValidState(state),true)
 })

@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>2D 光圈引导检查</title>
+<style>body{margin:0;min-width:0!important;background:#17251f;color:#dbd0af;font:15px/1.8 system-ui,sans-serif}#app{padding:18px}header{display:flex;align-items:center;gap:16px;flex-wrap:wrap}h1{font-size:21px;font-weight:400;margin:0}label{display:flex;align-items:center;gap:8px}select{background:#293b2e;color:#ddd2b0;border:1px solid #9f9466;padding:7px;font-size:15px}p{margin:12px 0}.guidance-map{height:70svh;min-height:420px;position:relative;border:1px solid #8c936a}.guidance-map .world-view{position:relative;height:100%;min-height:0}output{color:#f1cf89}small{font-size:14px;color:#abb69c}</style></head>
+<body><div id="app"></div><script type="module">
+import { createApp, computed, h, ref } from 'vue'
+import WorldView from '/src/components/WorldView.vue'
+import { startGame } from '/src/game/engine.ts'
+import { worldMaps, worldSpawn } from '/src/game/world.ts'
+import { worldGuidance } from '/src/game/world-guidance.ts'
+import '/src/style.css'
+const presets={street:['南街认亲','street_1'],deadline:['三日黄昏','deadline_1'],well:['后井主线','well_1'],farewell:['携画归院','farewell_1'],archive:['封存卷宗','case_archive'],hub:['自由寻访','arrival_end']}
+createApp({setup(){
+ const phase=ref('street'),map=ref('street'),night=ref(false),completed=ref(false),world=ref(worldSpawn('street',[20,16])),message=ref('')
+ const state=computed(()=>{const s=startGame();s.flags.wearing_first_face=true;s.nodeId=presets[phase.value][1];s.mode=phase.value==='hub'?'hub':'story';s.time=night.value?'night':'day';if(completed.value)s.completed=['meal','relic','tea','case'];return s})
+ const guidance=computed(()=>worldGuidance(state.value,map.value))
+ const names=computed(()=>worldMaps[map.value].spots.filter(p=>guidance.value.primary.includes(p.id)).map(p=>p.name).join('、')||'无')
+ function visit(id,arrival){map.value=id;world.value=worldSpawn(id,arrival);message.value=''}
+ return()=>h('main',[
+  h('header',[h('h1','2D 光圈引导'),h('label',['进度',h('select',{'aria-label':'剧情进度',value:phase.value,onChange:e=>phase.value=e.target.value},Object.entries(presets).map(([id,[label]])=>h('option',{value:id},label)))]),h('label',['场景',h('select',{'aria-label':'检查场景',value:map.value,onChange:e=>visit(e.target.value)},Object.values(worldMaps).map(m=>h('option',{value:m.id},m.name)))]),h('label',[h('input',{type:'checkbox',checked:night.value,onChange:e=>night.value=e.target.checked}),'夜间']),h('label',[h('input',{type:'checkbox',checked:completed.value,onChange:e=>completed.value=e.target.checked}),'日间调查已完成'])]),
+  h('p',['金色任务光圈：',h('output',{'aria-label':'当前引导目标'},names.value)]),
+  h('div',{class:'guidance-map'},[h(WorldView,{key:map.value,world:world.value,paused:false,night:night.value,appearance:'shen',motion:true,hints:guidance.value.hints,primaryHints:guidance.value.primary,quest:`循金色光圈前往：${names.value}`,onPosition:value=>world.value=value,onInteract:spot=>spot.destination?visit(spot.destination,spot.arrival):message.value=`已到达 ${spot.name}`})]),
+  h('p',{role:'status'},message.value||'淡圈表示可交互点，金圈指向当前目标。'),h('small','仅检查真实地图与任务引导，不读写剧情存档。')])
+}}).mount('#app')
+</script></body></html>

@@ -1,6 +1,7 @@
 import type { Activity, Location } from './types'
 export const locations: Record<Location, { name: string; subtitle: string; image: string; verse: string }> = {
   inn: { name: '栖雨客舍', subtitle: '一纸旧约，故人未至', image: 'village.jpg', verse: '此来原为访故人，谁料故人已隔尘。' },
+  inn_well: { name: '客舍后井', subtitle: '梦醒余声，井畔有冤', image: 'garden.jpg', verse: '哭声未必皆为恶，且问沉冤何处来。' },
   theatre: { name: '无面茶楼', subtitle: '一盏隔夜茶，几重梦中人', image: 'temple.jpg', verse: '人死留骨，鬼死留名。' },
   street: { name: '未闻县南街', subtitle: '雨打旧巷，故人归来', image: 'village.jpg', verse: '借来一副面容，走进一场旧梦。' },
   home: { name: '戚家小院', subtitle: '门前一盏灯，等了许多年', image: 'garden.jpg', verse: '人间最难偿，不过一声娘。' },
@@ -17,6 +18,7 @@ export const activities: Activity[] = [
   { id: 'watch', title: '在后井守夜', subtitle: '水面之下，有人在等', location: 'well', times: ['night'], start: 'watch_1', mark: '异' },
 ]
 export const itemInfo: Record<string, { title: string; text: string; mark: string }> = {
+  well_cloth: { title: '井沿的青布', text: '布缝夹着沾水的纸屑，尚可辨“戌初”二字。与梦中旧谱包布相似，来历待查。', mark: '布' },
   invitation: { title: '许文卿的邀书', text: '许文卿邀你来未闻县校谱，约定戌时在客舍东厢相见。', mark: '约' },
   originals: { title: '《画皮》残卷', text: '蒲松龄《画皮》的古文摘句。', mark: '典' },
   mirror: { title: '旧铜镜', text: '镜缘生了绿锈。它照得出你借来的脸，却照不见脸后的人。', mark: '镜' },
@@ -30,6 +32,7 @@ export const itemInfo: Record<string, { title: string; text: string; mark: strin
   clue_mansion: { title: '王宅旧印', text: '藏在画轴中的半枚朱印。它与无面茶楼镜后的旧画，出自同一个地方。', mark: '印' },
 }
 export const journalInfo: Record<string, { title: string; text: string; status: string }> = {
+  well_witness: { title: '井畔怨声', text: '梦醒后，客舍旧井浮起重重假相。你以梦中笔法压下怨势，留下青布与“戌初”纸屑。女魂身份与许文卿之死的关系仍未查明。', status: '井边线索 · 尚待核实' },
   dream_witness: {title:'灯外的冤声',text:'女魂提到戌初的窗下、半笺的重笔，以及旧谱的经手人。',status:'梦中证词 · 尚待核实'},
   murder: {title:'一封未赴的旧约',text:'你以陆知微的姓名来到未闻县，故友许文卿却先一步遇害。半笺、住客簿和窗下鞋印尚未拼出答案。一夜梦后，你往西街寻找无面茶楼。',status:'序章已记 · 命案未明'},
   awakening: { title: '借来的姓名', text: '你借用了沈砚之面。', status: '因果初起' },

@@ -136,4 +136,14 @@
 
 五首民乐曲取自作者提供的免费循环版 ZIP，Suspense 与 Suspense3 使用官方免费完整版本。原 OGG / M4A 文件未修改；游戏运行时循环播放、调整音量，并在切景时作 900 毫秒淡入淡出。两首悬疑曲为氛围配乐，不将其标注为中国传统民乐。界面中文曲签由本作命名，不是作者原曲名。
 
-下载包与网页许可证据保存在 `assets-source/music/`；运行文件在 `public/assets/music/`，按需加载 OGG，浏览器不支持时使用 M4A。每个文件的 SHA-256、原下载链接、日期与场景映射见 `docs/music-public-assets.json`。游戏内「配乐」面板和「画外拾遗」提供原曲、作者与许可链接。
+下载包与网页许可证据保存在 `assets-source/music/`；运行文件在 `public/assets/music/`，按需加载 OGG，浏览器不支持时使用 M4A。每个文件的 SHA-256、原下载链接、日期与场景映射见 `docs/music-public-assets.json`。游戏内「画外拾遗」提供原曲、作者与许可链接；配乐按钮仅提供开关。
+
+
+## 片头木门与风掀窗扇音效（2026-11-03）
+
+录音来源：[Various Sound Effects](https://opengameart.org/node/143670)，作者 laleksic，依 [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) 使用。原下载包为 https://opengameart.org/sites/default/files/sounds_8.zip 。
+
+- 木门：`door_creak_open.wav` 去除前端静音、放慢至 0.55 倍并调整音量，形成 2.8 秒的旧门轴吱呀声；在门开始打开时触发。
+- 窗扇：将 `door_creak_close.wav`、`door_open.wav`、`door_close.wav` 剪辑混合成 1.2 秒的轴响与木框碰撞声，表现风吹开木窗；这些原录音来自门，不将其标作实录窗户。与现有程序风雨声同步播放。
+
+两段均为本地单声道 24kHz PCM16 WAV，包含短淡入淡出；跟随全局声量、静音、演出暂停与切后台，恢复时从当前音效的中途续播。预先解码，载入失败时保留原有合成音效。原始录音及许可页面位于 `assets-source/opening-sfx/`，运行文件位于 `public/assets/opening-sfx/`，剪辑说明与 SHA-256 见 `docs/opening-sfx-assets.json`。

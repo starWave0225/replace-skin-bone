@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>序章井边存档验收</title><style>body{background:#1b3028;color:#e2d5ab;font:20px/1.8 system-ui;padding:32px}button,a{font:inherit;color:inherit;margin-right:20px}button{background:#36574b;padding:10px 20px;border:1px solid #c7b782}a{display:inline-block}output{display:block;margin:20px 0}</style></head>
+<body><h1>序章井边存档验收</h1><p>仅在独立测试域 well-qa.localhost 创建梦醒后的测试存档，不访问正式试玩域的存档。</p><button id="prepare">准备梦醒后的测试存档</button><output id="result" role="status">尚未写入</output><a href="/">打开正式游戏验证读档 →</a>
+<script type="module">
+import { startGame } from '/src/game/engine.ts'
+import { caseClues, dreamStations } from '/src/game/prologue.ts'
+import { writeSave } from '/src/game/saves.ts'
+document.querySelector('#prepare').addEventListener('click',async()=>{
+ if(location.hostname!=='well-qa.localhost'){document.querySelector('#result').textContent='请使用独立测试域';return}
+ const state=startGame(true),p=state.prologue
+ p.phase='morning';p.clues=caseClues.map(c=>c.id);p.dreamSeen=dreamStations.map(s=>s.id)
+ await writeSave('auto',state)
+ document.querySelector('#result').textContent='测试存档已准备，可进入正式游戏点击继续前缘。'
+})
+</script></body></html>

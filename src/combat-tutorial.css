@@ -1,0 +1,21 @@
+.combat-tutorial{padding-bottom:110px}
+.tutorial-logo{background:none;border:0;padding:0;color:inherit;cursor:pointer}
+.combat-lesson{border:3px solid #496660;border-radius:8px;background:#fffbe8;padding:18px 22px;margin:0 0 20px;box-shadow:0 4px 0 #49666022;font-size:17px;line-height:1.8}
+.combat-lesson>span,.combat-lesson>div>span{color:#92704b;font-size:15px;letter-spacing:1px}
+.combat-lesson h2{font-size:23px;line-height:1.5;margin:5px 0 8px}
+.combat-lesson p{margin:6px 0}
+.combat-lesson .lesson-feedback{color:#52766a;border-bottom:1px dashed #a6ad91;padding-bottom:9px;margin-bottom:9px}
+.combat-lesson button{display:inline-block;background:#345f57;border:2px solid #243e43;color:#fff9e4;padding:10px 18px;border-radius:5px;margin-top:10px;font-size:18px;cursor:pointer}
+.combat-lesson button:disabled{opacity:.55}
+.encounter-intro,.encounter-aftermath{display:flex;gap:22px;align-items:center}
+.encounter-intro>img,.encounter-aftermath>img{width:112px;height:150px;object-fit:cover;object-position:50% 18%;border:2px solid #81958b;border-radius:5px;filter:saturate(.65)}
+.encounter-aftermath{margin-top:24px}
+.combat-self-sprite{display:block;width:100%;height:100%;image-rendering:pixelated;filter:drop-shadow(3px 5px 0 #243e4933)}
+.hero-attacking .combat-self-sprite{animation:combat-lunge .55s steps(6,end)}
+.combat-tutorial .combat-moves button.lesson-target,.combat-tutorial .combat-common button.lesson-target{border-color:#ba8744;box-shadow:inset 0 0 0 3px #f4d88c,0 4px 0 #8b744d;background:#fff3c6}
+.combat-tutorial .combat-moves button:disabled{opacity:.48}
+.combat-tutorial .combat-common{grid-template-columns:1fr}
+.combat-tutorial .combat-selected-note{min-height:48px}
+.prologue-well-task{padding:14px 0;font-size:18px;line-height:1.8;color:#d7ca9e}
+.battle-paused *{animation-play-state:paused!important}
+@media(max-width:700px){.combat-lesson{padding:14px;font-size:17px}.combat-lesson h2{font-size:21px}.encounter-intro,.encounter-aftermath{align-items:flex-start;gap:12px}.encounter-intro>img,.encounter-aftermath>img{width:64px;height:94px}.combat-tutorial .combat-header{flex-wrap:wrap}.combat-tutorial .combat-header nav{flex-wrap:wrap;gap:14px}}

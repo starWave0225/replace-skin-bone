@@ -8,9 +8,8 @@ import { useSceneMusic } from '../game/music'
 import { clickTone } from '../game/audio'
 import '../dream.css'
 useSceneMusic('dream', 100)
-const musicOpen = ref(false)
 
-const props=defineProps<{visited:DreamStationId[];pose?:DreamPose;preview?:boolean}>()
+const props=defineProps<{visited:DreamStationId[];pose?:DreamPose;preview?:boolean;paused?:boolean}>()
 const emit=defineEmits<{inspect:[id:DreamStationId];pose:[pose:DreamPose];finish:[];exit:[]}>()
 const host=ref<HTMLElement>(),ready=ref(false),intro=ref(true),reading=ref<DreamStationId>(),near=ref<DreamStationId>(),error=ref(''),lowQuality=ref(false)
 const casebookOpen=ref(false),whisper=ref<DreamStationId>()
@@ -22,7 +21,7 @@ const original=computed(()=>originalPassage(passage.value?.originalId))
 const complete=computed(()=>props.visited.length===dreamStations.length)
 const notes=computed(()=>discoveredDreamNotes(props.visited))
 const whispered=computed(()=>dreamStations.find(station=>station.id===whisper.value))
-const blocked=computed(()=>intro.value||!!reading.value||casebookOpen.value||complete.value||musicOpen.value)
+const blocked=computed(()=>intro.value||!!reading.value||casebookOpen.value||complete.value||!!props.paused)
 watch(blocked,value=>control?.setPaused(value))
 watch(()=>props.visited.length,()=>whisper.value=undefined)
 async function launch(low=false){
@@ -45,6 +44,7 @@ function enter(){intro.value=false;resumeLook()}
 function remember(){if(!reading.value)return;const last=reading.value==='door';emit('inspect',reading.value);reading.value=undefined;if(!last)resumeLook()}
 function toggleCasebook(){if(reading.value)return;casebookOpen.value=!casebookOpen.value;if(casebookOpen.value)control?.setPaused(true);else resumeLook()}
 function keyboard(e:KeyboardEvent){
+  if(props.paused)return
   const key=e.key.toLowerCase()
   if(key==='escape'){control?.releaseLook();if(casebookOpen.value)casebookOpen.value=false;else if(reading.value)reading.value=undefined;else if(!intro.value&&!complete.value)intro.value=true}
   else if(key==='e'&&reading.value){e.preventDefault();e.stopImmediatePropagation();remember()}
@@ -61,7 +61,7 @@ onUnmounted(()=>{control?.dispose();alive=false;window.removeEventListener('keyd
 <template>
   <main class="dream-experience" aria-label="序章末尾的第一人称梦境探索">
     <div ref="host" class="dream-renderer"></div><div class="dream-film"></div><div class="dream-border"></div>
-    <header class="dream-header"><div class="dream-brand"><span>画皮</span><i>借面</i><b>序章 · 梦中寻相</b></div><div class="dream-tools"><MusicControls @open="musicOpen=$event"/><button :disabled="!!reading" @click="toggleCasebook">案记 · {{notes.length}}</button><button @click="intro=true">操作</button><button :disabled="!ready" @click="launch(!lowQuality)">画质 · {{lowQuality?'轻量':'精细'}}</button><button @click="emit('exit')">离梦</button></div></header>
+    <header class="dream-header"><div class="dream-brand"><span>画皮</span><i>借面</i><b>序章 · 梦中寻相</b></div><div class="dream-tools"><MusicControls/><button :disabled="!!reading" @click="toggleCasebook">案记 · {{notes.length}}</button><button @click="intro=true">操作</button><button :disabled="!ready" @click="launch(!lowQuality)">画质 · {{lowQuality?'轻量':'精细'}}</button><button @click="emit('exit')">离梦</button></div></header>
     <aside v-if="!intro&&!reading&&!complete" class="dream-objective"><span>循灯而行</span><h1>{{current.title}}</h1><p>{{current.revelation && visited.length ? dreamStations[visited.length-1].revelation : '提起纸灯。'}}</p><div class="dream-progress" aria-label="梦境发现进度"><i v-for="(station,index) in dreamStations" :key="station.id" :class="{done:index<visited.length,active:index===visited.length}"><b>{{['壹','贰','叁','肆','伍'][index]}}</b></i><small>{{visited.length}} / 5</small></div><button class="dream-guide" @click="control?.guide()">随灯引路 <span>↗</span></button></aside>
     <span v-if="!intro&&!reading&&!complete" class="dream-reticle" aria-hidden="true"></span>
     <div v-if="!blocked&&lookMode!=='touch'&&lookMode!=='captured'" class="dream-look-state"><button v-if="lookMode==='free'" :disabled="!ready" @click="resumeLook">点击画面，继续鼠标环顾</button><span v-else>鼠标移入画面即可环顾 · Esc 暂停</span></div>

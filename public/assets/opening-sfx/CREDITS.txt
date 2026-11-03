@@ -1,0 +1,5 @@
+Door and shutter recordings: laleksic - Various Sound Effects
+https://opengameart.org/node/143670
+CC0 1.0 - https://creativecommons.org/publicdomain/zero/1.0/
+Edited, normalized and mixed for this game; window wind is synthesized separately.
+Full edit and source records: docs/opening-sfx-assets.json

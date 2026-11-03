@@ -9,6 +9,8 @@ import { openingCamera } from '../src/game/opening-camera'
 import { startGame } from '../src/game/engine'
 import { advancePrologue, inspectCase, caseClues, isValidPrologue } from '../src/game/prologue'
 import { openingImages } from '../src/game/opening-renderer'
+import { openingRecordedSounds } from '../src/game/opening-sfx'
+import { createHash } from 'node:crypto'
 
 test('演出每一帧都有镜头，结尾严格停在进入调查的边界', () => {
   for (let time = 0; time < openingDuration; time += 17) {
@@ -31,6 +33,36 @@ test('音效按跨过的时刻触发，停帧不重复，低帧率也不会漏�
   const played = []
   for (let previous = 0; previous < openingDuration; previous += 83) played.push(...crossedOpeningCues(previous, previous + 83))
   assert.deepEqual(played, openingCues)
+})
+
+test('门轴声与开窗碰响各触发一次，暂停恢复不会重放起音', () => {
+  for (const cue of ['door', 'window'] as const) {
+    const at = openingBeats[cue], duration = openingRecordedSounds[cue].duration
+    assert.deepEqual(crossedOpeningCues(at - 1, at), [{ at, sound: cue }])
+    assert.deepEqual(crossedOpeningCues(at, at), [])
+    assert.ok(continuingOpeningCues(at + 700).some(item => item.sound === cue && item.offset === 700))
+    assert.ok(!continuingOpeningCues(at + duration).some(item => item.sound === cue))
+  }
+})
+
+test('门窗实录完整打包、时长匹配、无削波，许可及文件校验记录齐全', () => {
+  const manifest = JSON.parse(readFileSync(new URL('../docs/opening-sfx-assets.json', import.meta.url), 'utf8'))
+  assert.equal(manifest.license, 'CC0 1.0')
+  for (const [cue, recording] of Object.entries(openingRecordedSounds)) {
+    const bytes = readFileSync(new URL(`../public${recording.path}`, import.meta.url))
+    const asset = manifest.assets.find((item: { cue: string }) => item.cue === cue)
+    assert.equal(createHash('sha256').update(bytes).digest('hex'), asset.sha256)
+    assert.equal(bytes.toString('ascii', 0, 4), 'RIFF')
+    assert.equal(bytes.toString('ascii', 8, 12), 'WAVE')
+    assert.equal(bytes.readUInt16LE(22), 1)
+    assert.equal(bytes.readUInt16LE(34), 16)
+    const rate = bytes.readUInt32LE(24), length = bytes.readUInt32LE(40)
+    assert.equal(length / 2 / rate * 1000, recording.duration)
+    let peak = 0, energy = 0
+    for (let i = 44; i < bytes.length; i += 2) { const sample = bytes.readInt16LE(i) / 32768; peak = Math.max(peak, Math.abs(sample)); energy += sample * sample }
+    assert.ok(peak > .5 && peak < .95)
+    assert.ok(Math.sqrt(energy / (length / 2)) > .015)
+  }
 })
 
 test('推拉摇移全程不露出画面边界，减少动态效果时同一镜头保持机位', () => {

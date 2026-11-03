@@ -1,5 +1,7 @@
 import type { OpeningCue } from './opening'
 import { openingCueDuration } from './opening'
+import { openingRecordedSounds } from './opening-sfx'
+import { assetUrl } from './asset-url'
 
 let context: AudioContext | undefined
 let master: GainNode | undefined
@@ -9,6 +11,20 @@ let windFilter: BiquadFilterNode | undefined
 let rainLevel: GainNode | undefined
 let audioRequest = 0
 let openingAmbience = false
+const openingBuffers = new Map<OpeningCue, AudioBuffer>()
+let loadingOpeningSounds: Promise<void> | undefined
+export function preloadOpeningSounds(): Promise<void> {
+  if (!context) return Promise.resolve()
+  const audio = context
+  return loadingOpeningSounds ??= Promise.all(Object.entries(openingRecordedSounds).map(async ([cue, recording]) => {
+    try {
+      const response = await fetch(assetUrl(recording.path))
+      if (!response.ok) throw new Error(`Opening sound: ${response.status}`)
+      const buffer = await audio.decodeAudioData(await response.arrayBuffer())
+      openingBuffers.set(cue as OpeningCue, buffer)
+    } catch { /* The procedural cue remains available if a recording cannot load. */ }
+  })).then(() => {})
+}
 function pluck(frequency: number) {
   if (!context || !master) return
   const oscillator = context.createOscillator()
@@ -48,6 +64,7 @@ export async function setAudio(enabled: boolean, volume = 0.4, opening = false) 
     rainLevel = context.createGain(); rainLevel.gain.value = 1
     filter.connect(rainLevel).connect(master)
   }
+  if (opening) void preloadOpeningSounds()
   if (!opening) { wind!.gain.setTargetAtTime(0, context.currentTime, .1); rainLevel!.gain.setTargetAtTime(1, context.currentTime, .1) }
   await context.resume()
   // A late autoplay unlock must not undo a pause, mute, or scene change.
@@ -73,10 +90,11 @@ export function openingCue(cue: OpeningCue, offsetMs = 0): () => void {
   const audio = context, now = audio.currentTime
   const output = audio.createGain(); output.connect(master)
   const source = audio.createBufferSource()
-  const buffer = audio.createBuffer(1, Math.ceil(audio.sampleRate * duration), audio.sampleRate)
+  const recording = openingBuffers.get(cue)
+  const buffer = recording ?? audio.createBuffer(1, Math.ceil(audio.sampleRate * duration), audio.sampleRate)
   const data = buffer.getChannelData(0)
   let brown = 0
-  for (let i = 0; i < data.length; i++) {
+  for (let i = 0; !recording && i < data.length; i++) {
     const t = i / audio.sampleRate, n = Math.random() * 2 - 1
     brown = (brown + .025 * n) / 1.025
     if (cue === 'knock' || cue === 'step') data[i] = (Math.sin(t * Math.PI * (cue === 'knock' ? 165 : 85)) * .5 + brown * 3) * Math.exp(-t * 22)
@@ -88,7 +106,7 @@ export function openingCue(cue: OpeningCue, offsetMs = 0): () => void {
   }
   source.buffer = buffer
   const filter = audio.createBiquadFilter()
-  filter.type = 'lowpass'; filter.frequency.value = cue === 'page' ? 4300 : cue === 'window' ? 2100 : cue === 'thunder' ? 360 : 950
+  filter.type = 'lowpass'; filter.frequency.value = cue === 'page' || cue === 'door' && recording ? 4300 : cue === 'window' ? 4800 : cue === 'thunder' ? 360 : 950
   source.connect(filter).connect(output)
   output.gain.setValueAtTime(cue === 'thunder' ? 3.5 : cue === 'knock' ? 3 : 1.6, now)
   output.gain.setTargetAtTime(.0001, now + Math.max(0, duration - offset - .08), .03)

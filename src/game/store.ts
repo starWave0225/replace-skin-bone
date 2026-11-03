@@ -3,7 +3,9 @@ import { computed, ref } from 'vue'
 import type { GameState, SaveData, Location, WorldState } from './types'
 import { worldSpawn } from './world'
 import { advance, beginActivity, changeFace, choose, enterNode, rest, startGame, visibleChoices } from './engine'
-import { advancePrologue, inspectCase, inspectDream } from './prologue'
+import { advancePrologue, inspectCase, inspectDream, travelPrologue, startWellEncounter } from './prologue'
+import { advanceWellEncounter, performWellAction } from './prologue-battle'
+import type { CombatAction } from './combat-data'
 import type { DreamPose, DreamStationId } from './prologue'
 import { story } from './story'
 import { readSave, writeSave } from './saves'
@@ -43,7 +45,20 @@ export const useGame = defineStore('game', () => {
   function inspectPrologue(id:string){const p=state.value?.prologue;if(p&&inspectCase(p,id))autosave()}
   function inspectDreamObject(id:DreamStationId){const p=state.value?.prologue;if(p&&inspectDream(p,id))autosave()}
   function rememberDreamPose(pose:DreamPose){const p=state.value?.prologue;if(!p||p.phase!=='dream')return;const old=p.dreamPose;if(old&&Math.abs(old.x-pose.x)+Math.abs(old.z-pose.z)+Math.abs(old.yaw-pose.yaw)+Math.abs(old.pitch-pose.pitch)<.01)return;p.dreamPose=pose;autosave()}
-  function rememberProloguePosition(world:WorldState){if(!state.value?.prologue||world.map!=='inn')return;state.value.prologue.world=world;autosave()}
+  function rememberProloguePosition(world:WorldState){const p=state.value?.prologue;if(!p||world.map!==p.world.map||p.wellEncounter&&p.wellEncounter.stage!=='complete')return;p.world=world;autosave()}
+  function travelInPrologue(destination:string){const p=state.value?.prologue;if(p&&travelPrologue(p,destination))autosave()}
+  function beginWellBattle(){const p=state.value?.prologue;if(p&&startWellEncounter(p))autosave()}
+  function wellAction(action:CombatAction){const p=state.value?.prologue;if(p?.wellEncounter&&performWellAction(p.wellEncounter,action))autosave()}
+  function wellNext(){
+    const s=state.value,e=s?.prologue?.wellEncounter
+    if(!s||!e||!advanceWellEncounter(e))return
+    if(e.stage==='complete'){
+      s.flags.prologue_well_resolved=true
+      if(!s.inventory.includes('well_cloth'))s.inventory.push('well_cloth')
+      if(!s.journal.includes('well_witness'))s.journal.push('well_witness')
+    }
+    autosave()
+  }
   function next() { if (state.value && advance(state.value)) autosave() }
   function select(id: string) { if (state.value && choose(state.value, id)) autosave() }
   function visit(id: string) { if (!state.value || !beginActivity(state.value, id)) return false; autosave(); return true }
@@ -64,5 +79,5 @@ export const useGame = defineStore('game', () => {
   function rememberPosition(world: WorldState) { if (!state.value || state.value.world?.map !== world.map) return; state.value.world = world; autosave() }
   function setTalking(value: boolean) { if (!state.value) return; state.value.flags.world_talk_open = value; autosave() }
   function rememberOriginals(ids: string[]) { if (!state.value) return; if (!state.value.inventory.includes('originals')) state.value.inventory.push('originals'); ids.forEach(id => {state.value!.flags[`original_${id}`] = true}); autosave() }
-  return { state, saves, error, ready, saving, node, choices, initialize, newGame, next, select, visit, wait, equip, save, load, travel, rememberPosition, setTalking, rememberOriginals, prologueNext, inspectPrologue, inspectDreamObject, rememberDreamPose, rememberProloguePosition }
+  return { state, saves, error, ready, saving, node, choices, initialize, newGame, next, select, visit, wait, equip, save, load, travel, rememberPosition, setTalking, rememberOriginals, prologueNext, inspectPrologue, inspectDreamObject, rememberDreamPose, rememberProloguePosition, travelInPrologue, beginWellBattle, wellAction, wellNext }
 })

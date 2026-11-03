@@ -20,7 +20,7 @@ export const musicScenes: Record<MusicScene, { name: string; track: MusicTrackId
   battle: { name: '借面斗法', track: 'wuxia2_guzheng_pipa' }, victory: { name: '影散天明', track: 'taohua' }, defeat: { name: '暂退此阵', track: 'suspense' },
 }
 export function musicSceneForMap(location: Location, time: 'day' | 'dusk' | 'night' = 'day'): MusicScene {
-  if (location === 'well' || location === 'yamen') return 'investigation'
+  if (location === 'well' || location === 'inn_well' || location === 'yamen') return 'investigation'
   if (location === 'theatre' || location === 'mansion') return 'teahouse'
   if (location === 'home') return 'home'
   if (location === 'inn') return 'inn'

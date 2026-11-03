@@ -1,0 +1,36 @@
+[
+  {
+    "name": "laleksic",
+    "page": "https://opengameart.org/node/143670",
+    "download": "https://opengameart.org/sites/default/files/sounds_8.zip",
+    "files": [
+      "bell.wav",
+      "cant_open.wav",
+      "clang_glass.wav",
+      "clang_metal.wav",
+      "door_close.wav",
+      "door_creak_close.wav",
+      "door_creak_open.wav",
+      "door_open.wav",
+      "drawer_close.wav",
+      "drawer_open.wav",
+      "floor_creak1.wav",
+      "floor_creak2.wav",
+      "floor_creak3.wav",
+      "grind_metal.wav",
+      "grind_stone.wav",
+      "lock.wav",
+      "lock_pick.wav",
+      "manhole_open.wav",
+      "match.wav",
+      "microwave.wav",
+      "pickup_coins.wav",
+      "pickup_keys.wav",
+      "switch_off.wav",
+      "switch_on.wav",
+      "tap_water.wav",
+      "toilet_flush.wav",
+      "turn_page.wav"
+    ]
+  }
+]

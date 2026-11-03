@@ -1,4 +1,5 @@
 import { openingBookTurnDuration } from './opening-book'
+import { openingRecordedSounds } from './opening-sfx'
 
 export const openingShots = [
   { id: 'eaves', start: 0, end: 4200 },
@@ -42,7 +43,7 @@ export function crossedOpeningCues(previous: number, current: number) {
 }
 
 export function openingCueDuration(cue: OpeningCue) {
-  return cue === 'page' ? openingBookTurnDuration : cue === 'thunder' ? 3400 : cue === 'door' ? 1800 : cue === 'window' ? 2800 : 400
+  return cue === 'page' ? openingBookTurnDuration : cue === 'thunder' ? 3400 : cue === 'door' || cue === 'window' ? openingRecordedSounds[cue].duration : 400
 }
 
 export function continuingOpeningCues(elapsed: number) {

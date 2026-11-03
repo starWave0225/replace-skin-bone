@@ -1,7 +1,7 @@
 export type Time = 'day' | 'dusk' | 'night'
 export type Face = 'shen' | 'guard'
 import type { PrologueState } from './prologue'
-export type Location = 'theatre' | 'street' | 'home' | 'yamen' | 'well' | 'mansion' | 'inn'
+export type Location = 'theatre' | 'street' | 'home' | 'yamen' | 'well' | 'mansion' | 'inn' | 'inn_well'
 export interface WorldState { map: Location; x: number; y: number; facing: 'down' | 'up' | 'left' | 'right' }
 export type Stat = 'selfhood' | 'karma' | 'shen' | 'guard' | 'mother' | 'han'
 export type Condition = { flag: string; is?: boolean } | { stat: Stat; gte: number } | { face: Face } | { all: Condition[] } | { any: Condition[] } | { not: Condition }

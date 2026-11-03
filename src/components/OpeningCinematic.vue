@@ -10,7 +10,7 @@ import { musicState, setMusicEnabled, useSceneMusic } from '../game/music'
 import Icon from './Icon.vue'
 import '../opening.css'
 
-const props = defineProps<{ motion: boolean; fromBook?: boolean }>()
+const props = defineProps<{ motion: boolean; fromBook?: boolean; paused?: boolean }>()
 const emit = defineEmits<{ finish: []; exit: [] }>()
 const canvas = ref<HTMLCanvasElement>()
 const film = ref<HTMLElement>()
@@ -21,7 +21,8 @@ const bookPage = computed(() => openingBookPages[playback.value.book.page])
 const turning = computed(() => playback.value.book.turnElapsed !== null)
 const poemPage = computed(() => bookPage.value.kind === 'poem')
 const bookLabel = computed(() => poemPage.value ? (playback.value.book.revealed ? `旧谱末页：${bookPage.value.title}浮现` : '旧谱末页：纸面上有模糊的墨痕') : `旧谱第${playback.value.book.page + 1}页：${bookPage.value.title}`)
-const paused = ref(false)
+const userPaused = ref(false)
+const paused = computed(() => userPaused.value || !!props.paused)
 const hidden = ref(document.hidden)
 const controlsVisible = ref(true)
 const ready = ref(false)
@@ -38,6 +39,7 @@ let controlsTimer: ReturnType<typeof setTimeout> | undefined
 let stopLight: (() => void) | undefined
 const sounds = new Set<() => void>()
 let restoreSounds = false
+watch(paused, value => { lastTime = 0; if (value) stopSounds() }, { flush: 'sync' })
 watch(() => musicState.playing, playing => { if (playing) restoreSounds = true })
 watch(() => ready.value && bookActive.value && poemPage.value && !paused.value && !hidden.value && !manualLight.value, active => {
   stopLight?.(); stopLight = undefined
@@ -55,7 +57,7 @@ function finish() {
   if (finished) return
   finished = true; cancelAnimationFrame(animation); stopSounds(); stopLight?.(); emit('finish')
 }
-function togglePause() { paused.value = !paused.value; lastTime = 0; if (paused.value) stopSounds() }
+function togglePause() { userPaused.value = !userPaused.value }
 function toggleSound() { setMusicEnabled(!musicState.enabled); if (!musicState.enabled) stopSounds() }
 function visibilityChanged() { hidden.value = document.hidden; lastTime = 0; if (hidden.value) stopSounds() }
 function draw() { renderer?.draw(elapsed.value, reducedMotion || !props.motion, { book: playback.value.book, ambienceTime: playback.value.ambienceTime }) }
@@ -72,6 +74,7 @@ function adjustBrightness(event: Event) {
   draw()
 }
 function keyboard(event: KeyboardEvent) {
+  if (props.paused) return
   if (event.repeat || event.altKey || event.ctrlKey || event.metaKey) return
   if (event.code !== 'Escape' && (event.target as HTMLElement)?.closest('input,select,textarea,[contenteditable]')) return
   const button = (event.target as HTMLElement)?.closest('button')

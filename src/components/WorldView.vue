@@ -3,20 +3,22 @@ import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import type { WorldState } from '../game/types'
 import { PLAYER_SPEED, TILE, findPath, movePlayer, nearestSpot, worldMaps } from '../game/world'
 import type { WorldSpot } from '../game/world'
-import { makeBackground, renderWorld } from '../game/world-renderer'
+import { makeBackground, renderWorld, renderInteractionHints } from '../game/world-renderer'
 import { appearanceNames, DISGUISE_DURATION } from '../game/player-sprite'
 import type { DisguiseFrame, PlayerAppearance } from '../game/player-sprite'
 import Icon from './Icon.vue'
 import { loadWorldArt } from '../game/world-art'
 import type { WorldArt } from '../game/world-art'
 
-const props = defineProps<{ world: WorldState; paused: boolean; night: boolean; appearance: PlayerAppearance; motion: boolean; quest: string }>()
+const props = defineProps<{ world: WorldState; paused: boolean; night: boolean; appearance: PlayerAppearance; motion: boolean; quest: string; hints?: readonly string[]; primaryHints?: readonly string[] }>()
 const emit=defineEmits<{ interact:[spot:WorldSpot]; position:[world:WorldState] }>()
 const canvas=ref<HTMLCanvasElement>()
 const host=ref<HTMLElement>()
 const nearby=ref<WorldSpot>()
 const moving=ref(false)
 const map=computed(()=>worldMaps[props.world.map])
+const hintIds=computed(()=>props.hints ?? map.value.spots.map(spot=>spot.id))
+const primaryIds=computed(()=>props.primaryHints ?? props.hints ?? [])
 let player={...props.world},keys=new Set<string>(),raf=0,last=0,background:HTMLCanvasElement|undefined
 let camera={x:0,y:0},zoom=1.4,size={w:800,h:600},path:{x:number;y:number}[]=[],targetSpot:WorldSpot|undefined,wasMoving=false
 let observer:ResizeObserver|undefined
@@ -99,6 +101,7 @@ function draw(now:number){
   let disguiseFrame:DisguiseFrame|undefined
   if(disguise){const progress=(now-disguise.startedAt)/DISGUISE_DURATION;if(progress>=1)disguise=undefined;else disguiseFrame={...disguise,progress:Math.max(0,progress)}}
   renderWorld(ctx,background,map.value,player,now,walking?gait:0,props.night,props.appearance,nearest,disguiseFrame,art)
+  if(hintIds.value.length) renderInteractionHints(ctx,map.value,hintIds.value,props.motion?now:0,nearest?.id,primaryIds.value)
   if(path.length){const goal=path.at(-1)!;ctx.strokeStyle='#ded4a588';ctx.lineWidth=1;ctx.beginPath();ctx.ellipse(goal.x,goal.y,7,3,0,0,Math.PI*2);ctx.stroke()}
   canvas.value.dataset.playerX=player.x.toFixed(1);canvas.value.dataset.playerY=player.y.toFixed(1);canvas.value.dataset.map=map.value.id
   canvas.value.dataset.disguising=disguiseFrame?'true':'false'
@@ -114,7 +117,7 @@ onUnmounted(()=>{alive=false;cancelAnimationFrame(raf);observer?.disconnect();wi
 </script>
 <template>
   <section ref="host" class="world-view" :class="{ 'world-paused':paused }" :aria-label="`${map.name}俯视角探索地图`">
-    <canvas ref="canvas" class="world-canvas" :data-player-appearance="appearance" :aria-label="`${map.name}。当前形貌：${appearanceNames[appearance]}。WASD或方向键移动，E键交互，也可点击地面行走。`" tabindex="0" @pointerdown="point"></canvas>
+    <canvas ref="canvas" class="world-canvas" :data-player-appearance="appearance" :aria-label="`${map.name}。当前形貌：${appearanceNames[appearance]}。WASD或方向键移动，E键交互，也可点击地面行走。${hintIds.length ? '交互光圈：'+map.spots.filter(spot=>hintIds.includes(spot.id)).map(spot=>spot.name).join('、')+'。' : ''}${primaryIds.length ? '任务光圈：'+map.spots.filter(spot=>primaryIds.includes(spot.id)).map(spot=>spot.name).join('、')+'。' : ''}`" tabindex="0" @pointerdown="point"></canvas>
     <div class="world-top"><div class="world-place"><span class="small-diamond"></span><h2>{{ map.name }}</h2><span>{{ night ? '夜雨' : '未闻县' }}</span></div><div class="world-key-guide"><kbd>W A S D</kbd> 行走 <i></i><kbd>E</kbd> 交互</div></div>
     <div class="world-destinations" aria-label="场景中的人物与出入口"><span>寻路</span><button v-for="spot in map.spots" :key="spot.id" :disabled="paused" @click="walkTo(spot)">{{ spot.name }}<small>{{ spot.kind==='door'?'↗':'·' }}</small></button></div>
     <div v-if="!paused" class="world-bottom"><p><span class="small-diamond"></span>{{ quest }}</p><button class="world-interact" :disabled="!nearby" @click="interact"><kbd>E</kbd><span>{{ nearby ? `${nearby.hint} · ${nearby.name}` : '靠近人物或物件互动' }}</span><Icon :name="nearby?.kind==='door'?'arrow':'leaf'" :size="17"/></button></div>

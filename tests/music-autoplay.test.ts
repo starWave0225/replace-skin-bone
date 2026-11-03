@@ -3,6 +3,7 @@ import assert from 'node:assert/strict'
 import { createRenderer, ref } from 'vue'
 import type { MusicScene } from '../src/game/music-data'
 import { MUSIC_ENABLED_KEY, MUSIC_VOLUME_KEY, readMusicPreferences } from '../src/game/music-preferences'
+import { readFileSync } from 'node:fs'
 
 test('首次默认开启配乐，读取静音和零音量偏好，存储不可用时仍能进入游戏', () => {
   assert.deepEqual(readMusicPreferences(), { enabled: true, volume: .4 })
@@ -25,6 +26,7 @@ test('场景配乐自动开始、交互解锁和静音偏好', async t => {
   class Node {
     gain = new Parameter(); frequency = new Parameter(); Q = new Parameter()
     starts: number[][] = []; stops: number[][] = []; disconnections = 0
+    buffer?: { duration: number; getChannelData(channel: number): Float32Array }
     connect(next: Node) { return next }
     disconnect() { this.disconnections++ }
     start(...args: number[]) { this.starts.push(args) }
@@ -36,12 +38,20 @@ test('场景配乐自动开始、交互解锁和静音偏好', async t => {
     state = 'suspended'; currentTime = 0; sampleRate = 200
     destination = new Node(); gains: Node[] = []; sources: Node[] = []; oscillators = 0
     pending: (() => void)[] = []
+    decoded: { duration: number; getChannelData(channel: number): Float32Array }[] = []
     constructor() { Context.instances.push(this) }
     createGain() { const node = new Node(); this.gains.push(node); return node }
     createBuffer(_channels: number, length: number) { return { getChannelData: () => new Float32Array(length) } }
     createBufferSource() { const node = new Node(); this.sources.push(node); return node }
     createBiquadFilter() { return new Node() }
     createOscillator() { this.oscillators++; return new Node() }
+    async decodeAudioData(bytes: ArrayBuffer) {
+      const view = new DataView(bytes), rate = view.getUint32(24, true)
+      const data = new Float32Array((bytes.byteLength - 44) / 2)
+      for (let i = 0; i < data.length; i++) data[i] = view.getInt16(44 + i * 2, true) / 32768
+      const buffer = { duration: data.length / rate, getChannelData: () => data }
+      this.decoded.push(buffer); return buffer
+    }
     resume() {
       if (!Context.allowed) return new Promise<void>(resolve => this.pending.push(resolve))
       this.state = 'running'; this.pending.splice(0).forEach(resolve => resolve()); return Promise.resolve()
@@ -82,8 +92,9 @@ test('场景配乐自动开始、交互解锁和静音偏好', async t => {
   })
   const page = new Page(), values = new Map<string, string>()
   const storage = { getItem: (key: string) => values.get(key) ?? null, setItem: (key: string, value: string) => { values.set(key, value) } }
-  const previous = new Map(['document', 'localStorage', 'Audio', 'AudioContext'].map(key => [key, Object.getOwnPropertyDescriptor(globalThis, key)]))
-  for (const [key, value] of Object.entries({ document: page, localStorage: storage, Audio: Media, AudioContext: Context })) Object.defineProperty(globalThis, key, { configurable: true, writable: true, value })
+  const previous = new Map(['document', 'localStorage', 'Audio', 'AudioContext', 'fetch'].map(key => [key, Object.getOwnPropertyDescriptor(globalThis, key)]))
+  const fetchRecording = async (path: string) => ({ ok: true, arrayBuffer: async () => Uint8Array.from(readFileSync(new URL(`../public${path}`, import.meta.url))).buffer })
+  for (const [key, value] of Object.entries({ document: page, localStorage: storage, Audio: Media, AudioContext: Context, fetch: fetchRecording })) Object.defineProperty(globalThis, key, { configurable: true, writable: true, value })
   const music = await import('../src/game/music')
   const audio = await import('../src/game/audio')
   let app: ReturnType<typeof renderer.createApp> | undefined
@@ -235,6 +246,23 @@ test('场景配乐自动开始、交互解锁和静音偏好', async t => {
       const sources = context.sources.length
       audio.openingCue('page', 700); audio.openingCue('page', Number.NaN)
       assert.equal(context.sources.length, sources)
+    })
+    await t.test('门窗使用不同实录，暂停恢复从断点继续，停止时释放音源', async () => {
+      await audio.preloadOpeningSounds()
+      const context = Context.instances[0], used = new Set<unknown>()
+      for (const [cue, duration] of [['door', 2.8], ['window', 1.2]] as const) {
+        const stop = audio.openingCue(cue, 450), source = context.sources.at(-1)!
+        assert.ok(context.decoded.includes(source.buffer!))
+        used.add(source.buffer)
+        assert.equal(source.buffer!.duration, duration)
+        assert.deepEqual(source.starts, [[context.currentTime, .45]])
+        assert.ok(Math.abs(source.stops[0][0] - (context.currentTime + duration - .45)) < 1e-8)
+        stop(); stop(); assert.equal(source.disconnections, 1)
+        const sources = context.sources.length
+        audio.openingCue(cue, duration * 1000)
+        assert.equal(context.sources.length, sources)
+      }
+      assert.equal(used.size, 2)
     })
     await t.test('等待环境声解锁时静音，迟到的恢复不能重新放出雨声', async () => {
       const context = Context.instances[0]

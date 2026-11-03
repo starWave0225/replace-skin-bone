@@ -1,0 +1,45 @@
+{
+  "created": "2026-11-03",
+  "author": "laleksic",
+  "title": "Various Sound Effects",
+  "page": "https://opengameart.org/node/143670",
+  "download": "https://opengameart.org/sites/default/files/sounds_8.zip",
+  "license": "CC0 1.0",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "sourceHashes": {
+    "door_creak_open.wav": "67ec6952f3de32852ea5a188e6118546107e4d2ca15b3fd4cab64d8993877227",
+    "door_creak_close.wav": "36126c2da6294c0d18e0a3b20893e0803cbaa182b33eff9224ee6a60faaaf867",
+    "door_open.wav": "0159e2721ebcc6c90cc52a21864253068803fb5d072b61030ad539a806e1acee",
+    "door_close.wav": "a87ec43cf61afb7a4a1d42e50d8b7331951f4d0417daf607cb110e80c9dd614a"
+  },
+  "assets": [
+    {
+      "cue": "door",
+      "runtime": "public/assets/opening-sfx/door-creak-v1.wav",
+      "durationMs": 2800,
+      "bytes": 134444,
+      "sha256": "7e123e33118b95049966c26feb51c262e9e7439765c007e7f74c4d663d4ce7eb",
+      "sampleRate": 24000,
+      "channels": 1,
+      "sourceFiles": [
+        "door_creak_open.wav"
+      ],
+      "modifications": "Leading silence trimmed, slowed to 0.55x, mono 24kHz PCM16, normalized, short fade in/out."
+    },
+    {
+      "cue": "window",
+      "runtime": "public/assets/opening-sfx/window-blown-open-v1.wav",
+      "durationMs": 1200,
+      "bytes": 57644,
+      "sha256": "7f52fb33d05717bf0363b386cef1347b45655879a5a62b4f9ff4bcf6b1ee45dd",
+      "sampleRate": 24000,
+      "channels": 1,
+      "sourceFiles": [
+        "door_creak_close.wav",
+        "door_open.wav",
+        "door_close.wav"
+      ],
+      "modifications": "Short hinge movement and two wooden-door recordings trimmed and mixed to represent wind-blown shutters. Mono 24kHz PCM16, normalized, short fade in/out. Wind is synthesized separately in game."
+    }
+  ]
+}
