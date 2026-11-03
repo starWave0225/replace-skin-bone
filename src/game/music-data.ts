@@ -10,8 +10,9 @@ export const musicTracks = [
   { id: 'wuxia2_guzheng_pipa', title: 'Wuxia2_Guzheng_Pipa', label: '借面斗法', mood: '古筝与琵琶 · 灵动武侠', scenes: '回合制战斗', source: 'https://peritune.com/blog/2018/10/13/wuxia2/' },
 ] as const
 export type MusicTrackId = typeof musicTracks[number]['id']
-export type MusicScene = 'title' | 'inn' | 'street' | 'home' | 'teahouse' | 'investigation' | 'night' | 'dream' | 'battle' | 'victory' | 'defeat'
-export const musicScenes: Record<MusicScene, { name: string; track: MusicTrackId }> = {
+export type MusicScene = 'title' | 'opening' | 'inn' | 'street' | 'home' | 'teahouse' | 'investigation' | 'night' | 'dream' | 'battle' | 'victory' | 'defeat'
+export const musicScenes: Record<MusicScene, { name: string; track: MusicTrackId | null }> = {
+  opening: { name: '雨夜客舍 · 环境声', track: null },
   title: { name: '未闻志异', track: 'chinatown_healing' }, inn: { name: '栖雨客舍', track: 'chinatown_healing' },
   street: { name: '未闻县南街', track: 'folk_chinese' }, home: { name: '戚家小院', track: 'taohua' },
   teahouse: { name: '灯下寻人', track: 'shenxian_drumless' }, investigation: { name: '旧案寻踪', track: 'suspense' },
@@ -26,7 +27,7 @@ export function musicSceneForMap(location: Location, time: 'day' | 'dusk' | 'nig
   return time === 'night' ? 'night' : 'street'
 }
 export function musicSceneForPrologue(phase: string): MusicScene {
-  if (phase === 'arrival') return 'night'
+  if (phase === 'arrival') return 'opening'
   if (phase === 'dream' || phase === 'night') return 'dream'
   if (phase === 'investigation' || phase === 'deduction') return 'investigation'
   return 'inn'

@@ -6,7 +6,6 @@
 .opening-controls>button{position:relative;display:grid;place-items:center;width:42px;height:42px;border:1px solid #82927b33;background:#091210cc;color:#c2c5a8;font:23px Georgia,serif;cursor:pointer;touch-action:manipulation}
 .opening-controls>button:hover{background:#23372b;border-color:#9dac8e88}
 .opening-controls>button:focus-visible{outline:1px solid #c4c5a3;outline-offset:4px}
-.opening-controls>button.muted:after{content:'';width:22px;height:1px;background:currentColor;position:absolute;transform:rotate(-45deg)}
 .opening-paused .opening-film{opacity:.65}
 @media(max-width:600px){.opening-controls{right:16px;bottom:max(18px,env(safe-area-inset-bottom));gap:8px;opacity:.75}.opening-controls>button{width:44px;height:44px}}
 @media(prefers-reduced-motion:reduce){.opening-controls{transition:none}}

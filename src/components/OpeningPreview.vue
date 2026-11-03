@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import OpeningCinematic from './OpeningCinematic.vue'
 import { useSceneMusic } from '../game/music'
 import { assetUrl } from '../game/asset-url'
 const watching = ref(true)
-useSceneMusic('night')
+useSceneMusic('opening', 10, computed(() => watching.value))
 </script>
 
 <template>

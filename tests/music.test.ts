@@ -13,7 +13,8 @@ class Media implements MusicMedia {
   pause() { this.paused = true }
 }
 test('查案、梦境、战斗与日常有不同配乐，所有场景均有本地曲目', () => {
-  assert.equal(musicSceneForPrologue('arrival'), 'night')
+  assert.equal(musicSceneForPrologue('arrival'), 'opening')
+  assert.equal(musicScenes.opening.track, null)
   assert.equal(musicSceneForPrologue('investigation'), 'investigation')
   assert.equal(musicSceneForPrologue('night'), 'dream')
   assert.equal(musicSceneForPrologue('dream'), 'dream')
@@ -27,7 +28,7 @@ test('查案、梦境、战斗与日常有不同配乐，所有场景均有本�
   assert.equal(musicSceneForMap('inn'), 'inn')
   const distinct = ['battle', 'dream', 'investigation', 'street'].map(scene => musicScenes[scene as keyof typeof musicScenes].track)
   assert.equal(new Set(distinct).size, 4)
-  for (const scene of Object.values(musicScenes)) assert.ok(musicTracks.some(track => track.id === scene.track))
+  for (const [id, scene] of Object.entries(musicScenes)) if (id !== 'opening') assert.ok(musicTracks.some(track => track.id === scene.track))
 })
 test('同一曲目跨场景与暂停恢复均保留播放位置', async () => {
   let created = 0

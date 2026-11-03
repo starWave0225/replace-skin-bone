@@ -2,8 +2,9 @@
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { crossedOpeningCues, openingDuration, openingFrame } from '../game/opening'
 import { OpeningRenderer } from '../game/opening-renderer'
-import { openingCue } from '../game/audio'
-import { musicState, setMusicEnabled } from '../game/music'
+import { openingCue, setOpeningWind } from '../game/audio'
+import { musicState, setMusicEnabled, useSceneMusic } from '../game/music'
+import Icon from './Icon.vue'
 import '../opening.css'
 
 const props = defineProps<{ motion: boolean }>()
@@ -13,6 +14,7 @@ const film = ref<HTMLElement>()
 const elapsed = ref(0)
 const paused = ref(false)
 const hidden = ref(document.hidden)
+useSceneMusic('opening', 20, computed(() => !paused.value && !hidden.value))
 const frame = computed(() => openingFrame(elapsed.value))
 let renderer: OpeningRenderer | undefined
 let observer: ResizeObserver | undefined
@@ -41,6 +43,8 @@ function tick(now: number) {
   if (!paused.value && !hidden.value) {
     const previous = elapsed.value
     elapsed.value = Math.min(openingDuration, previous + (lastTime ? Math.min(100, now - lastTime) : 0))
+    const strength = { arrival: .25, door: .07, discovery: .09, storm: 1, pages: .8, face: .4, dissolve: .12 }[frame.value.shot]
+    setOpeningWind(strength, elapsed.value)
     if (musicState.enabled) for (const cue of crossedOpeningCues(previous, elapsed.value)) sounds.add(openingCue(cue.sound))
     if (now - lastDraw >= 1000 / 30) {
       renderer?.draw(elapsed.value, reducedMotion || !props.motion); lastDraw = now
@@ -77,12 +81,12 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <main class="opening-page" :class="{ 'opening-paused': paused }" :data-shot="frame.shot" aria-label="雨夜寻凶 · 开场演出">
+  <main class="opening-page" :class="{ 'opening-paused': paused }" :data-shot="frame.shot" data-audio-mode="environment" :data-audio-playing="musicState.playing" :data-audio-waiting="musicState.awaitingInteraction" aria-label="雨夜寻凶 · 开场演出">
     <div ref="film" class="opening-film">
       <canvas ref="canvas" tabindex="0" role="img" aria-label="雨夜客舍开场演出"/>
     </div>
     <nav class="opening-controls" aria-label="演出控制">
-      <button :aria-label="musicState.enabled ? '静音' : '开启声音'" :title="musicState.enabled ? '静音' : '开启声音'" :class="{ muted: !musicState.enabled }" @click="toggleSound">♪</button>
+      <button :aria-label="musicState.enabled ? '静音' : '开启声音'" :title="musicState.enabled ? '静音' : '开启声音'" @click="toggleSound"><Icon :name="musicState.enabled ? 'sound' : 'mute'" :size="20"/></button>
       <button :aria-label="paused ? '继续演出' : '暂停演出'" :title="paused ? '继续演出' : '暂停演出'" @click="togglePause">{{ paused ? '▷' : 'Ⅱ' }}</button>
       <button aria-label="跳过开场演出" title="跳过开场演出" @click="finish">»</button>
       <button aria-label="返回标题页" title="返回标题页" @click="emit('exit')">×</button>

@@ -7,42 +7,63 @@ import { setAudio } from './audio'
 
 const preferences = (() => { try { return readMusicPreferences(localStorage) } catch { return readMusicPreferences() } })()
 export const musicState = reactive({ enabled: preferences.enabled, volume: preferences.volume, scene: 'title' as MusicScene, preview: undefined as MusicTrackId | undefined, playing: false, loading: false, awaitingInteraction: false, error: '', elapsed: 0, duration: 0 })
-export const currentMusic = computed(() => musicTracks.find(track => track.id === (musicState.preview ?? musicScenes[musicState.scene].track))!)
+export const currentMusic = computed(() => musicScenes[musicState.scene].track === null ? undefined : musicTracks.find(track => track.id === (musicState.preview ?? musicScenes[musicState.scene].track)))
 const player = new MusicPlayer(id => {
   const media = new Audio()
   media.preload = 'auto'
   const extension = media.canPlayType('audio/ogg; codecs="vorbis"') ? 'ogg' : 'm4a'
   media.src = assetUrl(`/assets/music/${id}.${extension}`)
   media.addEventListener('error', () => {
-    if (player.media !== media || !musicState.enabled) return
+    if (player.media !== media || !musicState.enabled || !currentMusic.value) return
     player.stop(); musicState.loading = false; musicState.playing = false; musicState.awaitingInteraction = false; musicState.error = '配乐载入失败，请重试。'
   })
   return media
 })
 player.setVolume(musicState.volume)
 let request = 0, ticker: ReturnType<typeof setInterval> | undefined
-const owners = new Map<symbol, { scene: MusicScene; priority: number; order: number }>()
+const owners = new Map<symbol, { scene: MusicScene; active: boolean; priority: number; order: number }>()
+let playbackActive = false
 let order = 0
 function updateScene() {
   const active = [...owners.values()].sort((a, b) => b.priority - a.priority || b.order - a.order)[0]
-  if (!active) { ++request; player.stop(); void setAudio(false); musicState.playing = false; musicState.loading = false; musicState.awaitingInteraction = false; if (ticker) clearInterval(ticker); ticker = undefined; return }
+  if (!active) { playbackActive = false; ++request; player.stop(); void setAudio(false); musicState.playing = false; musicState.loading = false; musicState.awaitingInteraction = false; if (ticker) clearInterval(ticker); ticker = undefined; return }
   const scene = active.scene
+  const activityChanged = playbackActive !== active.active, sceneChanged = scene !== musicState.scene
+  playbackActive = active.active
   if (scene !== musicState.scene) { musicState.preview = undefined; musicState.scene = scene }
   if (!ticker) ticker = setInterval(() => {
     const media = player.media
     musicState.elapsed = media?.currentTime ?? 0
     musicState.duration = media && Number.isFinite(media.duration) ? media.duration : 0
   }, 500)
-  if (player.track !== currentMusic.value.id || (!musicState.playing && !musicState.loading)) void syncPlayback()
+  const trackChanged = !!currentMusic.value && player.track !== currentMusic.value.id
+  if (activityChanged || sceneChanged || trackChanged || (!musicState.playing && !musicState.loading)) void syncPlayback()
 }
 async function syncPlayback() {
   const token = ++request
   musicState.error = ''; musicState.loading = false; musicState.awaitingInteraction = false
-  if (!musicState.enabled || document.hidden || !owners.size) { player.stop(); musicState.playing = false; void setAudio(false); return }
-  if (player.track !== currentMusic.value.id) { musicState.elapsed = 0; musicState.duration = 0 }
+  if (!musicState.enabled || document.hidden || !owners.size || !playbackActive) { player.stop(); musicState.playing = false; void setAudio(false); return }
+  const track = currentMusic.value
+  if (!track) {
+    player.stop(); musicState.playing = false; musicState.elapsed = 0; musicState.duration = 0
+    // Web Audio may wait for a gesture without rejecting its resume promise.
+    musicState.awaitingInteraction = true
+    try {
+      const success = await setAudio(true, musicState.volume * .7, true)
+      if (token !== request || !success) return
+      musicState.playing = true; musicState.awaitingInteraction = false
+    } catch (error) {
+      if (token !== request) return
+      if (!(error && typeof error === 'object' && 'name' in error && error.name === 'NotAllowedError')) {
+        musicState.awaitingInteraction = false; musicState.error = '环境声播放失败，请重试。'
+      }
+    }
+    return
+  }
+  if (player.track !== track.id) { musicState.elapsed = 0; musicState.duration = 0 }
   musicState.loading = true
   try {
-    const success = await player.play(currentMusic.value.id)
+    const success = await player.play(track.id)
     if (token !== request || !success) return
     musicState.playing = true; musicState.loading = false
     musicState.elapsed = player.media?.currentTime ?? 0
@@ -60,7 +81,7 @@ const stopWatch = watch(() => musicState.enabled, () => { void syncPlayback() },
 const visibilityChanged = () => { void syncPlayback() }
 const interactionEvents = ['pointerdown', 'click', 'keydown'] as const
 const retryAutoplay = () => {
-  if (!musicState.enabled || !musicState.awaitingInteraction || document.hidden || !owners.size) return
+  if (!musicState.enabled || !musicState.awaitingInteraction || document.hidden || !owners.size || !playbackActive) return
   // Capture before game handlers stop propagation; play() stays inside the user gesture.
   void syncPlayback()
 }
@@ -80,7 +101,7 @@ export function setMusicEnabled(enabled: boolean) {
 export function setMusicVolume(value: number) {
   musicState.volume = Math.min(1, Math.max(0, Number.isFinite(value) ? value : .4))
   player.setVolume(musicState.volume)
-  if (musicState.playing) void setAudio(true, musicState.volume * .14).catch(() => {})
+  if (musicState.playing) void setAudio(true, musicState.volume * (currentMusic.value ? .14 : .7), !currentMusic.value).catch(() => {})
   try { localStorage.setItem(MUSIC_VOLUME_KEY, String(musicState.volume)) } catch { /* optional preference */ }
 }
 export function previewMusic(track: MusicTrackId) {
@@ -89,8 +110,8 @@ export function previewMusic(track: MusicTrackId) {
   else void syncPlayback()
 }
 export function followSceneMusic() { musicState.preview = undefined; void syncPlayback() }
-export function useSceneMusic(scene: MaybeRefOrGetter<MusicScene>, priority = 10) {
+export function useSceneMusic(scene: MaybeRefOrGetter<MusicScene>, priority = 10, active: MaybeRefOrGetter<boolean> = true) {
   const key = Symbol('scene-music'), index = ++order
-  watch(() => toValue(scene), value => { owners.set(key, { scene: value, priority, order: index }); updateScene() }, { immediate: true, flush: 'sync' })
+  watch(() => [toValue(scene), toValue(active)] as const, ([scene, active]) => { owners.set(key, { scene, active, priority, order: index }); updateScene() }, { immediate: true, flush: 'sync' })
   onUnmounted(() => { owners.delete(key); updateScene() })
 }

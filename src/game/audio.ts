@@ -3,6 +3,10 @@ import type { OpeningCue } from './opening'
 let context: AudioContext | undefined
 let master: GainNode | undefined
 let rain: AudioBufferSourceNode | undefined
+let wind: GainNode | undefined
+let windFilter: BiquadFilterNode | undefined
+let audioRequest = 0
+let openingAmbience = false
 function pluck(frequency: number) {
   if (!context || !master) return
   const oscillator = context.createOscillator()
@@ -15,23 +19,46 @@ function pluck(frequency: number) {
   oscillator.connect(gain).connect(master)
   oscillator.start(); oscillator.stop(context.currentTime + 4.1)
 }
-export async function setAudio(enabled: boolean, volume = 0.4) {
-  if (!enabled) { if (context && master) master.gain.setTargetAtTime(0, context.currentTime, 0.15); return }
+export async function setAudio(enabled: boolean, volume = 0.4, opening = false) {
+  const request = ++audioRequest
+  openingAmbience = enabled && opening
+  if (!enabled) { if (context && master) master.gain.setTargetAtTime(0, context.currentTime, 0.06); return false }
   if (!context) {
     context = new AudioContext()
-    master = context.createGain(); master.connect(context.destination)
+    master = context.createGain(); master.gain.value = 0; master.connect(context.destination)
     const buffer = context.createBuffer(1, context.sampleRate * 4, context.sampleRate)
     const data = buffer.getChannelData(0)
     for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * 0.11
     rain = context.createBufferSource(); rain.buffer = buffer; rain.loop = true
     const filter = context.createBiquadFilter(); filter.type = 'lowpass'; filter.frequency.value = 900
     rain.connect(filter).connect(master); rain.start()
+    const windBuffer = context.createBuffer(1, context.sampleRate * 6, context.sampleRate)
+    const windData = windBuffer.getChannelData(0)
+    let brown = 0
+    for (let i = 0; i < windData.length; i++) {
+      brown = (brown + .025 * (Math.random() * 2 - 1)) / 1.025
+      windData[i] = brown * 4
+    }
+    const windSource = context.createBufferSource(); windSource.buffer = windBuffer; windSource.loop = true
+    windFilter = context.createBiquadFilter(); windFilter.type = 'bandpass'; windFilter.frequency.value = 280; windFilter.Q.value = .5
+    wind = context.createGain(); wind.gain.value = 0
+    windSource.connect(windFilter).connect(wind).connect(master); windSource.start()
   }
+  if (!opening) wind!.gain.setTargetAtTime(0, context.currentTime, .1)
   await context.resume()
+  // A late autoplay unlock must not undo a pause, mute, or scene change.
+  if (request !== audioRequest) return false
   master!.gain.setTargetAtTime(volume, context.currentTime, 0.2)
+  return true
+}
+export function setOpeningWind(strength: number, time = 0) {
+  if (!openingAmbience || !context || !wind || !windFilter) return
+  const gust = .78 + .22 * Math.sin(time / 740) * Math.sin(time / 1330)
+  wind.gain.setTargetAtTime(Math.max(0, Math.min(1, strength)) * gust * 2.8, context.currentTime, .25)
+  windFilter.frequency.setTargetAtTime(180 + Math.max(0, strength) * 190 + Math.sin(time / 1100) * 35, context.currentTime, .35)
 }
 export function clickTone() {
-  if (context && master && master.gain.value > 0) pluck(440)
+  if (!openingAmbience && context && master && master.gain.value > 0) pluck(440)
 }
 
 export function openingCue(cue: OpeningCue): () => void {

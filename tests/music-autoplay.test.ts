@@ -16,6 +16,36 @@ test('首次默认开启配乐，读取静音和零音量偏好，存储不可�
 
 test('场景配乐自动开始、交互解锁和静音偏好', async t => {
   class Page extends EventTarget { hidden = false }
+  class Parameter {
+    value = 0
+    setTargetAtTime(value: number) { this.value = value }
+    setValueAtTime(value: number) { this.value = value }
+    exponentialRampToValueAtTime(value: number) { this.value = value }
+  }
+  class Node {
+    gain = new Parameter(); frequency = new Parameter(); Q = new Parameter()
+    connect(next: Node) { return next }
+    disconnect() {}
+    start() {}
+    stop() {}
+  }
+  class Context {
+    static instances: Context[] = []
+    static allowed = true
+    state = 'suspended'; currentTime = 0; sampleRate = 200
+    destination = new Node(); gains: Node[] = []; oscillators = 0
+    pending: (() => void)[] = []
+    constructor() { Context.instances.push(this) }
+    createGain() { const node = new Node(); this.gains.push(node); return node }
+    createBuffer(_channels: number, length: number) { return { getChannelData: () => new Float32Array(length) } }
+    createBufferSource() { return new Node() }
+    createBiquadFilter() { return new Node() }
+    createOscillator() { this.oscillators++; return new Node() }
+    resume() {
+      if (!Context.allowed) return new Promise<void>(resolve => this.pending.push(resolve))
+      this.state = 'running'; this.pending.splice(0).forEach(resolve => resolve()); return Promise.resolve()
+    }
+  }
   class Media extends EventTarget {
     static instances: Media[] = []
     static allowed = true
@@ -51,16 +81,19 @@ test('场景配乐自动开始、交互解锁和静音偏好', async t => {
   })
   const page = new Page(), values = new Map<string, string>()
   const storage = { getItem: (key: string) => values.get(key) ?? null, setItem: (key: string, value: string) => { values.set(key, value) } }
-  const previous = new Map(['document', 'localStorage', 'Audio'].map(key => [key, Object.getOwnPropertyDescriptor(globalThis, key)]))
-  for (const [key, value] of Object.entries({ document: page, localStorage: storage, Audio: Media })) Object.defineProperty(globalThis, key, { configurable: true, writable: true, value })
+  const previous = new Map(['document', 'localStorage', 'Audio', 'AudioContext'].map(key => [key, Object.getOwnPropertyDescriptor(globalThis, key)]))
+  for (const [key, value] of Object.entries({ document: page, localStorage: storage, Audio: Media, AudioContext: Context })) Object.defineProperty(globalThis, key, { configurable: true, writable: true, value })
   const music = await import('../src/game/music')
+  const audio = await import('../src/game/audio')
   let app: ReturnType<typeof renderer.createApp> | undefined
   let scene = ref<MusicScene>('title')
+  let running = ref(true)
   const settle = () => new Promise<void>(resolve => setImmediate(resolve))
   function mount(value: MusicScene) {
     app?.unmount()
     scene = ref(value)
-    app = renderer.createApp({ setup() { music.useSceneMusic(scene); return () => null } })
+    running = ref(true)
+    app = renderer.createApp({ setup() { music.useSceneMusic(scene, 10, running); return () => null } })
     app.mount({ children: [] })
   }
   const current = () => Media.instances.at(-1)!
@@ -154,6 +187,79 @@ test('场景配乐自动开始、交互解锁和静音偏好', async t => {
       await settle()
       assert.equal(music.musicState.playing, true)
       assert.equal(music.musicState.error, '')
+    })
+    await t.test('开场停掉乐曲，环境声可首次点击解锁，暂停后点击不会误播音乐', async () => {
+      const context = Context.instances[0], plays = Media.plays
+      Context.allowed = false; context.state = 'suspended'
+      mount('opening')
+      await settle()
+      assert.equal(music.currentMusic.value, undefined)
+      assert.equal(current().paused, true)
+      assert.equal(Media.plays, plays)
+      assert.equal(music.musicState.awaitingInteraction, true)
+      Context.allowed = true
+      page.dispatchEvent(new Event('pointerdown'))
+      await settle()
+      assert.equal(music.musicState.playing, true)
+      assert.equal(music.musicState.awaitingInteraction, false)
+      assert.ok(context.gains[0].gain.value > 0)
+      music.previewMusic('folk_chinese'); await settle()
+      assert.equal(Media.plays, plays)
+      current().dispatchEvent(new Event('error'))
+      assert.equal(music.musicState.playing, true)
+      assert.equal(music.musicState.error, '')
+      audio.setOpeningWind(1, 17000)
+      assert.ok(context.gains[1].gain.value > 0)
+      const oscillators = context.oscillators
+      audio.clickTone()
+      assert.equal(context.oscillators, oscillators)
+      running.value = false
+      await settle()
+      page.dispatchEvent(new Event('click'))
+      assert.equal(context.gains[0].gain.value, 0)
+      assert.equal(music.musicState.playing, false)
+      assert.equal(Media.plays, plays)
+      running.value = true
+      await settle()
+      assert.equal(music.musicState.playing, true)
+      assert.equal(Media.plays, plays)
+    })
+    await t.test('等待环境声解锁时静音，迟到的恢复不能重新放出雨声', async () => {
+      const context = Context.instances[0]
+      Context.allowed = false; context.state = 'suspended'
+      music.setMusicEnabled(true)
+      await settle()
+      assert.equal(music.musicState.awaitingInteraction, true)
+      music.setMusicEnabled(false)
+      Context.allowed = true; await context.resume(); await settle()
+      assert.equal(context.gains[0].gain.value, 0)
+      assert.equal(music.musicState.enabled, false)
+      assert.equal(music.musicState.playing, false)
+    })
+    await t.test('离开开场后恢复对应场景曲目，风声不会带入调查', async () => {
+      music.setMusicEnabled(true); await settle()
+      audio.setOpeningWind(1)
+      scene.value = 'investigation'
+      await settle()
+      assert.ok(current().src.endsWith('/music/suspense.ogg'))
+      assert.equal(music.musicState.playing, true)
+      assert.equal(Context.instances[0].gains[1].gain.value, 0)
+    })
+    await t.test('演出暂停时压住下层标题音乐，退出演出后才恢复标题曲', async () => {
+      mount('title'); await settle()
+      const active = ref(true), plays = Media.plays
+      const overlay = renderer.createApp({ setup() { music.useSceneMusic('opening', 20, active); return () => null } })
+      overlay.mount({ children: [] })
+      try {
+        await settle()
+        active.value = false; await settle()
+        assert.equal(Media.plays, plays)
+        assert.equal(current().paused, true)
+        assert.equal(music.musicState.playing, false)
+      } finally { overlay.unmount() }
+      await settle()
+      assert.equal(Media.plays, plays + 1)
+      assert.ok(current().src.endsWith('/music/chinatown_healing.ogg'))
     })
   } finally {
     music.setMusicEnabled(false)

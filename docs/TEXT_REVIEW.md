@@ -1,6 +1,6 @@
 # 画皮借面文案审阅稿
 
-版本：2026-11-03 本地工作区，基准提交 ed3bade，包含未提交的文案调整。
+版本：2026-11-03 本地工作区，基准提交 59ec7f3，包含未提交的文案调整。
 
 正文保留当前代码原句，按剧情和用途编排。全部分支均列出，不代表一次游玩会全部出现。界面附录收录提示、动态文案模板、辅助标签及源码中的中文候选；其中个别数据字段暂未显示。{{动态值}} 代表姓名、数值等运行时内容。
 
@@ -14,7 +14,7 @@
 | 梦境查验点 | 5 |
 | 物品说明 | 11 |
 | 因果录条目 | 19 |
-| 源码文案候选 | 1435 |
+| 源码文案候选 | 1441 |
 
 目录：
 
@@ -1847,6 +1847,7 @@
 
 | 配乐场景 | 面板名称 |
 | --- | --- |
+| opening | 雨夜客舍 · 环境声 |
 | title | 未闻志异 |
 | inn | 栖雨客舍 |
 | street | 未闻县南街 |
@@ -3368,11 +3369,17 @@
 - 模板条件文案 · src/components/MusicControls.vue:17
   > 随场景切换
 
+- 模板条件文案 · src/components/MusicControls.vue:18
+  > 雨水与风声
+
 - 模板条件文案 · src/components/MusicControls.vue:19
   > 正在载入配乐…
 
 - 动态文案模板 · src/components/MusicControls.vue:19
   > 播放中 {{动态值}} / {{动态值}}
+
+- 模板条件文案 · src/components/MusicControls.vue:19
+  > 环境声播放中
 
 - 模板条件文案 · src/components/MusicControls.vue:19
   > 点击页面后播放
@@ -3384,7 +3391,13 @@
   > 暂停配乐
 
 - 模板条件文案 · src/components/MusicControls.vue:20
+  > 暂停环境声
+
+- 模板条件文案 · src/components/MusicControls.vue:20
   > 播放配乐
+
+- 模板条件文案 · src/components/MusicControls.vue:20
+  > 播放环境声
 
 - 模板正文 · button · src/components/MusicControls.vue:20
   > 跟随场景
@@ -3415,16 +3428,16 @@
 
 ### components/OpeningCinematic.vue
 
-- 模板条件文案 · src/components/OpeningCinematic.vue:85
+- 模板条件文案 · src/components/OpeningCinematic.vue:89
   > 静音
 
-- 模板条件文案 · src/components/OpeningCinematic.vue:85
+- 模板条件文案 · src/components/OpeningCinematic.vue:89
   > 开启声音
 
-- 模板条件文案 · src/components/OpeningCinematic.vue:86
+- 模板条件文案 · src/components/OpeningCinematic.vue:90
   > 继续演出
 
-- 模板条件文案 · src/components/OpeningCinematic.vue:86
+- 模板条件文案 · src/components/OpeningCinematic.vue:90
   > 暂停演出
 
 ### components/OpeningPreview.vue
@@ -3932,7 +3945,10 @@
 - 脚本文案 · src/game/music.ts:18
   > 配乐载入失败，请重试。
 
-- 脚本文案 · src/game/music.ts:56
+- 脚本文案 · src/game/music.ts:58
+  > 环境声播放失败，请重试。
+
+- 脚本文案 · src/game/music.ts:77
   > 配乐播放失败，请重试。
 
 ### game/opening-renderer.ts
@@ -4133,37 +4149,37 @@
 - 说明与辅助标签 · aria-label · src/components/MusicControls.vue:21
   > 配乐音量
 
-- 说明与辅助标签 · aria-label · src/components/OpeningCinematic.vue:80
+- 说明与辅助标签 · aria-label · src/components/OpeningCinematic.vue:84
   > 雨夜寻凶 · 开场演出
 
-- 说明与辅助标签 · aria-label · src/components/OpeningCinematic.vue:82
+- 说明与辅助标签 · aria-label · src/components/OpeningCinematic.vue:86
   > 雨夜客舍开场演出
 
-- 说明与辅助标签 · aria-label · src/components/OpeningCinematic.vue:84
+- 说明与辅助标签 · aria-label · src/components/OpeningCinematic.vue:88
   > 演出控制
 
-- 说明与辅助标签 · src/components/OpeningCinematic.vue:85
+- 说明与辅助标签 · src/components/OpeningCinematic.vue:89
   > 静音
 
-- 说明与辅助标签 · src/components/OpeningCinematic.vue:85
+- 说明与辅助标签 · src/components/OpeningCinematic.vue:89
   > 开启声音
 
-- 说明与辅助标签 · src/components/OpeningCinematic.vue:86
+- 说明与辅助标签 · src/components/OpeningCinematic.vue:90
   > 继续演出
 
-- 说明与辅助标签 · src/components/OpeningCinematic.vue:86
+- 说明与辅助标签 · src/components/OpeningCinematic.vue:90
   > 暂停演出
 
-- 说明与辅助标签 · aria-label · src/components/OpeningCinematic.vue:87
+- 说明与辅助标签 · aria-label · src/components/OpeningCinematic.vue:91
   > 跳过开场演出
 
-- 说明与辅助标签 · title · src/components/OpeningCinematic.vue:87
+- 说明与辅助标签 · title · src/components/OpeningCinematic.vue:91
   > 跳过开场演出
 
-- 说明与辅助标签 · aria-label · src/components/OpeningCinematic.vue:88
+- 说明与辅助标签 · aria-label · src/components/OpeningCinematic.vue:92
   > 返回标题页
 
-- 说明与辅助标签 · title · src/components/OpeningCinematic.vue:88
+- 说明与辅助标签 · title · src/components/OpeningCinematic.vue:92
   > 返回标题页
 
 - 说明与辅助标签 · aria-label · src/components/OpeningPreview.vue:12
