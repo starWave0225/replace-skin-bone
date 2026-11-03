@@ -1,6 +1,6 @@
 # 画皮借面文案审阅稿
 
-版本：2026-11-03 本地工作区，基准提交 4192401，包含未提交的文案调整。
+版本：2026-11-03 本地工作区，基准提交 750472e，包含未提交的文案调整。
 
 正文保留当前代码原句，按剧情和用途编排。全部分支均列出，不代表一次游玩会全部出现。界面附录收录提示、动态文案模板、辅助标签及源码中的中文候选；其中个别数据字段暂未显示。{{动态值}} 代表姓名、数值等运行时内容。
 
@@ -14,7 +14,7 @@
 | 梦境查验点 | 5 |
 | 物品说明 | 11 |
 | 因果录条目 | 19 |
-| 源码文案候选 | 1423 |
+| 源码文案候选 | 1424 |
 
 目录：
 
@@ -3355,7 +3355,7 @@
   > 配乐
 
 - 模板条件文案 · src/components/MusicControls.vue:14
-  > 开启配乐
+  > 静音
 
 - 模板正文 · span · src/components/MusicControls.vue:16
   > 配乐
@@ -3374,6 +3374,9 @@
 
 - 动态文案模板 · src/components/MusicControls.vue:19
   > 播放中 {{动态值}} / {{动态值}}
+
+- 模板条件文案 · src/components/MusicControls.vue:19
+  > 点击页面后播放
 
 - 模板条件文案 · src/components/MusicControls.vue:19
   > 未播放
@@ -3947,14 +3950,14 @@
 
 ### game/music.ts
 
-- 动态文案模板 · src/game/music.ts:14
+- 动态文案模板 · src/game/music.ts:15
   > /assets/music/{{动态值}}.{{动态值}}
 
-- 脚本文案 · src/game/music.ts:17
+- 脚本文案 · src/game/music.ts:18
   > 配乐载入失败，请重试。
 
-- 脚本文案 · src/game/music.ts:53
-  > 浏览器尚未允许播放，请点击「播放配乐」重试。
+- 脚本文案 · src/game/music.ts:56
+  > 配乐播放失败，请重试。
 
 ### game/player-sprite.ts
 
