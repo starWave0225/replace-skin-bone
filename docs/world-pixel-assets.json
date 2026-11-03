@@ -1,0 +1,224 @@
+{
+  "pack": "Ninja Adventure Asset Pack",
+  "authors": [
+    "Pixel-Boy",
+    "AAA"
+  ],
+  "license": "CC0-1.0",
+  "source_url": "https://pixel-boy.itch.io/ninja-adventure-asset-pack",
+  "retrieved": "2026-11-03",
+  "release": "2026-03-29",
+  "archive_sha256": "95a06f4fdcfd1882f061a45ff313b7c905dbe2de1e8512b281d7937df62a7b15",
+  "characters": {
+    "self": "SamuraiBlue",
+    "shen": "SorcererOrange",
+    "guard": "Samurai",
+    "nameless": "Spirit",
+    "woman": "Princess",
+    "mother": "OldWoman",
+    "han": "Hunter",
+    "tea": "OldMan",
+    "child": "Child"
+  },
+  "assets": [
+    {
+      "id": "floor",
+      "pack_path": "Backgrounds/Tilesets/TilesetFloor.png",
+      "source": "assets-source/world-pixel/Backgrounds/Tilesets/TilesetFloor.png",
+      "runtime": "public/assets/world-pixel/floor.png",
+      "width": 352,
+      "height": 417,
+      "bytes": 29615,
+      "sha256": "e111065065edf806e7e893330086e68efc8755175d92f14d087b42d40a331e16",
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "interior",
+      "pack_path": "Backgrounds/Tilesets/Interior/TilesetInteriorFloor.png",
+      "source": "assets-source/world-pixel/Backgrounds/Tilesets/Interior/TilesetInteriorFloor.png",
+      "runtime": "public/assets/world-pixel/interior.png",
+      "width": 352,
+      "height": 272,
+      "bytes": 13012,
+      "sha256": "e281598e2d90f43b31fd557b94c2d2abb00d307758a053b7df301575bf535e3a",
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "houses",
+      "pack_path": "Backgrounds/Tilesets/TilesetHouse.png",
+      "source": "assets-source/world-pixel/Backgrounds/Tilesets/TilesetHouse.png",
+      "runtime": "public/assets/world-pixel/houses.png",
+      "width": 528,
+      "height": 368,
+      "bytes": 58356,
+      "sha256": "acdec09ff389883a48af18ebd344cac4081db0388154d4d13be0089cd376d508",
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "nature",
+      "pack_path": "Backgrounds/Tilesets/TilesetNature.png",
+      "source": "assets-source/world-pixel/Backgrounds/Tilesets/TilesetNature.png",
+      "runtime": "public/assets/world-pixel/nature.png",
+      "width": 384,
+      "height": 336,
+      "bytes": 43359,
+      "sha256": "51eedd957ad4ac88988d170aa83a42404ef8fdebff9e6753b6fe80841ab3d5bb",
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "props",
+      "pack_path": "Backgrounds/Tilesets/TilesetElement.png",
+      "source": "assets-source/world-pixel/Backgrounds/Tilesets/TilesetElement.png",
+      "runtime": "public/assets/world-pixel/props.png",
+      "width": 256,
+      "height": 240,
+      "bytes": 13884,
+      "sha256": "63d64985697d77033372256b9304ea85db7061f0fc19aafd0714492a9b57140e",
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "beds",
+      "pack_path": "Backgrounds/Tilesets/tileset_bed.png",
+      "source": "assets-source/world-pixel/Backgrounds/Tilesets/tileset_bed.png",
+      "runtime": "public/assets/world-pixel/beds.png",
+      "width": 224,
+      "height": 192,
+      "bytes": 9220,
+      "sha256": "0acb8743d87c85685263fb68e1608b72bbb2e808db3734253de8d4b8dddd8508",
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "water",
+      "pack_path": "Backgrounds/Tilesets/TilesetWater.png",
+      "source": "assets-source/world-pixel/Backgrounds/Tilesets/TilesetWater.png",
+      "runtime": "public/assets/world-pixel/water.png",
+      "width": 448,
+      "height": 272,
+      "bytes": 23565,
+      "sha256": "927e1fa1e793bb0398fdaad40cea22792c20f66703cdba80fb9462df7cbc275c",
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "walls",
+      "pack_path": "Backgrounds/Tilesets/Interior/TilesetWallSimple.png",
+      "source": "assets-source/world-pixel/Backgrounds/Tilesets/Interior/TilesetWallSimple.png",
+      "runtime": "public/assets/world-pixel/walls.png",
+      "width": 160,
+      "height": 176,
+      "bytes": 5149,
+      "sha256": "ad5eb80ab4d5e65dbcda9dc012f9981323b277717349cdab012fc65ce06e43b2",
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "shadow",
+      "pack_path": "Actor/Character/Shadow.png",
+      "source": "assets-source/world-pixel/Actor/Character/Shadow.png",
+      "runtime": "public/assets/world-pixel/shadow.png",
+      "width": 12,
+      "height": 7,
+      "bytes": 121,
+      "sha256": "53861dc5e46592ce65533c221911a0b9f489d87d8bf794ebe1e161f61252a4b7",
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "self",
+      "pack_path": "Actor/Character/SamuraiBlue/SpriteSheet.png",
+      "source": "assets-source/world-pixel/Actor/Character/SamuraiBlue/SpriteSheet.png",
+      "runtime": "public/assets/world-pixel/self.png",
+      "width": 64,
+      "height": 112,
+      "bytes": 5536,
+      "sha256": "7307266f5a51c5a7446350bf5a5866930fccbebd67429f11dca213086f89e062",
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "shen",
+      "pack_path": "Actor/Character/SorcererOrange/SpriteSheet.png",
+      "source": "assets-source/world-pixel/Actor/Character/SorcererOrange/SpriteSheet.png",
+      "runtime": "public/assets/world-pixel/shen.png",
+      "width": 64,
+      "height": 112,
+      "bytes": 6019,
+      "sha256": "18aea3b2cf3fe7c2322bf8e19b5cf42516e7ca3907fdfdd2e6252c1b0b1bee57",
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "guard",
+      "pack_path": "Actor/Character/Samurai/SpriteSheet.png",
+      "source": "assets-source/world-pixel/Actor/Character/Samurai/SpriteSheet.png",
+      "runtime": "public/assets/world-pixel/guard.png",
+      "width": 64,
+      "height": 112,
+      "bytes": 5356,
+      "sha256": "68287c9e0c5cc1089286b0a3955f476c9d8f3f2e4f38755c52b68edf24aaa0d4",
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "nameless",
+      "pack_path": "Actor/Character/Spirit/SpriteSheet.png",
+      "source": "assets-source/world-pixel/Actor/Character/Spirit/SpriteSheet.png",
+      "runtime": "public/assets/world-pixel/nameless.png",
+      "width": 64,
+      "height": 112,
+      "bytes": 5727,
+      "sha256": "761c5f6b98ea5b53dfa48521f104df0c4c6a50e17b140967b0101f577e2775fb",
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "woman",
+      "pack_path": "Actor/Character/Princess/SpriteSheet.png",
+      "source": "assets-source/world-pixel/Actor/Character/Princess/SpriteSheet.png",
+      "runtime": "public/assets/world-pixel/woman.png",
+      "width": 64,
+      "height": 112,
+      "bytes": 6207,
+      "sha256": "e9028fd04c481e0e5bd1cf63b044d023d9ecf7f621593d6e18e2a1b6a46b3ba6",
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "mother",
+      "pack_path": "Actor/Character/OldWoman/SpriteSheet.png",
+      "source": "assets-source/world-pixel/Actor/Character/OldWoman/SpriteSheet.png",
+      "runtime": "public/assets/world-pixel/mother.png",
+      "width": 64,
+      "height": 32,
+      "bytes": 3720,
+      "sha256": "94181e3bd33ad204370b591a0224041db556fb7093ca27ec23e0b8169658d5ac",
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "han",
+      "pack_path": "Actor/Character/Hunter/SpriteSheet.png",
+      "source": "assets-source/world-pixel/Actor/Character/Hunter/SpriteSheet.png",
+      "runtime": "public/assets/world-pixel/han.png",
+      "width": 64,
+      "height": 112,
+      "bytes": 6558,
+      "sha256": "26af2137e450276687d308706519d6a57799e4a666d1a966076b1837c2032d81",
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "tea",
+      "pack_path": "Actor/Character/OldMan/SpriteSheet.png",
+      "source": "assets-source/world-pixel/Actor/Character/OldMan/SpriteSheet.png",
+      "runtime": "public/assets/world-pixel/tea.png",
+      "width": 64,
+      "height": 112,
+      "bytes": 5401,
+      "sha256": "3ec4d2d281a5a2fcc1b9d7b99c05bc5fa753a8c79124158ac8237f7e3623767b",
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "child",
+      "pack_path": "Actor/Character/Child/SpriteSheet.png",
+      "source": "assets-source/world-pixel/Actor/Character/Child/SpriteSheet.png",
+      "runtime": "public/assets/world-pixel/child.png",
+      "width": 64,
+      "height": 32,
+      "bytes": 3782,
+      "sha256": "671b433cedd0df0877141efba2f37d172458413a863dd43e56c0e2e74a6bf555",
+      "license": "CC0-1.0"
+    }
+  ]
+}
+

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { assetUrl } from '../game/asset-url'
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import type { WorldState } from '../game/types'
 import { PLAYER_SPEED, TILE, findPath, movePlayer, nearestSpot, worldMaps } from '../game/world'
@@ -18,13 +17,13 @@ const host=ref<HTMLElement>()
 const nearby=ref<WorldSpot>()
 const moving=ref(false)
 const map=computed(()=>worldMaps[props.world.map])
-let player={...props.world},keys=new Set<string>(),raf=0,last=0,atlas:HTMLImageElement|undefined,background:HTMLCanvasElement|undefined
+let player={...props.world},keys=new Set<string>(),raf=0,last=0,background:HTMLCanvasElement|undefined
 let camera={x:0,y:0},zoom=1.4,size={w:800,h:600},path:{x:number;y:number}[]=[],targetSpot:WorldSpot|undefined,wasMoving=false
 let observer:ResizeObserver|undefined
 let art:WorldArt|undefined,alive=false
 let gait=0,disguise:{from:PlayerAppearance;to:PlayerAppearance;startedAt:number}|undefined
 function sendPosition(){emit('position',{...player})}
-function setMap(){player={...props.world};keys.clear();path=[];targetSpot=undefined;nearby.value=undefined;background=makeBackground(map.value,atlas,art);camera={x:player.x-size.w/zoom/2,y:player.y-size.h/zoom/2}}
+function setMap(){player={...props.world};keys.clear();path=[];targetSpot=undefined;nearby.value=undefined;background=makeBackground(map.value,art);camera={x:player.x-size.w/zoom/2,y:player.y-size.h/zoom/2}}
 watch(()=>props.world.map,setMap)
 watch(()=>props.appearance,(to,from)=>{disguise=props.motion?{from,to,startedAt:performance.now()}:undefined})
 watch(()=>props.motion,enabled=>{if(!enabled)disguise=undefined})
@@ -99,15 +98,16 @@ function draw(now:number){
   ctx.setTransform(dpr,0,0,dpr,0,0);ctx.imageSmoothingEnabled=false;ctx.fillStyle='#26392e';ctx.fillRect(0,0,size.w,size.h);ctx.scale(zoom,zoom);ctx.translate(-Math.round(camera.x),-Math.round(camera.y))
   let disguiseFrame:DisguiseFrame|undefined
   if(disguise){const progress=(now-disguise.startedAt)/DISGUISE_DURATION;if(progress>=1)disguise=undefined;else disguiseFrame={...disguise,progress:Math.max(0,progress)}}
-  renderWorld(ctx,background,map.value,player,atlas,now,walking?gait:0,props.night,props.appearance,nearest,disguiseFrame,art)
+  renderWorld(ctx,background,map.value,player,now,walking?gait:0,props.night,props.appearance,nearest,disguiseFrame,art)
   if(path.length){const goal=path.at(-1)!;ctx.strokeStyle='#ded4a588';ctx.lineWidth=1;ctx.beginPath();ctx.ellipse(goal.x,goal.y,7,3,0,0,Math.PI*2);ctx.stroke()}
   canvas.value.dataset.playerX=player.x.toFixed(1);canvas.value.dataset.playerY=player.y.toFixed(1);canvas.value.dataset.map=map.value.id
   canvas.value.dataset.disguising=disguiseFrame?'true':'false'
   canvas.value.dataset.worldArt=art?(art.failed.length?'partial':'ready'):'loading'
+  canvas.value.dataset.artStyle='public-pixel'
 }
 onMounted(()=>{
-  alive=true;loadWorldArt().then(value=>{if(alive){art=value;background=makeBackground(map.value,atlas,art)}})
-  atlas=new Image();atlas.onload=()=>{if(alive)background=makeBackground(map.value,atlas,art)};atlas.src=assetUrl('/assets/tiles/tiny-town.png');setMap();resize();observer=new ResizeObserver(resize);if(host.value)observer.observe(host.value)
+  alive=true;loadWorldArt().then(value=>{if(alive){art=value;background=makeBackground(map.value,art)}})
+  setMap();resize();observer=new ResizeObserver(resize);if(host.value)observer.observe(host.value)
   window.addEventListener('keydown',keyDown);window.addEventListener('keyup',keyUp);window.addEventListener('blur',blur);raf=requestAnimationFrame(draw)
 })
 onUnmounted(()=>{alive=false;cancelAnimationFrame(raf);observer?.disconnect();window.removeEventListener('keydown',keyDown);window.removeEventListener('keyup',keyUp);window.removeEventListener('blur',blur)})

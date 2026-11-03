@@ -22,9 +22,19 @@
 - 下载来源为 Kenney 本人发布的 [OpenGameArt 条目](https://opengameart.org/content/tiny-town)。
 - 使用 `public/assets/tiles/tiny-town.png` 的草地小纹理与树木局部；完整许可保存在同目录。建筑形状与角色为本作 Canvas 绘制，主地图表面材质见下一节。
 
-## 俯视角主地图：Poly Haven 公开材质
+## 俯视角主地图：Ninja Adventure 公开像素素材（2026-11-03）
 
-七套表面素材均为 Poly Haven 提供的 [CC0 1.0](https://polyhaven.com/license) 纹理。下载的是官方 Diffuse 贴图，没有使用网站示例渲染图。保留 1K 原图并通过官方 MD5 校验，运行文件转为 512px WebP，总计约 658 KiB；全部本地加载。`scripts/prepare-world-assets.py` 可重建资源，作者、下载地址、原文件 MD5 与运行文件 SHA256 见 `docs/world-public-assets.json`。
+作者 **Pixel-Boy / AAA**，来源为作者发布的 [Ninja Adventure Asset Pack](https://pixel-boy.itch.io/ninja-adventure-asset-pack)。作者页面与包内 LICENSE 均注明 **CC0 1.0 Universal**，允许用于商业或非商业游戏。使用 2026-03-29 上传版本，2026-11-03 下载。
+
+七处探索地图、四种主角形貌与五类地图 NPC 共使用 18 张原始 PNG，共 244587 字节（约 239 KiB）。原稿保存在 `assets-source/world-pixel/`，运行文件在 `public/assets/world-pixel/`；两处 PNG 逐字节一致。完整包校验和、每个文件的原路径、尺寸、SHA-256、角色映射见 `docs/world-pixel-assets.json`；包内许可与致谢为 `public/assets/world-pixel/LICENSE.txt`、`CREDITS.txt`。`scripts/prepare-world-pixel-assets.py` 可离线重建与核验。
+
+人物选型：陆知微使用 SamuraiBlue，沈砚使用 SorcererOrange，周平使用 Samurai，无相之身使用 Spirit；无面娘、戚婆婆、韩七、茶摊老板与井中童影分别使用 Princess、OldWoman、Hunter、OldMan、Child。服饰与轮廓按本作身份近似选配，四方向与走路姿态直接读取作者动画表。
+
+地形、树木与家具直接裁切作者图块；瓦面、木材、石路与地板在 Canvas 中降饱和与调明暗。建筑轮廓、庭院、街道和中文匾额由本作重组，保持现有地图的游戏布局。旧井由公开容器轮廓与石质井台组合。参考传统仙侠 RPG 的行图氛围，项目不包含《仙剑奇侠传》原作的角色或地图文件。
+
+## 历史俯视角材质：Poly Haven
+
+以下七套 Poly Haven [CC0 1.0](https://polyhaven.com/license) 纹理用于之前的主地图版本，现保留归档；当前探索地图使用上方的公开像素图块。旧版下载的是官方 Diffuse 贴图，保留 1K 原图与官方 MD5 校验记录；512px WebP 共约 658 KiB。历史重建脚本为 `scripts/prepare-world-assets.py`，作者、下载地址、MD5 与 SHA256 见 `docs/world-public-assets.json`。
 
 | 本地文件 | 素材 / 来源 | 作者 | 使用位置 |
 | --- | --- | --- | --- |
@@ -91,9 +101,9 @@
 
 ## 雨夜寻凶图片开场（2026-11-03）
 
-使用内置 imagegen 为本作生成八张图片：雨夜客栈、东厢房门、关窗与开窗的见尸房间、带字与空白书页、敲门手部，以及女子水墨面容。陆知微与女魂沿用项目既有角色作为服饰或面容参考。原始 PNG 位于 `assets-source/opening/`，运行时 WebP 位于 `public/assets/opening/`，总计 2381530 字节，约 2.27 MiB；手部与女相保留透明通道。生成方式、原文件、引用图和完整提示词见 `docs/opening-assets.json`。
+使用内置 imagegen 为本作累计生成十四张图片（含历史版本）：檐下滴雨、雨夜客栈、廊下跟拍、东厢房门、关窗与开窗的见尸房间、垂手特写、陆知微反应 v1 / v2、带字与空白书页、敲门手部，以及水墨女相 v1 / v2。当前使用惊惧男主 v2，预加载十张图，共 2264030 字节，约 2.16 MiB。末页改为程序绘制诗句，女相 v1 / v2 不再预加载或显示，原文件与提示词均保留归档。旧版带字书页与旧表情也保留归档。原始 PNG 位于 `assets-source/opening/`，运行时 WebP 位于 `public/assets/opening/`；手部与女相保留透明通道，女相 v2 的 WebP alpha 与原稿逐像素一致。生成方式、原文件、引用图和完整提示词见 `docs/opening-assets.json`。
 
-图像是本作生成素材，不标作公有领域古画或 Poly Haven CC0 资产。书页上的生成字迹仅作画面纹理，不作为《聊斋志异》原文引用。门窗开合、雨线、闪电、透视翻页、水墨显隐与镜头移动由程序合成；脚步、叩门、风雷、翻页和落水声由 Web Audio 合成。
+图像是本作生成素材，不标作公有领域古画或 Poly Haven CC0 资产。当前旧谱片语在 `src/game/opening-book.ts` 中维护，末页诗文在 `src/game/opening-poem.ts` 中独立维护，由 Canvas 排成竖列，均为可替换的衍生占位文案，不作为《聊斋志异》原文引用。门窗开合、雨线、闪电、点击翻页、环境光或手动灯火驱动的暗处显诗、水墨显隐和镜头移动由程序合成；脚步、叩门、风雷、翻页和落水声由 Web Audio 合成。
 
 ## 白衣女魂显影
 

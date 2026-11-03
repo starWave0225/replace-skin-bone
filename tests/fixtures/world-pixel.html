@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>未闻县 · 公开像素素材检查</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;padding:24px;background:#16241f;color:#d6d1ac;font:14px system-ui,sans-serif}
+    header{display:flex;align-items:center;gap:24px;flex-wrap:wrap;margin-bottom:22px}h1{font-size:21px;font-weight:500;margin:0;letter-spacing:3px}a{color:#bcb085}label{display:flex;align-items:center;gap:8px}
+    #actors{display:grid;grid-template-columns:repeat(9,1fr);gap:12px;margin-bottom:28px}figure{margin:0}figcaption{text-align:center;padding:8px 0;font-size:13px;color:#a8b49a}
+    #actors figure{background:#23362d;border:1px solid #78916b33}#actors canvas{width:100%;height:88px;object-fit:contain}canvas{display:block;image-rendering:pixelated}
+    #maps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}#maps canvas{width:100%;height:auto;border:1px solid #78916b44}
+    footer{margin-top:24px;color:#869b83;font-size:13px;line-height:1.8}@media(max-width:750px){#actors{grid-template-columns:repeat(3,1fr)}#maps{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header><h1>未闻县 · 像素行图</h1><a href="/?view=world">进入地图行走</a><label><input id="night" type="checkbox">夜雨</label></header>
+  <section id="actors" aria-label="人物精灵"></section><main id="maps"></main>
+  <footer>Pixel-Boy / AAA · Ninja Adventure · CC0。原始图块与四方向角色动画已本地打包。此页使用实际地图渲染器检查素材，不读写存档。</footer>
+  <script type="module">
+    import { worldMaps, worldSpawn } from '/src/game/world.ts'
+    import { loadWorldArt, drawWorldActor } from '/src/game/world-art.ts'
+    import { makeBackground, renderWorld } from '/src/game/world-renderer.ts'
+    const art=await loadWorldArt(),names={self:'陆知微',shen:'沈砚',guard:'周平',nameless:'无相之身',woman:'无面娘',mother:'戚婆婆',han:'韩七',tea:'茶摊老板',child:'井中童影'}
+    for(const [role,name] of Object.entries(names)){
+      const figure=document.createElement('figure'),canvas=document.createElement('canvas'),caption=document.createElement('figcaption')
+      canvas.width=100;canvas.height=88;canvas.setAttribute('aria-label',name);caption.textContent=name;figure.append(canvas,caption);document.querySelector('#actors').append(figure)
+      const ctx=canvas.getContext('2d');ctx.imageSmoothingEnabled=false;drawWorldActor(ctx,art,role,50,73,'down',0,4)
+    }
+    const views=[]
+    for(const map of Object.values(worldMaps)){
+      const figure=document.createElement('figure'),canvas=document.createElement('canvas'),caption=document.createElement('figcaption'),link=document.createElement('a')
+      canvas.width=map.width*32;canvas.height=map.height*32;canvas.setAttribute('aria-label',map.name);link.href='/?view=world';link.textContent=map.name;caption.append(link);figure.append(canvas,caption);document.querySelector('#maps').append(figure)
+      views.push({canvas,map,background:makeBackground(map,art),player:worldSpawn(map.id)})
+    }
+    function draw(){for(const view of views)renderWorld(view.canvas.getContext('2d'),view.background,view.map,view.player,0,0,document.querySelector('#night').checked,'self',undefined,undefined,art)}
+    document.querySelector('#night').addEventListener('change',draw);draw();document.body.dataset.ready='true';document.body.dataset.failed=String(art.failed.length)
+  </script>
+</body></html>

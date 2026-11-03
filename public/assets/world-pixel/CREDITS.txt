@@ -1,0 +1,24 @@
+Ninja Adventure Asset Pack — 2D exploration world
+
+Artists: Pixel-Boy and AAA
+Source: https://pixel-boy.itch.io/ninja-adventure-asset-pack
+License: Creative Commons Zero 1.0 Universal (CC0-1.0); full text in LICENSE.txt.
+Pack upload: 29 March 2026. Retrieved: 3 November 2026.
+
+This game uses the author's original pixel PNG tiles and animated character sheets.
+Floor, walls, roof, timber and earth are cropped and color-treated at runtime.
+Architecture, paths, object placement and Chinese signs are composed for this game.
+
+Character casting:
+Lu Zhiwei: SamuraiBlue
+Shen Yan: SorcererOrange
+Zhou Ping: Samurai
+Nameless form: Spirit
+Faceless woman: Princess
+Old woman Qi: OldWoman
+Han Qi: Hunter
+Tea stall owner: OldMan
+Child apparition: Child
+
+Original files and SHA-256 checksums: docs/world-pixel-assets.json.
+No original Legend of Sword and Fairy game files are included.

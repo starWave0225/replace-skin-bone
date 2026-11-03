@@ -1,16 +1,65 @@
-<!doctype html><html lang="zh"><head><meta charset="utf-8"><title>Opening visual fixture</title>
-<style>body{margin:0;padding:16px;background:#080d0c;color:#a3b095;font:12px monospace}main{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}figure{margin:0}canvas{width:100%;aspect-ratio:16/9;display:block}figcaption{padding:6px}body.single main{display:block}body.single figure{display:none}body.single figure.selected{display:block;max-width:1120px;margin:auto}</style></head>
-<body><main></main><script type="module">
-import { OpeningRenderer } from '/src/game/opening-renderer.ts'
-const moments=[4000,6800,11000,14000,17300,22000,24500,28000,30000]
-const requested=new URLSearchParams(location.search).get('time')
-if(requested)document.body.classList.add('single')
-await Promise.all(moments.map(async time=>{
-  const figure=document.createElement('figure'),canvas=document.createElement('canvas'),caption=document.createElement('figcaption')
-  caption.textContent=`${time} ms`;figure.append(canvas,caption);document.querySelector('main').append(figure)
-  if(String(time)===requested)figure.classList.add('selected')
-  const renderer=await OpeningRenderer.create(canvas)
-  new ResizeObserver(()=>{const {width,height}=canvas.getBoundingClientRect();renderer.resize(width,height);renderer.draw(time)}).observe(canvas)
-}))
-document.body.dataset.ready='true'
-</script></body></html>
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>雨夜寻凶 · 片头分镜检查</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;padding:16px;background:#080d0c;color:#b7bea9;font:13px system-ui,sans-serif}
+    header{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin:0 0 18px}h1{margin:0;font-size:17px;font-weight:500;letter-spacing:2px}
+    a{color:#d0be8e}button,select{padding:7px 12px;border:1px solid #526253;background:#14201b;color:inherit;font:inherit;cursor:pointer}
+    label{display:flex;align-items:center;gap:6px}main{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}figure{margin:0}canvas{width:100%;aspect-ratio:16/9;display:block}
+    figcaption{padding:7px 0;color:#a4af9d}figcaption a{text-decoration:none}body.single main{display:block}body.single figure{max-width:1120px;margin:auto}
+    .timeline{display:none;max-width:1120px;margin:0 auto 18px;align-items:center;gap:12px;flex-wrap:wrap}.single .timeline{display:flex}input[type=range]{flex:1;min-width:160px;accent-color:#b6a779}
+    output{font-variant-numeric:tabular-nums;min-width:94px}a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid #d0be8e;outline-offset:3px}
+    @media(max-width:700px){main{grid-template-columns:1fr}header{gap:12px}}
+  </style>
+</head>
+<body>
+  <header><h1>雨夜寻凶 · 十三镜头</h1><a href="?">分镜总览</a><a href="/?view=opening">完整演出</a><a href="/?view=opening&part=book">交互翻书与灯火</a><label><input id="reduce" type="checkbox">减少动态效果</label></header>
+  <nav class="timeline" aria-label="分镜检查"><select id="shots" aria-label="选择镜头"></select><button id="play">播放</button><input id="time" type="range" min="0" max="51800" step="10" aria-label="演出时间"><output id="clock"></output></nav>
+  <main></main>
+  <script type="module">
+    import { OpeningRenderer } from '/src/game/opening-renderer.ts'
+    import { openingFrame, openingShots, openingDuration } from '/src/game/opening.ts'
+    const labels={eaves:'檐雨',arrival:'抵店',gallery:'廊下',door:'叩门与等待',threshold:'推门',hand:'垂手',discovery:'见尸',reaction:'惊觉',storm:'窗开',pages:'翻页',blank:'空白',poem:'暗处诗现',dissolve:'余痕'}
+    const params=new URLSearchParams(location.search), requested=params.get('time'), single=requested!==null
+    const reduced=document.querySelector('#reduce'),slider=document.querySelector('#time'),clock=document.querySelector('#clock'),select=document.querySelector('#shots'),play=document.querySelector('#play')
+    reduced.checked=params.get('reduced')==='1';slider.max=String(openingDuration)
+    let elapsed=single?openingFrame(Number(requested)).time:0, playing=false,last=0, disposed=false
+    if(single)document.body.classList.add('single')
+    for(const shot of openingShots){const option=document.createElement('option');option.value=shot.id;option.textContent=labels[shot.id];select.append(option)}
+    const moments=single?[elapsed]:[1800,6400,11000,15500,22400,25000,28900,31500,34100,37800,42200,46800,49900]
+    const views=[]
+    await Promise.all(moments.map(async time=>{
+      const figure=document.createElement('figure'),canvas=document.createElement('canvas'),caption=document.createElement('figcaption')
+      canvas.setAttribute('aria-label',labels[openingFrame(time).shot]);figure.append(canvas,caption);document.querySelector('main').append(figure)
+      const renderer=await OpeningRenderer.create(canvas),view={renderer,canvas,caption,time};views.push(view)
+      const observer=new ResizeObserver(()=>{const {width,height}=canvas.getBoundingClientRect();renderer.resize(width,height);draw(view)})
+      view.observer=observer;observer.observe(canvas)
+    }))
+    function draw(view){
+      const time=single?elapsed:view.time,frame=openingFrame(time)
+      view.renderer.draw(time,reduced.checked)
+      view.canvas.setAttribute('aria-label',labels[frame.shot])
+      view.caption.replaceChildren()
+      const link=document.createElement('a');link.href=`?time=${Math.round(time)}${reduced.checked?'&reduced=1':''}`;link.textContent=`${labels[frame.shot]} · ${(time/1000).toFixed(2)} s`;view.caption.append(link)
+      if(single){slider.value=String(elapsed);clock.value=`${(elapsed/1000).toFixed(2)} / ${(openingDuration/1000).toFixed(1)} s`;select.value=frame.shot;document.body.dataset.shot=frame.shot}
+    }
+    function drawAll(){views.forEach(draw)}
+    function pause(){playing=false;play.textContent='播放';last=0}
+    slider.addEventListener('input',()=>{pause();elapsed=Number(slider.value);drawAll()})
+    select.addEventListener('change',()=>{pause();elapsed=openingShots.find(shot=>shot.id===select.value).start;drawAll()})
+    reduced.addEventListener('change',drawAll)
+    play.addEventListener('click',()=>{playing=!playing;play.textContent=playing?'暂停':'播放';last=0;if(elapsed>=openingDuration)elapsed=0})
+    function tick(now){
+      if(disposed)return
+      if(playing&&!document.hidden){elapsed=Math.min(openingDuration,elapsed+(last?Math.min(100,now-last):0));drawAll();if(elapsed===openingDuration)pause()}
+      last=now;requestAnimationFrame(tick)
+    }
+    document.addEventListener('visibilitychange',()=>{last=0})
+    window.addEventListener('pagehide',()=>{disposed=true;views.forEach(view=>{view.observer.disconnect();view.renderer.dispose()})},{once:true})
+    drawAll();if(single)requestAnimationFrame(tick);document.body.dataset.ready='true'
+  </script>
+</body>
+</html>

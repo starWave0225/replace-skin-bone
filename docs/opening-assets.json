@@ -1,8 +1,39 @@
 {
   "mode": "built-in imagegen",
   "created": "2026-11-03",
-  "purpose": "Rain-night opening cinematic. Painted images, no narration or caption overlays; 33.6 seconds, then investigation. Runtime WebP encodes preserve image composition and transparency.",
+  "purpose": "Folk-horror opening with a player-paced book: four editable written pages, each turned by click. The final page reveals a reusable placeholder poem in darkness, using ambient illuminance when supported or manual in-page lamplight. It does not read system screen brightness. The player must read the poem before confirming and proceeding. The former ghost images remain archived and are no longer preloaded or rendered. Rain-night scenes, a terrified protagonist reaction, and environment sounds only. Reading time is unbounded; the former 51.8-second timeline remains a shot-coordinate reference, not a fixed playback duration.",
+  "active_replacements": {"lu-reaction-v1": "lu-reaction-v2"},
+  "archived_assets": ["rain-ink-face-v1", "rain-ink-face-v2"],
+  "book_text_source": "src/game/opening-book.ts",
+  "poem_text_source": "src/game/opening-poem.ts",
   "assets": [
+    {
+      "id": "rain-ink-face-v2",
+      "source": "assets-source/opening/rain-ink-face-v2.png",
+      "runtime": "public/assets/opening/rain-ink-face-v2.webp",
+      "transparent": true,
+      "references": ["assets-source/opening/rain-ink-face-v1.png"],
+      "generated_file": "/Users/qujunjie/.codex/generated_images/01a1a091-54dd-7fb2-aec0-9e98e9988ec9/exec-599d17b6-fcb6-49c4-86d3-5c0c20f1bab5.png",
+      "prompt": "Use case: precise-object-edit. Asset type: transparent portrait ink-apparition layer for the EXISTING book-page reveal in a Chinese Liaozhai folk-horror cinematic. Input image 1 is the EDIT TARGET. Primary request: turn this same female apparition into a substantially more frightening traditional Chinese wronged ghost, with clearly WHITE, PUPILLESS EYES (眼白), while preserving the isolated head-and-shoulders portrait placement, 2:3 portrait canvas, monochrome wet ink-and-wash medium and transparent feathered edges. Her eye sockets are deep and almost ink-black around both lids; BOTH eyeballs are opaque corpse-white sclera, rolled slightly upward, with NO VISIBLE IRIS OR PUPIL. Make the white eyes unmistakable against heavy dark lid contours, no emitted light. Change her gentle worried gaze to a dead, unblinking stare; chin lowered, head tilted a few degrees, gaunt hollow cheeks, grey-white waxy skin, subtly sunken temples, long wet tangled black hair falling unevenly across one side of her face. Mouth almost closed, lips ashen and slightly crooked with an unsettling trace of tension. She should feel like an old Chinese ghost painting coming alive, cold, unnatural and threatening, not a living beauty portrait. Keep recognizable Chinese female facial structure and the simple old cloth hair tie, no elaborate headdress. Denser dark calligraphic ink around the eyes, hair and cheek hollows; dry broken brush edges and irregular wet ink blooms dissolving into REAL TRANSPARENCY around the shoulders. Keep the important eyes clear of hair. The game's multiply blend will lay the ghost onto aged paper: ghost eye whites must remain light negative space bordered by dark ink so they read clearly on paper. Background: genuine transparent alpha, no black backdrop, no white rectangle, no colored halo, no paper sheet, no frame, no room, no book. Preserve the restrained period ink style; no modern dress, no glamour makeup, no anime, no theatrical scream, no vampire fangs, no blood, no open wounds, no gore, no text or watermark. This is a targeted horror-expression redesign of the supplied portrait, not a different composition."
+    },
+    {
+      "id": "lu-reaction-v2",
+      "source": "assets-source/opening/lu-reaction-v2.png",
+      "runtime": "public/assets/opening/lu-reaction-v2.webp",
+      "transparent": false,
+      "references": ["assets-source/opening/lu-reaction-v1.png"],
+      "generated_file": "/Users/qujunjie/.codex/generated_images/01a1a091-54dd-7fb2-aec0-9e98e9988ec9/exec-53c0c7d7-474e-4520-869a-250361a4735e.png",
+      "prompt": "Use case: identity-preserve. Asset type: 16:9 cinematic reaction shot for the EXISTING Chinese Liaozhai folk-horror opening. Input image 1 is the EDIT TARGET. Primary request: change ONLY this same young adult Chinese male protagonist's expression from calm contemplation to unmistakable shock and fear after discovering his friend's corpse. Preserve his identity precisely: same facial proportions, same distinctive mole on the visible cheek, same nose and mouth shape, same age, same damp loose hair, dark rough cloth cap, indigo robe collar and brown vest, same head orientation and frame placement, same warm lantern rim from left and cold rain light from right, exact dark doorway background, same aspect ratio and painterly cinematic realism. Expression must be visibly stronger even in a small cinematic frame: eyes WIDE OPEN with tense lower lids and a clear crescent of natural sclera around the dark pupils, the inner brows lifted and drawn together, forehead tightened in fear, mouth parted as if his breath catches with a small glimpse of upper teeth, lower jaw dropped slightly, cheeks and neck visibly tense, lips losing color, a few cold rain or sweat beads. His gaze stays fixed DOWNWARD and slightly toward screen right at the corpse outside frame; ordinary HUMAN dark irises and pupils remain visible. This is the frozen first instant of terror and disbelief, not relaxed sadness or curiosity. No screaming caricature, no comic eyebrows, no bulging eyeballs, no ghost eyes, no pupil-less eyes, no smile, no glamour, no beautification. Do not add hands, another person, a ghost, a corpse, writing or props. Keep crop, lighting, costume, room, anatomy and image style unchanged; edit the facial muscles, eyes and mouth to convey fear. No captions, text, title, watermark, or borders."
+    },
+    {
+      "id": "eaves-rain-v1",
+      "source": "assets-source/opening/eaves-rain-v1.png",
+      "runtime": "public/assets/opening/eaves-rain-v1.webp",
+      "transparent": false,
+      "references": ["assets-source/opening/inn-exterior-v1.png"],
+      "generated_file": "/Users/qujunjie/.codex/generated_images/01a1a091-54dd-7fb2-aec0-9e98e9988ec9/exec-1325a00c-07ab-4f9b-a089-49b73a4cb5db.png",
+      "prompt": "Use case: historical-scene. Asset type: a single full-bleed 16:9 opening-shot background for the existing Chinese Liaozhai folk-horror game. Input image 1 is a reference image ONLY: preserve the modest rural inn architecture, wet charcoal gray roof tiles, old timber, amber lantern design and restrained painted realism of that image. Primary request: create a NEW close cinematic establishing insert of RAIN DRIPPING FROM THE INN EAVES before the traveler enters the story. Camera looks along the low eaves at near eye level, with strongly layered depth. A dark weathered tiled roof and exposed wooden eave edge run diagonally from upper left foreground toward upper right distance; clear beads hang from several chipped tile tips, a few thin streams fall past a single softly glowing oval paper lantern at center-right. Behind is the inn's dark timber gallery, the background deliberately soft, faint wet courtyard reflections below. The roof edge occupies the upper third, the lantern's entire silhouette sits around x=67 percent,y=54 percent, with breathing room for a slow lateral camera. Soft amber paper light balances cool desaturated celadon rain shadows, tactile damp wood and hand-painted ink contours, low-key but legible, quiet ominous atmosphere, no theatrical fog or blue glow. Keep the subject uncluttered and readable. No people, no faces, no corpse, no writing, no signs, no title, no captions, no watermark, no collage. Wide landscape 16:9, one continuous scene, no borders."
+    },
     {
       "id": "inn-exterior-v1",
       "source": "assets-source/opening/inn-exterior-v1.png",
@@ -82,6 +113,41 @@
       ],
       "generated_file": "/Users/qujunjie/.codex/generated_images/01a19f12-b8e8-7172-ab3a-d4d72079e464/exec-385ca3bf-dd12-4002-a815-0fbee75c012f.png",
       "prompt": "Use case: precise-object-edit. Edit target: the provided open blank antique book image. Keep the exact camera, book silhouette, spine, page edges, blank paper texture underneath, desk, brush, inkstone, candle, window and all lighting unchanged. Change ONLY the two blank page surfaces: add faded hand-printed traditional Chinese characters in narrow vertical columns, like an early Qing book of strange tales. These are small diegetic ink marks on the physical paper, not captions or an overlay. Put text only safely inside each page margin; no headings, no page labels, no faces, no illustrations, no red seals. The columns should follow the same page perspective and look worn, slightly uneven and genuinely absorbed into old paper. Do not add any other objects or change the background. This exact printed version will be used for rapidly turning pages before landing on the original blank spread."
+    },
+    {
+      "id": "gallery-track-v1",
+      "source": "assets-source/opening/gallery-track-v1.png",
+      "runtime": "public/assets/opening/gallery-track-v1.webp",
+      "transparent": false,
+      "references": [
+        "public/assets/opening/inn-exterior-v1.webp",
+        "public/assets/portraits/lu-v1.webp"
+      ],
+      "generated_file": "/Users/qujunjie/.codex/generated_images/01a19f12-b8e8-7172-ab3a-d4d72079e464/exec-da9a2ab2-b52e-407e-b201-b16bd2acedd4.png",
+      "prompt": "Use case: historical-scene. Asset type: a single 16:9 cinematic insert for a Chinese Liaozhai folk-horror opening, consistent with the supplied illustrated period-game references. Painterly realism with delicate ink contour and restrained mineral pigment, believable worn timber and cloth, muted celadon shadows and faint amber candlelight, low-key but readable. Compose like a carefully photographed quiet Chinese period ghost film: layered foreground, selective focus and strong eyelines, never glossy fantasy. No captions, title cards, written characters, logos, watermark, split panels or collage. Scene: a camera at shoulder height follows a solitary itinerant book-copyist from behind beneath a covered wooden inn gallery at night. Use the exterior reference for the same modest rural inn, tiled roof and amber paper lanterns; use the portrait ONLY for the man costume: dark indigo cotton robe, brown sleeveless vest, dark soft cap, cloth satchel. The scholar is small in the middle distance, approaching a CLOSED plain double timber door at the far end, center-right. Rain streaks the courtyard beyond the gallery on the left. A large OUT-OF-FOCUS dark wooden pillar intrudes at the near right edge; another timber post and a cropped swaying paper lantern in the very near left foreground establish depth for a lateral tracking camera. Wet flagstones, long perspective and a little rain mist. No people facing camera and no corpse yet. Keep deep shadows on the near posts, a little warm light at the destination door, and room to move the camera sideways."
+    },
+    {
+      "id": "dead-hand-v1",
+      "source": "assets-source/opening/dead-hand-v1.png",
+      "runtime": "public/assets/opening/dead-hand-v1.webp",
+      "transparent": false,
+      "references": [
+        "public/assets/opening/guestroom-closed-v1.webp"
+      ],
+      "generated_file": "/Users/qujunjie/.codex/generated_images/01a19f12-b8e8-7172-ab3a-d4d72079e464/exec-316224c7-e06f-4497-b929-151a9c244587.png",
+      "prompt": "Use case: historical-scene. Asset type: a single 16:9 cinematic insert for a Chinese Liaozhai folk-horror opening, consistent with the supplied illustrated period-game references. Painterly realism with delicate ink contour and restrained mineral pigment, believable worn timber and cloth, muted celadon shadows and faint amber candlelight, low-key but readable. Compose like a carefully photographed quiet Chinese period ghost film: layered foreground, selective focus and strong eyelines, never glossy fantasy. No captions, title cards, written characters, logos, watermark, split panels or collage. Scene: a FLOOR-LEVEL close insert inside the exact inn room of the first reference. Primary focus is the limp RIGHT hand of the dead adult male scholar, extending toward camera over worn wooden floorboards in the lower right-center, five natural fingers relaxed, plain faded gray-blue cuff. Preserve the dead scholar clothing and room palette from the reference. His gray-robed body trails away into the upper-left background, his side-turned pale face only a SMALL soft out-of-focus shape, so the corpse is suggested before the later wide reveal. A narrow dark door jamb frames the extreme left edge; a corner of the low writing desk and its candle glow appear out of focus far right. Deep perspective, a sliver of dim warm light across the knuckles, cold shadows, tactile floor wood. Intact body, NO blood or wound, no gore, no extra hand, no theatrical claw gesture. Avoid an overhead or wide room view; this must be a tense, intimate ground-level insert with shallow depth of field."
+    },
+    {
+      "id": "lu-reaction-v1",
+      "source": "assets-source/opening/lu-reaction-v1.png",
+      "runtime": "public/assets/opening/lu-reaction-v1.webp",
+      "transparent": false,
+      "references": [
+        "public/assets/portraits/lu-v1.webp",
+        "public/assets/opening/guestroom-closed-v1.webp"
+      ],
+      "generated_file": "/Users/qujunjie/.codex/generated_images/01a19f12-b8e8-7172-ab3a-d4d72079e464/exec-19c9d666-7ecb-42e0-9fc5-a2ae12ec43f0.png",
+      "prompt": "Use case: historical-scene. Asset type: a single 16:9 cinematic insert for a Chinese Liaozhai folk-horror opening, consistent with the supplied illustrated period-game references. Painterly realism with delicate ink contour and restrained mineral pigment, believable worn timber and cloth, muted celadon shadows and faint amber candlelight, low-key but readable. Compose like a carefully photographed quiet Chinese period ghost film: layered foreground, selective focus and strong eyelines, never glossy fantasy. No captions, title cards, written characters, logos, watermark, split panels or collage. Scene: a tight cinematic reaction close-up of the SAME fictional Chinese man 陆知微 in the portrait reference. Preserve his ordinary asymmetrical face, eyes, modest nose, young adult age, rough dark cloth cap, indigo collar and a little brown vest. He has just discovered his dead friend: his eyes have stopped and widened slightly in quiet disbelief, lips held closed, breathing restrained, gaze aimed DOWN and slightly to screen right, no screaming or exaggerated expression. Frame from the top of his damp cap to the top of his chest, face slightly left of center and occupying most of frame. A very dark blurry timber doorway fills the background, a narrow warm lantern rim from camera-left and cold rain light from camera-right catch a few damp hair strands and water beads. One near foreground door edge softly masks a little of the rightmost frame. Cinematic shallow focus: very sharp eyes, soft distant doorway. No other people or ghost, no text, no modern makeup, no model glamour, no beautification."
     }
   ]
 }

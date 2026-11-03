@@ -4,11 +4,12 @@ import OpeningCinematic from './OpeningCinematic.vue'
 import { useSceneMusic } from '../game/music'
 import { assetUrl } from '../game/asset-url'
 const watching = ref(true)
+const fromBook = new URLSearchParams(location.search).get('part') === 'book'
 useSceneMusic('opening', 10, computed(() => watching.value))
 </script>
 
 <template>
-  <OpeningCinematic v-if="watching" :motion="true" @finish="watching=false" @exit="watching=false"/>
+  <OpeningCinematic v-if="watching" :motion="true" :from-book="fromBook" @finish="watching=false" @exit="watching=false"/>
   <main v-else class="opening-replay" aria-label="开场演出预览">
     <img :src="assetUrl('/assets/opening/inn-exterior-v1.webp')" alt=""/>
     <nav><button class="primary-button" @click="watching=true">重播开场 <span>↻</span></button><a href="./" class="outline-button">返回游戏</a></nav>

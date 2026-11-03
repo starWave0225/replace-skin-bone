@@ -24,21 +24,22 @@ test('场景配乐自动开始、交互解锁和静音偏好', async t => {
   }
   class Node {
     gain = new Parameter(); frequency = new Parameter(); Q = new Parameter()
+    starts: number[][] = []; stops: number[][] = []; disconnections = 0
     connect(next: Node) { return next }
-    disconnect() {}
-    start() {}
-    stop() {}
+    disconnect() { this.disconnections++ }
+    start(...args: number[]) { this.starts.push(args) }
+    stop(...args: number[]) { this.stops.push(args) }
   }
   class Context {
     static instances: Context[] = []
     static allowed = true
     state = 'suspended'; currentTime = 0; sampleRate = 200
-    destination = new Node(); gains: Node[] = []; oscillators = 0
+    destination = new Node(); gains: Node[] = []; sources: Node[] = []; oscillators = 0
     pending: (() => void)[] = []
     constructor() { Context.instances.push(this) }
     createGain() { const node = new Node(); this.gains.push(node); return node }
     createBuffer(_channels: number, length: number) { return { getChannelData: () => new Float32Array(length) } }
-    createBufferSource() { return new Node() }
+    createBufferSource() { const node = new Node(); this.sources.push(node); return node }
     createBiquadFilter() { return new Node() }
     createOscillator() { this.oscillators++; return new Node() }
     resume() {
@@ -223,6 +224,17 @@ test('场景配乐自动开始、交互解锁和静音偏好', async t => {
       await settle()
       assert.equal(music.musicState.playing, true)
       assert.equal(Media.plays, plays)
+    })
+    await t.test('暂停后从纸声原位置续播，音效结束边界与释放均正确', () => {
+      const context = Context.instances[0]
+      const stop = audio.openingCue('page', 250), source = context.sources.at(-1)!
+      assert.deepEqual(source.starts, [[context.currentTime, .25]])
+      assert.ok(Math.abs(source.stops[0][0] - (context.currentTime + .45)) < 1e-8)
+      stop(); stop()
+      assert.equal(source.disconnections, 1)
+      const sources = context.sources.length
+      audio.openingCue('page', 700); audio.openingCue('page', Number.NaN)
+      assert.equal(context.sources.length, sources)
     })
     await t.test('等待环境声解锁时静音，迟到的恢复不能重新放出雨声', async () => {
       const context = Context.instances[0]
