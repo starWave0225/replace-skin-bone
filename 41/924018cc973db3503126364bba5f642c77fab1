@@ -1,0 +1,52 @@
+src/game/dream-assets.ts
+  s_3bdda088eb163d::t_0e41c68b2b6de0 1,7
+src/game/dream-scene.ts
+  s_3bdda088eb163d::t_0e41c68b2b6de0 1,97,202
+tests/asset-url.test.ts
+  s_3bdda088eb163d::t_ad431494825e69 1-25
+src/game/portraits.ts
+  s_3bdda088eb163d::t_0e41c68b2b6de0 1,5-14
+src/components/CombatPreview.vue
+  s_3bdda088eb163d::t_0e41c68b2b6de0 2,21
+src/game/world-art.ts
+  s_3bdda088eb163d::t_0e41c68b2b6de0 1,25
+vite.config.ts
+  s_3bdda088eb163d::t_0e41c68b2b6de0 3-6
+src/components/WorldView.vue
+  s_3bdda088eb163d::t_0e41c68b2b6de0 2,110
+src/game/music.ts
+  s_3bdda088eb163d::t_0e41c68b2b6de0 1,14
+.github/workflows/pages.yml
+  s_3bdda088eb163d::t_ad431494825e69 1-55
+src/components/SceneArt.vue
+  s_3bdda088eb163d::t_0e41c68b2b6de0 2,10
+src/game/combat-data.ts
+  s_3bdda088eb163d::t_0e41c68b2b6de0 1,5-6
+src/game/asset-url.ts
+  s_3bdda088eb163d::t_0e41c68b2b6de0 1-5
+src/game/prologue.ts
+  s_3bdda088eb163d::t_0e41c68b2b6de0 1,5,18
+README.md
+  s_3bdda088eb163d::t_9186fb2b1eea2f 92
+  s_3bdda088eb163d::t_ad431494825e69 22-35
+docs/MAIN_STORY-v1.md
+  s_3bdda088eb163d::t_9186fb2b1eea2f 1-14,16-19,21-83,86-99,101-157,159-179,181-183,185-196,199,201-227,229-230,242-247,252,254-259,263-372
+  s_3bdda088eb163d::t_ea4bfd32223396 15,100,158,180,184,200,228,231-241
+  s_3bdda088eb163d::t_cc6725fc62f1b2 20,84-85,197-198,248-251,253,260-262
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "41924018cc973db3503126364bba5f642c77fab1",
+  "prompts": {},
+  "sessions": {
+    "s_3bdda088eb163d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a19f12-b8e8-7172-ab3a-d4d72079e464",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "junjie.qu <junjie.qu@antgroup.com>"
+    }
+  }
+}
