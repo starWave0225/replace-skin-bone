@@ -1,0 +1,31 @@
+README.md
+  s_3bdda088eb163d::t_add44903748228 101
+src/game/music-preferences.ts
+  s_3bdda088eb163d::t_add44903748228 1-15
+src/components/MusicControls.vue
+  s_3bdda088eb163d::t_add44903748228 14,19
+docs/TEXT_REVIEW.md
+  s_3bdda088eb163d::t_cfcecfd3cb3f12 3,17,3358,3378-3380,3953,3956,3959-3960
+docs/PROLOGUE-v2.md
+  s_3bdda088eb163d::t_add44903748228 38
+src/game/music.ts
+  s_3bdda088eb163d::t_add44903748228 5,8-9,18,28,36,40,52,55-56,59,61-66,68,73,76,84,89,91
+tests/music-autoplay.test.ts
+  s_3bdda088eb163d::t_96171b3322bd7c 1-166
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "218e400d7e1793dba1ac4f908634bdb3d9ddd28f",
+  "prompts": {},
+  "sessions": {
+    "s_3bdda088eb163d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a19f12-b8e8-7172-ab3a-d4d72079e464",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "junjie.qu <junjie.qu@antgroup.com>"
+    }
+  }
+}
