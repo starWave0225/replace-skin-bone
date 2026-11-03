@@ -1,0 +1,54 @@
+src/App.vue
+  s_3bdda088eb163d::t_0742e4e4b4b757 230
+  s_3bdda088eb163d::t_9ee865b249cdf1 69-72,76,78,82-84,87,227,232,239,244,247,249,251,254,257-258,261-266
+src/components/WorldPreview.vue
+  s_3bdda088eb163d::t_9ee865b249cdf1 14,20-21
+scripts/export-copy.mjs
+  s_3bdda088eb163d::t_dd18e4e7468ed5 1-102,128-148,150-151,153-158,180-204,227,229-278,280-284,286-287
+  s_3bdda088eb163d::t_fe6d9fa4b07452 159,166-171
+  s_3bdda088eb163d::t_0d875cd933b334 103-127,160-165,172-179,205-226,228
+  s_3bdda088eb163d::t_896579fce62946 149,152,279,285,288-291
+src/game/catalog.ts
+  s_3bdda088eb163d::t_b45f74552ecd21 20-21,23-24,27,33,35-36,42,45,47,50
+  s_3bdda088eb163d::t_0742e4e4b4b757 28,48-49
+docs/TEXT_REVIEW.md
+  s_3bdda088eb163d::t_4ee79e7de6ef55 1-34,36,91-1442,1485-4182
+  s_3bdda088eb163d::t_92c47ef92771c4 35,37-90,1443-1484
+src/components/PrologueView.vue
+  s_3bdda088eb163d::t_9ee865b249cdf1 18,22,25,37-38,41,43
+  s_3bdda088eb163d::t_0742e4e4b4b757 29,44
+src/components/PortraitGallery.vue
+  s_3bdda088eb163d::t_9ee865b249cdf1 24,30,35
+src/components/DreamPreview.vue
+  s_3bdda088eb163d::t_9ee865b249cdf1 10
+src/components/DreamExploration.vue
+  s_3bdda088eb163d::t_1fe07fd5411896 78-84
+  s_3bdda088eb163d::t_9ee865b249cdf1 41,65,67,69,71-72
+  s_3bdda088eb163d::t_0742e4e4b4b757 73-74
+src/components/CombatPreview.vue
+  s_3bdda088eb163d::t_9ee865b249cdf1 69,73,86,108,112-113,120,122,134
+README.md
+  s_3bdda088eb163d::t_896579fce62946 93
+src/game/prologue.ts
+  s_3bdda088eb163d::t_b45f74552ecd21 16,20-24
+src/style.css
+  s_3bdda088eb163d::t_898cd6442e2cc5 7,22
+src/components/MusicControls.vue
+  s_3bdda088eb163d::t_9ee865b249cdf1 16,18-19,22-23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "750472e5ad449f395fe122137b91d246da07c5eb",
+  "prompts": {},
+  "sessions": {
+    "s_3bdda088eb163d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a19f12-b8e8-7172-ab3a-d4d72079e464",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "junjie.qu <junjie.qu@antgroup.com>"
+    }
+  }
+}
