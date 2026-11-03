@@ -1,0 +1,16 @@
+<!doctype html><html lang="zh"><head><meta charset="utf-8"><title>Opening visual fixture</title>
+<style>body{margin:0;padding:16px;background:#080d0c;color:#a3b095;font:12px monospace}main{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}figure{margin:0}canvas{width:100%;aspect-ratio:16/9;display:block}figcaption{padding:6px}body.single main{display:block}body.single figure{display:none}body.single figure.selected{display:block;max-width:1120px;margin:auto}</style></head>
+<body><main></main><script type="module">
+import { OpeningRenderer } from '/src/game/opening-renderer.ts'
+const moments=[4000,6800,11000,14000,17300,22000,24500,28000,30000]
+const requested=new URLSearchParams(location.search).get('time')
+if(requested)document.body.classList.add('single')
+await Promise.all(moments.map(async time=>{
+  const figure=document.createElement('figure'),canvas=document.createElement('canvas'),caption=document.createElement('figcaption')
+  caption.textContent=`${time} ms`;figure.append(canvas,caption);document.querySelector('main').append(figure)
+  if(String(time)===requested)figure.classList.add('selected')
+  const renderer=await OpeningRenderer.create(canvas)
+  new ResizeObserver(()=>{const {width,height}=canvas.getBoundingClientRect();renderer.resize(width,height);renderer.draw(time)}).observe(canvas)
+}))
+document.body.dataset.ready='true'
+</script></body></html>

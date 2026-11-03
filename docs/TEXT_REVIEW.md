@@ -1,6 +1,6 @@
 # 画皮借面文案审阅稿
 
-版本：2026-11-03 本地工作区，基准提交 a604244，包含未提交的文案调整。
+版本：2026-11-03 本地工作区，基准提交 ed3bade，包含未提交的文案调整。
 
 正文保留当前代码原句，按剧情和用途编排。全部分支均列出，不代表一次游玩会全部出现。界面附录收录提示、动态文案模板、辅助标签及源码中的中文候选；其中个别数据字段暂未显示。{{动态值}} 代表姓名、数值等运行时内容。
 
@@ -14,7 +14,7 @@
 | 梦境查验点 | 5 |
 | 物品说明 | 11 |
 | 因果录条目 | 19 |
-| 源码文案候选 | 1428 |
+| 源码文案候选 | 1435 |
 
 目录：
 
@@ -39,25 +39,15 @@
 > 一纸旧约，人已不在。
 > 一城烟雨，谁在借相。
 
-### 抵达客舍
+### 雨夜寻凶图片演出
 
-**一封旧约。**
-
-> 你叫 陆知微，以抄书、代写书信为生。
-> 故友许文卿寄信，请你来未闻县校一部旧谱。
-> 你赶了两日的路，却在客舍门前见到封条。
-
-> “知微兄：旧谱有讹，烦来一校。
-> 戌时，东厢候。”
-> —— 许文卿的来信
-
-> 昨夜，许文卿死在了那间东厢里。
+开场为约 34 秒的图片演出，没有旁白、对白或说明字幕。完成或跳过后进入客舍调查。分镜与素材见 [序章说明](PROLOGUE-v2.md) 和 [图片生成记录](opening-assets.json)。
 
 ### 初步判断
 
 **屋里还有谁？**
 
-> 门从内闩，窗闩无损。住客簿只记了一人，屋里却有交谈声。
+> 敲门无人应答，窗闩无损。住客簿只记了一人，屋里却有交谈声。
 
 三个判断：
 
@@ -100,7 +90,7 @@
 
 > 掌柜把账簿推给你：许文卿在酉时入宿，只有一人。
 > 戌初，小二送茶，听见屋内有人交谈。
-> 到戌正送炭时，门已从里面闩住，无人应答。
+> 到戌正送炭时，敲门已无人应答。
 
 案簿摘要：记载只有一名住客，屋里却曾有两个人的声音。
 
@@ -3423,6 +3413,28 @@
 - 模板正文 · a · src/components/MusicControls.vue:23
   > CC BY 4.0
 
+### components/OpeningCinematic.vue
+
+- 模板条件文案 · src/components/OpeningCinematic.vue:85
+  > 静音
+
+- 模板条件文案 · src/components/OpeningCinematic.vue:85
+  > 开启声音
+
+- 模板条件文案 · src/components/OpeningCinematic.vue:86
+  > 继续演出
+
+- 模板条件文案 · src/components/OpeningCinematic.vue:86
+  > 暂停演出
+
+### components/OpeningPreview.vue
+
+- 模板正文 · button · src/components/OpeningPreview.vue:14
+  > 重播开场
+
+- 模板正文 · a · src/components/OpeningPreview.vue:14
+  > 返回游戏
+
 ### components/PortraitGallery.vue
 
 - 脚本文案 · self · src/components/PortraitGallery.vue:9
@@ -3478,188 +3490,143 @@
 
 ### components/PrologueView.vue
 
-- 脚本文案 · src/components/PrologueView.vue:18
+- 脚本文案 · src/components/PrologueView.vue:19
   > 去西街寻找无面茶楼。
 
-- 脚本文案 · src/components/PrologueView.vue:18
+- 脚本文案 · src/components/PrologueView.vue:19
   > 查验半笺、入宿簿和窗下湿泥。
 
-- 脚本文案 · title · src/components/PrologueView.vue:22
+- 脚本文案 · title · src/components/PrologueView.vue:23
   > 雨尚未停
 
-- 脚本文案 · speaker · src/components/PrologueView.vue:22
+- 脚本文案 · speaker · src/components/PrologueView.vue:23
   > 陆知微
 
-- 脚本文案 · text · src/components/PrologueView.vue:22
+- 脚本文案 · text · src/components/PrologueView.vue:23
   > 先查完东厢再走。
 
-- 脚本文案 · title · src/components/PrologueView.vue:25
+- 脚本文案 · title · src/components/PrologueView.vue:26
   > 送茶
 
-- 脚本文案 · speaker · src/components/PrologueView.vue:25
+- 脚本文案 · speaker · src/components/PrologueView.vue:26
   > 茶摊老板
 
-- 脚本文案 · text · src/components/PrologueView.vue:25
+- 脚本文案 · text · src/components/PrologueView.vue:26
   > 你问送茶的事？小二只隔着门听见说话，并未看清另一名来客的脸。
   > 许先生来时，确实带着一册裹青布的旧谱。那部谱后来去了哪儿，我便不知道了。
 
-- 脚本文案 · title · src/components/PrologueView.vue:25
-  > 昨夜的客人
+- 脚本文案 · title · src/components/PrologueView.vue:26
+  > 东厢的客人
 
-- 脚本文案 · speaker · src/components/PrologueView.vue:25
+- 脚本文案 · speaker · src/components/PrologueView.vue:26
   > 茶摊老板
 
-- 脚本文案 · text · src/components/PrologueView.vue:25
+- 脚本文案 · text · src/components/PrologueView.vue:26
   > 我在南街摆茶摊，晚间也替客舍记账。
   > 许先生酉时一个人来的。戌初，屋里倒像有两个人说话。
   > 你便是信上那个陆知微？韩捕快说，你先别走远。
 
-- 脚本文案 · speaker · src/components/PrologueView.vue:27
+- 脚本文案 · speaker · src/components/PrologueView.vue:28
   > 陆知微
 
-- 脚本文案 · title · src/components/PrologueView.vue:29
+- 脚本文案 · title · src/components/PrologueView.vue:30
   > 梦醒
 
-- 脚本文案 · speaker · src/components/PrologueView.vue:29
+- 脚本文案 · speaker · src/components/PrologueView.vue:30
   > 陆知微
 
-- 脚本文案 · text · src/components/PrologueView.vue:29
+- 脚本文案 · text · src/components/PrologueView.vue:30
   > 天色微亮。窗下的鞋印还在，案上的半笺也还在。
   > 那间茶楼的名字，清楚得不像一个梦。
 
-- 模板正文 · button · src/components/PrologueView.vue:34
+- 模板正文 · button · src/components/PrologueView.vue:36
   > 画皮
 
-- 模板正文 · i · src/components/PrologueView.vue:34
+- 模板正文 · i · src/components/PrologueView.vue:36
   > 借面
 
-- 模板正文 · span · src/components/PrologueView.vue:34
+- 模板正文 · span · src/components/PrologueView.vue:36
   > 序章 · 雨夜寻凶
 
-- 模板正文 · button · src/components/PrologueView.vue:34
+- 模板正文 · button · src/components/PrologueView.vue:36
   > 暂别此事 ↗
 
-- 模板正文 · span · src/components/PrologueView.vue:36
-  > 雨落旧城，故人不至。
+- 模板条件文案 · src/components/PrologueView.vue:38
+  > 核对三条线索
 
-- 模板正文 · span · src/components/PrologueView.vue:37
-  > 未闻县 · 入暮
+- 模板条件文案 · src/components/PrologueView.vue:38
+  > 梦醒之后
 
-- 模板正文 · h1 · src/components/PrologueView.vue:37
-  > 一封旧约。
+- 模板条件文案 · src/components/PrologueView.vue:38
+  > 西街寻人
 
-- 模板正文 · p · src/components/PrologueView.vue:37
-  > 你叫
+- 动态文案模板 · src/components/PrologueView.vue:38
+  > 待核实 {{动态值}} / 3
 
-- 模板正文 · b · src/components/PrologueView.vue:37
-  > 陆知微
+- 模板条件文案 · src/components/PrologueView.vue:38
+  > 尚未结案
 
-- 模板正文 · p · src/components/PrologueView.vue:37
-  > ，以抄书、代写书信为生。
+- 模板条件文案 · src/components/PrologueView.vue:38
+  > 许文卿遇害案
 
-- 模板正文 · p · src/components/PrologueView.vue:37
-  > 故友许文卿寄信，请你来未闻县校一部旧谱。
+- 模板条件文案 · src/components/PrologueView.vue:38
+  > 尚待查验 · 走近后按 E
 
-- 模板正文 · p · src/components/PrologueView.vue:37
-  > 你赶了两日的路，却在客舍门前见到封条。
-
-- 模板正文 · blockquote · src/components/PrologueView.vue:37
-  > “知微兄：旧谱有讹，烦来一校。
-
-- 模板正文 · blockquote · src/components/PrologueView.vue:37
-  > 戌时，东厢候。”
-
-- 模板正文 · small · src/components/PrologueView.vue:37
-  > —— 许文卿的来信
-
-- 模板正文 · p · src/components/PrologueView.vue:37
-  > 昨夜，许文卿死在了那间东厢里。
-
-- 模板正文 · button · src/components/PrologueView.vue:37
-  > 进客舍
+- 模板正文 · button · src/components/PrologueView.vue:38
+  > 继续
 
 - 模板正文 · b · src/components/PrologueView.vue:38
   > 陆知微
 
 - 模板正文 · span · src/components/PrologueView.vue:38
-  > 二十七岁 · 抄书人
-
-- 模板条件文案 · src/components/PrologueView.vue:41
-  > 核对三条线索
-
-- 模板条件文案 · src/components/PrologueView.vue:41
-  > 梦醒之后
-
-- 模板条件文案 · src/components/PrologueView.vue:41
-  > 西街寻人
-
-- 动态文案模板 · src/components/PrologueView.vue:41
-  > 待核实 {{动态值}} / 3
-
-- 模板条件文案 · src/components/PrologueView.vue:41
-  > 尚未结案
-
-- 模板条件文案 · src/components/PrologueView.vue:41
-  > 许文卿遇害案
-
-- 模板条件文案 · src/components/PrologueView.vue:41
-  > 尚待查验 · 走近后按 E
-
-- 模板正文 · button · src/components/PrologueView.vue:41
-  > 继续
-
-- 模板正文 · b · src/components/PrologueView.vue:41
-  > 陆知微
-
-- 模板正文 · span · src/components/PrologueView.vue:41
   > 抄书人
 
-- 模板正文 · summary · src/components/PrologueView.vue:41
+- 模板正文 · summary · src/components/PrologueView.vue:38
   > 梦中案记 ·
 
-- 模板正文 · summary · src/components/PrologueView.vue:41
+- 模板正文 · summary · src/components/PrologueView.vue:38
   > 条待核
 
-- 模板正文 · span · src/components/PrologueView.vue:43
+- 模板正文 · span · src/components/PrologueView.vue:40
   > 东厢案记 · 初步判断
 
-- 模板正文 · h1 · src/components/PrologueView.vue:43
+- 模板正文 · h1 · src/components/PrologueView.vue:40
   > 屋里还有谁？
 
-- 模板正文 · p · src/components/PrologueView.vue:43
-  > 门从内闩，窗闩无损。住客簿只记了一人，屋里却有交谈声。
+- 模板正文 · p · src/components/PrologueView.vue:40
+  > 敲门无人应答，窗闩无损。住客簿只记了一人，屋里却有交谈声。
 
-- 模板正文 · i · src/components/PrologueView.vue:43
+- 模板正文 · i · src/components/PrologueView.vue:40
   > 壹
 
-- 模板正文 · b · src/components/PrologueView.vue:43
+- 模板正文 · b · src/components/PrologueView.vue:40
   > 来者经过后窗。
 
-- 模板正文 · i · src/components/PrologueView.vue:43
+- 模板正文 · i · src/components/PrologueView.vue:40
   > 贰
 
-- 模板正文 · b · src/components/PrologueView.vue:43
+- 模板正文 · b · src/components/PrologueView.vue:40
   > 许兄认得来人。
 
-- 模板正文 · i · src/components/PrologueView.vue:43
+- 模板正文 · i · src/components/PrologueView.vue:40
   > 叁
 
-- 模板正文 · b · src/components/PrologueView.vue:43
+- 模板正文 · b · src/components/PrologueView.vue:40
   > 还有一段时辰没对上。
 
-- 模板正文 · span · src/components/PrologueView.vue:44
+- 模板正文 · span · src/components/PrologueView.vue:41
   > 客舍 · 更深
 
-- 模板正文 · h1 · src/components/PrologueView.vue:44
+- 模板正文 · h1 · src/components/PrologueView.vue:41
   > 雨声入枕。
 
-- 模板正文 · p · src/components/PrologueView.vue:44
+- 模板正文 · p · src/components/PrologueView.vue:41
   > 你把半笺夹回书里。
 
-- 模板正文 · p · src/components/PrologueView.vue:44
+- 模板正文 · p · src/components/PrologueView.vue:41
   > 明日，再去问许兄经手的那部旧谱。
 
-- 模板正文 · button · src/components/PrologueView.vue:44
+- 模板正文 · button · src/components/PrologueView.vue:41
   > 熄灯歇下
 
 ### components/SceneArt.vue
@@ -3968,6 +3935,20 @@
 - 脚本文案 · src/game/music.ts:56
   > 配乐播放失败，请重试。
 
+### game/opening-renderer.ts
+
+- 动态文案模板 · src/game/opening-renderer.ts:21
+  > Opening image unavailable: {{动态值}}
+
+- 动态文案模板 · src/game/opening-renderer.ts:168
+  > blur({{动态值}}px)
+
+- 动态文案模板 · src/game/opening-renderer.ts:207
+  > rgba(185,211,233,{{动态值}})
+
+- 动态文案模板 · src/game/opening-renderer.ts:212
+  > rgba(8,13,12,{{动态值}})
+
 ### game/player-sprite.ts
 
 - 脚本文案 · shen · src/game/player-sprite.ts:6
@@ -4022,6 +4003,9 @@
 
 - 脚本文案 · src/main.ts:8
   > 画皮：借面 · 未闻县行图
+
+- 脚本文案 · src/main.ts:9
+  > 画皮：借面 · 雨夜寻凶
 
 ### style.css
 
@@ -4149,14 +4133,47 @@
 - 说明与辅助标签 · aria-label · src/components/MusicControls.vue:21
   > 配乐音量
 
+- 说明与辅助标签 · aria-label · src/components/OpeningCinematic.vue:80
+  > 雨夜寻凶 · 开场演出
+
+- 说明与辅助标签 · aria-label · src/components/OpeningCinematic.vue:82
+  > 雨夜客舍开场演出
+
+- 说明与辅助标签 · aria-label · src/components/OpeningCinematic.vue:84
+  > 演出控制
+
+- 说明与辅助标签 · src/components/OpeningCinematic.vue:85
+  > 静音
+
+- 说明与辅助标签 · src/components/OpeningCinematic.vue:85
+  > 开启声音
+
+- 说明与辅助标签 · src/components/OpeningCinematic.vue:86
+  > 继续演出
+
+- 说明与辅助标签 · src/components/OpeningCinematic.vue:86
+  > 暂停演出
+
+- 说明与辅助标签 · aria-label · src/components/OpeningCinematic.vue:87
+  > 跳过开场演出
+
+- 说明与辅助标签 · title · src/components/OpeningCinematic.vue:87
+  > 跳过开场演出
+
+- 说明与辅助标签 · aria-label · src/components/OpeningCinematic.vue:88
+  > 返回标题页
+
+- 说明与辅助标签 · title · src/components/OpeningCinematic.vue:88
+  > 返回标题页
+
+- 说明与辅助标签 · aria-label · src/components/OpeningPreview.vue:12
+  > 开场演出预览
+
 - 说明与辅助标签 · aria-label · src/components/PortraitGallery.vue:26
   > 选择对话人物
 
 - 说明与辅助标签 · aria-label · src/components/PortraitGallery.vue:29
   > 人物对话展示
-
-- 说明与辅助标签 · alt · src/components/PrologueView.vue:38
-  > 陆知微 · 本来面目
 
 - 说明与辅助标签 · aria-label · src/components/WorldPreview.vue:19
   > 行图预览设置
@@ -4184,7 +4201,7 @@
 
 ## 九 后续主剧情草稿
 
-后续主线的案件真相、人物动机、六章结构、四类结局和开场试写保存在 [MAIN_STORY-v1.md](MAIN_STORY-v1.md)，尚未接入可玩剧情。柳见秋、殷照、程素娘等新增姓名也仅属于这份草稿。
+后续主线的案件真相、人物动机、六章结构、四类结局与夜宿演出草稿保存在 [MAIN_STORY-v1.md](MAIN_STORY-v1.md)，后续章节尚未接入可玩剧情；序章图片开场已实现。柳见秋、殷照、程素娘等新增姓名也仅属于这份草稿。
 
 - 序章 雨夜寻凶
 - 第一章 借皮入世

@@ -26,6 +26,7 @@ export function musicSceneForMap(location: Location, time: 'day' | 'dusk' | 'nig
   return time === 'night' ? 'night' : 'street'
 }
 export function musicSceneForPrologue(phase: string): MusicScene {
+  if (phase === 'arrival') return 'night'
   if (phase === 'dream' || phase === 'night') return 'dream'
   if (phase === 'investigation' || phase === 'deduction') return 'investigation'
   return 'inn'

@@ -1,0 +1,87 @@
+{
+  "mode": "built-in imagegen",
+  "created": "2026-11-03",
+  "purpose": "Rain-night opening cinematic. Painted images, no narration or caption overlays; 33.6 seconds, then investigation. Runtime WebP encodes preserve image composition and transparency.",
+  "assets": [
+    {
+      "id": "inn-exterior-v1",
+      "source": "assets-source/opening/inn-exterior-v1.png",
+      "runtime": "public/assets/opening/inn-exterior-v1.webp",
+      "transparent": false,
+      "references": [
+        "public/assets/portraits/lu-v1.webp"
+      ],
+      "generated_file": "/Users/qujunjie/.codex/generated_images/01a19f12-b8e8-7172-ab3a-d4d72079e464/exec-5af8aa28-e9f2-40cb-9e34-248052252277.png",
+      "prompt": "Use case: historical-scene. Asset type: full-bleed cinematic background for a Chinese folk-horror browser game, 16:9 landscape. Style: finely painted Chinese historical illustrated novel, dry ink contours, restrained mineral pigments and believable worn materials, dark celadon and charcoal, old ivory and faint amber lantern light. Ominous early Qing inn at night, grounded and legible in low light, no fantasy ornaments, no modern things, no captions, no letters, no inscriptions, no logos, no watermark, no collage, no panels. Scene: a lone itinerant Chinese book-copyist arrives in light rain at a small rural guest inn. Reference image is ONLY the protagonist costume and illustrated style: the man wears a plain indigo robe, brown sleeveless vest, soft dark cloth cap and cloth satchel. Show him small from behind at lower center-left, walking toward a closed timber entrance in the center-right midground. Long gray tiled roof, deep wooden eaves, two dim paper lanterns, a wet stone courtyard reflecting the entrance. Strong depth from foreground puddles to the door, intimate rather than grand architecture. Keep the entrance readable and the sky dark. No other people."
+    },
+    {
+      "id": "guestroom-door-v1",
+      "source": "assets-source/opening/guestroom-door-v1.png",
+      "runtime": "public/assets/opening/guestroom-door-v1.webp",
+      "transparent": false,
+      "references": [],
+      "generated_file": "/Users/qujunjie/.codex/generated_images/01a19f12-b8e8-7172-ab3a-d4d72079e464/exec-3ae1a6cf-666e-4ae1-ae29-72039247840d.png",
+      "prompt": "Use case: historical-scene. Asset type: full-bleed cinematic background for a Chinese folk-horror browser game, 16:9 landscape. Style: finely painted Chinese historical illustrated novel, dry ink contours, restrained mineral pigments and believable worn materials, dark celadon and charcoal, old ivory and faint amber lantern light. Ominous early Qing inn at night, grounded and legible in low light, no fantasy ornaments, no modern things, no captions, no letters, no inscriptions, no logos, no watermark, no collage, no panels. Scene: first-person close view of a CLOSED double wooden guest-room door inside a rural Chinese inn. The entire frame is occupied by the two weathered dark timber door leaves: the vertical meeting seam at exactly image center, left hinge on far left edge, right hinge on far right edge. An aged round iron ring knocker on each side of the center at roughly 52 percent image height. Dim warm lantern light from the left, a thin cold sliver around the edges. Detailed ancient timber grain and simple recessed rectangular panels; no lattice openings, no window, no visible floor, no people or hands. This door surface will split at the center and rotate open in the game, so keep the composition strictly frontal and symmetrical."
+    },
+    {
+      "id": "guestroom-body-v1",
+      "source": "assets-source/opening/guestroom-body-v1.png",
+      "runtime": "public/assets/opening/guestroom-body-v1.webp",
+      "transparent": false,
+      "references": [],
+      "generated_file": "/Users/qujunjie/.codex/generated_images/01a19f12-b8e8-7172-ab3a-d4d72079e464/exec-7e99b22a-61f6-451b-9950-59b618d10584.png",
+      "prompt": "Use case: historical-scene. Asset type: full-bleed cinematic background for a Chinese folk-horror browser game, 16:9 landscape. Style: finely painted Chinese historical illustrated novel, dry ink contours, restrained mineral pigments and believable worn materials, dark celadon and charcoal, old ivory and faint amber lantern light. Ominous early Qing inn at night, grounded and legible in low light, no fantasy ornaments, no modern things, no captions, no letters, no inscriptions, no logos, no watermark, no collage, no panels. Scene: first-person view from a rural inn guest-room doorway. A dead adult Chinese male scholar lies motionless on the wooden floor at lower center-left, pale visible face turned sideways, one limp hand reaching toward the foreground, plain faded gray-blue scholar robe, intact body, no wounds or gore. A writing desk occupies lower right with an old open thread-bound manuscript and overturned brush. At the upper right, a simple rectangular Chinese lattice WINDOW with its two wooden shutters thrown fully outward reveals cold rain-dark blue night. Place this window centered at x=78 percent,y=32 percent with width 24 percent,height 43 percent, keeping its outline clear so animated shutter layers can be added. A low bed against the left back wall, one dim candle beside the book, a sparse room with oppressive dark corners. Strong perspective, readable body and book, cold storm light through the right window balancing a little warm candlelight. No standing people, no ghosts yet, no text anywhere."
+    },
+    {
+      "id": "blank-book-v1",
+      "source": "assets-source/opening/blank-book-v1.png",
+      "runtime": "public/assets/opening/blank-book-v1.webp",
+      "transparent": false,
+      "references": [],
+      "generated_file": "/Users/qujunjie/.codex/generated_images/01a19f12-b8e8-7172-ab3a-d4d72079e464/exec-a673110e-606c-4982-94ce-84f0a0b84468.png",
+      "prompt": "Use case: historical-scene. Asset type: full-bleed cinematic background for a Chinese folk-horror browser game, 16:9 landscape. Style: finely painted Chinese historical illustrated novel, dry ink contours, restrained mineral pigments and believable worn materials, dark celadon and charcoal, old ivory and faint amber lantern light. Ominous early Qing inn at night, grounded and legible in low light, no fantasy ornaments, no modern things, no captions, no letters, no inscriptions, no logos, no watermark, no collage, no panels. Scene: an extreme close-up, nearly overhead view of an antique Chinese thread-bound book lying OPEN on a dark worn wooden writing desk in a night-time inn. The two aged pale cream paper pages fill most of the frame, spine almost vertical at image x=47 percent. Keep the book broad and nearly frontal, slightly perspective tapered at top. Both pages are COMPLETELY BLANK: no writing, no face, no symbols, no illustrations. The RIGHT page is an uninterrupted empty cream area from x=51 to 87 percent and y=14 to 87 percent, reserved for animated rain water and an ink portrait overlay. Fine absorbent paper fibers and lightly worn page edges, a dark wet brush and inkstone near far left margin, a corner of candlelight from lower left and cold blue-gray window light from upper right. Raindrops have just begun to speckle the outer paper edge. No hands, no human, no skull, no printed text."
+    },
+    {
+      "id": "rain-ink-face-v1",
+      "source": "assets-source/opening/rain-ink-face-v1.png",
+      "runtime": "public/assets/opening/rain-ink-face-v1.webp",
+      "transparent": true,
+      "references": [
+        "public/assets/dream/wronged-spirit-v1.webp"
+      ],
+      "generated_file": "/Users/qujunjie/.codex/generated_images/01a19f12-b8e8-7172-ab3a-d4d72079e464/exec-f7bcdb88-0bc3-4dc7-b228-c727421c3070.png",
+      "prompt": "Use case: stylized-concept. Asset type: transparent ink portrait overlay for a supernatural Chinese book cinematic. The input image is ONLY a reference for the woman identity: same ordinary Chinese adult woman, long dark hair, sorrowful tired eyes, slight facial asymmetry. Render JUST her head, loose hair and a little neck, front-facing, as an unfinished traditional Chinese ink-wash likeness that has bled into wet absorbent paper. Black and diluted gray-blue brush pigment only, no colored skin, thin hand-drawn features, long hair dissolving into irregular translucent water blooms and ink tendrils. Her face should be recognisable and still, softly closed lips, unsettling by its quietness. No body, no hands, no scenery, no book itself, no paper rectangle, no circle or frame. Edges organically feather away to ACTUAL TRANSPARENT ALPHA. Portrait orientation, generous transparent margins on all sides, head fully inside frame. No characters, no text, no symbols, no watermark. The game will composite this as rain-born ink onto a blank cream page, so lighter interior areas must be transparent, not a solid white backing."
+    },
+    {
+      "id": "knocking-hand-v1",
+      "source": "assets-source/opening/knocking-hand-v1.png",
+      "runtime": "public/assets/opening/knocking-hand-v1.webp",
+      "transparent": true,
+      "references": [],
+      "generated_file": "/Users/qujunjie/.codex/generated_images/01a19f12-b8e8-7172-ab3a-d4d72079e464/exec-ddf12522-7447-461d-9182-96597479e551.png",
+      "prompt": "Use case: historical-scene. Asset type: transparent foreground hand sprite for a first-person Chinese inn cutscene. One adult Chinese man RIGHT hand in a natural loose knocking fist, viewed from behind and slightly to its right, knuckles aimed toward upper-left / away from camera, with wrist and forearm entering from lower-right. Correct five-finger anatomy, fingers folded naturally, thumb resting outside, no weapon, no object. Plain dark indigo cotton scholar sleeve with an off-white inner cuff, worn cloth and restrained brown patina consistent with early Qing modest traveling book-copyist. Style finely painted historical Chinese illustrated novel, soft dry ink contours and mineral washes, realistic observed anatomy, amber light from upper left. Entire fist and visible sleeve contained in frame. Only one hand and sleeve, no person face, no door, no scene, no ground shadow, no labels or text. ACTUAL TRANSPARENT background, not a checkerboard. Diagonal composition with the fist near upper left and the sleeve disappearing through bottom right."
+    },
+    {
+      "id": "guestroom-closed-v1",
+      "source": "assets-source/opening/guestroom-closed-v1.png",
+      "runtime": "public/assets/opening/guestroom-closed-v1.webp",
+      "transparent": false,
+      "references": [
+        "assets-source/opening/guestroom-body-v1.png"
+      ],
+      "generated_file": "/Users/qujunjie/.codex/generated_images/01a19f12-b8e8-7172-ab3a-d4d72079e464/exec-67fbeada-e126-4523-8046-a4e4fb2e2e92.png",
+      "prompt": "Use case: precise-object-edit. Asset type: closed-window version of this exact game room background. Edit target: the provided inn room image. Change ONLY the upper-right window: close its two timber lattice shutters across the opening so the cold blue view outside is blocked and the room is dimmer. The shutters must be attached to the same existing window frame and meet along its center vertical seam. Remove the open shutter wings outside the frame. Keep every other pixel/composition as invariant as possible: same dead scholar on lower-left floor, identical pose, face, hand and clothing, same bed and blanket, exact wall lines, same table, blank book, candle, inkstone, doorway, viewpoint and aspect ratio. Preserve illustrated historical folk-horror style and natural dim amber light. No new people, no gore, no text, no symbols, no captions. This closed view will crossfade into the original open-window image, so maintaining exact spatial registration is essential."
+    },
+    {
+      "id": "printed-book-v1",
+      "source": "assets-source/opening/printed-book-v1.png",
+      "runtime": "public/assets/opening/printed-book-v1.webp",
+      "transparent": false,
+      "references": [
+        "assets-source/opening/blank-book-v1.png"
+      ],
+      "generated_file": "/Users/qujunjie/.codex/generated_images/01a19f12-b8e8-7172-ab3a-d4d72079e464/exec-385ca3bf-dd12-4002-a815-0fbee75c012f.png",
+      "prompt": "Use case: precise-object-edit. Edit target: the provided open blank antique book image. Keep the exact camera, book silhouette, spine, page edges, blank paper texture underneath, desk, brush, inkstone, candle, window and all lighting unchanged. Change ONLY the two blank page surfaces: add faded hand-printed traditional Chinese characters in narrow vertical columns, like an early Qing book of strange tales. These are small diegetic ink marks on the physical paper, not captions or an overlay. Put text only safely inside each page margin; no headings, no page labels, no faces, no illustrations, no red seals. The columns should follow the same page perspective and look worn, slightly uneven and genuinely absorbed into old paper. Do not add any other objects or change the background. This exact printed version will be used for rapidly turning pages before landing on the original blank spread."
+    }
+  ]
+}

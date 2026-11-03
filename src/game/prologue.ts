@@ -12,7 +12,7 @@ export interface PrologueState {
 }
 export const caseClues = [
   { id: 'letter', title: '未寄出的半笺', mark: '笺', text: '书案下压着半封写给你的信。\n“知微兄：旧谱有讹，烦来一校。戌时，东厢候。”\n落款仍是许文卿，笔锋却比你熟悉的更重。末行被人沿折痕撕去。', inference: '邀约的时辰是戌时，落笔习惯却有细微不同。' },
-  { id: 'ledger', title: '客舍的入宿簿', mark: '簿', text: '掌柜把账簿推给你：许文卿在酉时入宿，只有一人。\n戌初，小二送茶，听见屋内有人交谈。\n到戌正送炭时，门已从里面闩住，无人应答。', inference: '记载只有一名住客，屋里却曾有两个人的声音。' },
+  { id: 'ledger', title: '客舍的入宿簿', mark: '簿', text: '掌柜把账簿推给你：许文卿在酉时入宿，只有一人。\n戌初，小二送茶，听见屋内有人交谈。\n到戌正送炭时，敲门已无人应答。', inference: '记载只有一名住客，屋里却曾有两个人的声音。' },
   { id: 'tracks', title: '窗下的湿泥', mark: '履', text: '窗台有一小块新蹭落的灰。窗下两枚半干的鞋印，鞋头朝向屋内。\n门外的廊板仍是干的，窗闩也没有被撬断。', inference: '来者可能经过后窗，但没有强行破窗的痕迹。' },
 ] as const
 export const dreamSpirit={name:'白衣女魂',portrait:assetUrl('/assets/dream/wronged-spirit-v1.webp')}

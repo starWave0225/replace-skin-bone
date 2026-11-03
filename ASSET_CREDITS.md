@@ -89,6 +89,12 @@
 
 模型采用 1K 纹理，主要表面采用 2K 纹理；此选取用于浏览器内存与近景细节之间的折中。所有实际下载文件通过官方 MD5 校验。
 
+## 雨夜寻凶图片开场（2026-11-03）
+
+使用内置 imagegen 为本作生成八张图片：雨夜客栈、东厢房门、关窗与开窗的见尸房间、带字与空白书页、敲门手部，以及女子水墨面容。陆知微与女魂沿用项目既有角色作为服饰或面容参考。原始 PNG 位于 `assets-source/opening/`，运行时 WebP 位于 `public/assets/opening/`，总计 2381530 字节，约 2.27 MiB；手部与女相保留透明通道。生成方式、原文件、引用图和完整提示词见 `docs/opening-assets.json`。
+
+图像是本作生成素材，不标作公有领域古画或 Poly Haven CC0 资产。书页上的生成字迹仅作画面纹理，不作为《聊斋志异》原文引用。门窗开合、雨线、闪电、透视翻页、水墨显隐与镜头移动由程序合成；脚步、叩门、风雷、翻页和落水声由 Web Audio 合成。
+
 ## 白衣女魂显影
 
 白衣女魂为本作新生成的 AI 角色影像，不属于 Poly Haven 公开资产，也未标为 CC0。使用内置 imagegen 生成 1024×1536 透明 PNG；原稿为 `assets-source/prologue/wronged-spirit-v1.png`，保持原 alpha 通道的运行时文件为 `public/assets/dream/wronged-spirit-v1.webp`。完整提示词、模式和文件来源保存在 `docs/dream-spirit-asset.json`。

@@ -13,7 +13,7 @@ class Media implements MusicMedia {
   pause() { this.paused = true }
 }
 test('查案、梦境、战斗与日常有不同配乐，所有场景均有本地曲目', () => {
-  assert.equal(musicSceneForPrologue('arrival'), 'inn')
+  assert.equal(musicSceneForPrologue('arrival'), 'night')
   assert.equal(musicSceneForPrologue('investigation'), 'investigation')
   assert.equal(musicSceneForPrologue('night'), 'dream')
   assert.equal(musicSceneForPrologue('dream'), 'dream')
