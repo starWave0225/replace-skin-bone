@@ -1,0 +1,48 @@
+docs/TEXT_REVIEW.md
+  s_3bdda088eb163d::t_bd2b4a57192636 3,17,1850,3372-3374,3381-3383,3393-3395,3399-3401,3431,3434,3437,3440,3948-3951,4152,4155,4158,4161,4164,4167,4170,4173,4176,4179,4182
+src/components/MusicControls.vue
+  s_3bdda088eb163d::t_08a358b2511b97 18-20,22-23
+src/components/OpeningPreview.vue
+  s_3bdda088eb163d::t_f17aff4f5b3c7c 2,7
+docs/PROLOGUE-v2.md
+  s_3bdda088eb163d::t_2a4ded9dd245a6 33
+src/game/music.ts
+  s_3bdda088eb163d::t_328bfeb1ceff7f 10,39-40
+  s_3bdda088eb163d::t_f17aff4f5b3c7c 24-25,29,31-32,45-63,66,84,104,113,115
+  s_3bdda088eb163d::t_c3f405a0007d2c 17
+docs/QA.md
+  s_3bdda088eb163d::t_2a4ded9dd245a6 147-152
+src/game/audio.ts
+  s_3bdda088eb163d::t_f17aff4f5b3c7c 6-9,22-25,35-45,47,49-50,52-58
+  s_3bdda088eb163d::t_08a358b2511b97 28,61
+src/components/OpeningCinematic.vue
+  s_3bdda088eb163d::t_489c37ea89ac16 7,84,89
+  s_3bdda088eb163d::t_f17aff4f5b3c7c 5-6,17,46-47
+tests/music.test.ts
+  s_3bdda088eb163d::t_08a358b2511b97 16-17,31
+src/game/music-data.ts
+  s_3bdda088eb163d::t_f17aff4f5b3c7c 13-15,30
+tests/music-autoplay.test.ts
+  s_3bdda088eb163d::t_328bfeb1ceff7f 206-207,247-263
+  s_3bdda088eb163d::t_82c71d388b5eb1 19-48,84-85,87,90,95-96,191-205,211-246
+  s_3bdda088eb163d::t_c3f405a0007d2c 208-210
+README.md
+  s_3bdda088eb163d::t_2a4ded9dd245a6 54,106
+  s_3bdda088eb163d::t_9f5fd4102bdc4b 107
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "0164dd599dcf03ffb0d0701c1afa49d662c3e9be",
+  "prompts": {},
+  "sessions": {
+    "s_3bdda088eb163d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a19f12-b8e8-7172-ab3a-d4d72079e464",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "junjie.qu <junjie.qu@antgroup.com>"
+    }
+  }
+}
