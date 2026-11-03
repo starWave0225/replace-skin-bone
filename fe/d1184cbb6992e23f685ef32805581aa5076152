@@ -1,0 +1,173 @@
+tests/fixtures/world-pixel.html
+  s_3952d0d9e71eb5::t_56584b419945cf 1-39
+ASSET_CREDITS.md
+  s_3952d0d9e71eb5::t_d4b51d6e6ff0b7 25,27-37
+  s_b0be018ec6cfbc::t_4a54d365260aed 104,106
+README.md
+  s_b0be018ec6cfbc::t_4a54d365260aed 41,54,69
+  s_3952d0d9e71eb5::t_d4b51d6e6ff0b7 62-63,75-77,94
+  s_3952d0d9e71eb5::t_ff74152c9d785a 70-71
+  s_3952d0d9e71eb5::t_c3d333e518b10c 72
+src/game/player-sprite.ts
+  s_3952d0d9e71eb5::t_9b7b5f77988a2e 2-3,13-15,18-24,26,28-29
+src/opening.css
+  s_3bdda088eb163d::t_d6df2fba34642f 4-5,21
+  s_b0be018ec6cfbc::t_b13f4098cdeb2c 18
+  s_3952d0d9e71eb5::t_8e6e376614b0ae 2,10-11,14-15
+  s_3952d0d9e71eb5::t_059c24ba808fbb 20
+  s_b0be018ec6cfbc::t_4a54d365260aed 12
+  s_3952d0d9e71eb5::t_b11a6e3ba2e1b7 13,16-17,19
+src/game/opening.ts
+  s_b0be018ec6cfbc::t_8fd54d8318be7d 15,58
+  s_3952d0d9e71eb5::t_b8932f54c7adaf 1-2,20,24,31,45
+  s_3952d0d9e71eb5::t_f2b09553f04e4a 44,46-52,67
+  s_3bdda088eb163d::t_107b6c847126e3 4-14,16,22-23,25,27-30,43,53,55-57,59,66
+  s_3952d0d9e71eb5::t_c2560a0747e17d 54,60-65
+public/assets/world-pixel/LICENSE.txt
+  s_3952d0d9e71eb5::t_c97f99f9ec0093 1-117
+src/game/opening-playback.ts
+  s_b0be018ec6cfbc::t_8fd54d8318be7d 5,26
+  s_3952d0d9e71eb5::t_b8932f54c7adaf 1,3-4,11-25,29
+  s_3952d0d9e71eb5::t_b11a6e3ba2e1b7 2,6,27-28
+  s_3952d0d9e71eb5::t_e27eb03e808c49 7-10
+public/assets/world-pixel/CREDITS.txt
+  s_3952d0d9e71eb5::t_56584b419945cf 1-13,16-24
+  s_3952d0d9e71eb5::t_b04ef335bbcd7d 14-15
+src/game/world-art.ts
+  s_3952d0d9e71eb5::t_8f6579bdc9d9d4 2-11,13-33,35-43,47-66
+  s_3952d0d9e71eb5::t_c0fae16ce31b2a 67
+tests/opening.test.ts
+  s_3bdda088eb163d::t_fddad787065ddb 8,29-30,36-52,63-65,67-68,75-78
+  s_3952d0d9e71eb5::t_e27eb03e808c49 4,59-61,66,74,82-93,95-96,99-107,114,118,125-126,158-169
+  s_3952d0d9e71eb5::t_7ef77c33d95655 7,94,109-113,115-116,119-124,127-128,130-136,140-151,153
+  s_3952d0d9e71eb5::t_f2b09553f04e4a 53-58,62
+  s_3952d0d9e71eb5::t_9c3dacf094aad3 69-73,79-80,108
+  s_b0be018ec6cfbc::t_e449c45c04e376 5-6,81,97-98,117,129,137-139,152,154-157
+  s_3952d0d9e71eb5::t_ebec94820d0c64 170
+src/components/OpeningPreview.vue
+  s_3952d0d9e71eb5::t_e27eb03e808c49 7,12
+src/game/opening-light.ts
+  s_b0be018ec6cfbc::t_8fd54d8318be7d 1-50
+tests/world-assets.test.ts
+  s_3952d0d9e71eb5::t_c0fae16ce31b2a 41
+  s_3952d0d9e71eb5::t_b71d3400157e75 6-7,10-15,20-21,23-24,27-33,35-40,42-45
+src/game/audio.ts
+  s_3952d0d9e71eb5::t_f2b09553f04e4a 69,71-72,94,102
+  s_3952d0d9e71eb5::t_b8932f54c7adaf 2,84,91
+  s_3bdda088eb163d::t_d6df2fba34642f 9,36,48-49,51,58,63
+src/game/opening-poem.ts
+  s_3952d0d9e71eb5::t_db040960edca25 1-2,4-5,7
+  s_b0be018ec6cfbc::t_8fd54d8318be7d 3,6,8
+src/components/WorldView.vue
+  s_3952d0d9e71eb5::t_567a73d02c47ba 20,26,101,106,109-110
+src/components/OpeningCinematic.vue
+  s_3952d0d9e71eb5::t_f2b09553f04e4a 2-3,40-41,53,92-93,97-100
+  s_3952d0d9e71eb5::t_20ac0ceac7478e 27,121
+  s_b0be018ec6cfbc::t_b13f4098cdeb2c 5,22,28-29,38,42-47,56,70,131,139,143,145-147,149
+  s_3bdda088eb163d::t_d6df2fba34642f 26,37,49-52,82,90,123,132
+  s_3952d0d9e71eb5::t_b11a6e3ba2e1b7 4,68-69,71-73,76,141,144,150
+  s_3952d0d9e71eb5::t_ee4d811a1d6315 23,148,151
+  s_3952d0d9e71eb5::t_e27eb03e808c49 13,17
+  s_3952d0d9e71eb5::t_8e6e376614b0ae 6,18-21,61-67,77,79-81,89,91,94-96,102,118,142,152
+  s_3952d0d9e71eb5::t_93340614fd7437 78
+src/game/world-pixel-assets.ts
+  s_3952d0d9e71eb5::t_db040960edca25 41-42,44-45
+  s_3952d0d9e71eb5::t_c0fae16ce31b2a 43,46
+  s_3952d0d9e71eb5::t_3f80e22968c948 1-23,25-30,32-35,37-40
+  s_3952d0d9e71eb5::t_24b9cae4de33b1 36
+  s_3952d0d9e71eb5::t_b71d3400157e75 24
+  s_3952d0d9e71eb5::t_1f8712f2d423cf 31
+docs/QA.md
+  s_3952d0d9e71eb5::t_524e0d7571f2b8 177
+  s_b0be018ec6cfbc::t_effe12863849b6 174,184-191
+  s_3952d0d9e71eb5::t_c61cb28b31e55b 164-173
+  s_3952d0d9e71eb5::t_a053032c3bb07f 192-198
+  s_3952d0d9e71eb5::t_35c2f28703a258 153-163
+  s_3952d0d9e71eb5::t_ec9574816072b9 175-176,178-183
+docs/world-pixel-assets.json
+  s_3952d0d9e71eb5::t_1d41814f2098e4 1-13,16-135,138-140,143-146,149-151,154-224
+  s_3952d0d9e71eb5::t_271dc710d3cfcd 14-15,136-137,141-142,147-148,152-153
+src/game/opening-book.ts
+  s_3952d0d9e71eb5::t_b11a6e3ba2e1b7 41-44,46-47,49-53,55,60-63,69-70,74-76
+  s_3952d0d9e71eb5::t_b8932f54c7adaf 4-6,8-33,35-38,45,56-58,64-68,77-81
+  s_b0be018ec6cfbc::t_8fd54d8318be7d 1-3,7,34,39-40,48,54,59,71-73
+src/game/opening-renderer.ts
+  s_b0be018ec6cfbc::t_b13f4098cdeb2c 4-5,202,207-213,236,241,271-272,277,279,299,303
+  s_3bdda088eb163d::t_d6df2fba34642f 3,15-16,64,72-79,94,110-111,113,125,128-129,131-133,135,255-263,273-276,290-292,294,310,316-317,322
+  s_3952d0d9e71eb5::t_050ee50ef31d28 17,37-38,41,65,80-82,91,143-152,155,157-158,160-172,174-179,182,189,265,296,315,323
+  s_3952d0d9e71eb5::t_93340614fd7437 153-154,156,159
+  s_3952d0d9e71eb5::t_fd4df01b1cf41c 8,109,123,126,180-181,183,185-188,190-197,200,222-232,243,254,282-289,293,295,300
+  s_3952d0d9e71eb5::t_b11a6e3ba2e1b7 2,234,239-240,242,278,280-281,301-302,304-307
+scripts/prepare-world-pixel-assets.py
+  s_3952d0d9e71eb5::t_b71d3400157e75 1-34
+tests/opening-light.test.ts
+  s_b0be018ec6cfbc::t_e449c45c04e376 1-87
+docs/IMPLEMENTATION.md
+  s_3952d0d9e71eb5::t_d4b51d6e6ff0b7 3,19,29
+src/game/world-renderer.ts
+  s_3952d0d9e71eb5::t_3f74536720abab 1,6-8,11-41,44-66,69-70,72-73,77-88,90-118,122-127,129-134,136-138,140-153,155-183,185-191,193-196
+  s_3952d0d9e71eb5::t_24b9cae4de33b1 119-121
+docs/opening-assets.json
+  s_3952d0d9e71eb5::t_c9cf4c23b41ad7 29-36
+  s_b0be018ec6cfbc::t_4a54d365260aed 4-6,8
+  s_3952d0d9e71eb5::t_d85099e1a5743b 7,10-27
+  s_3bdda088eb163d::t_da3d92eb7280b0 28,116-150
+src/game/opening-camera.ts
+  s_b0be018ec6cfbc::t_8fd54d8318be7d 18
+  s_3952d0d9e71eb5::t_b8932f54c7adaf 16-17
+  s_3952d0d9e71eb5::t_7ef77c33d95655 19
+  s_3952d0d9e71eb5::t_c2560a0747e17d 7,11
+  s_3bdda088eb163d::t_1715b3cbb426af 29-30
+  s_3bdda088eb163d::t_fddad787065ddb 33-36
+  s_3bdda088eb163d::t_107b6c847126e3 1-6,8-10,12-15,20-28,31-32,37-38
+tests/music-autoplay.test.ts
+  s_3952d0d9e71eb5::t_e27eb03e808c49 230-232,236
+  s_3952d0d9e71eb5::t_41de49f47733c5 27,29-31,37,42,228-229,233-235,237
+  s_3952d0d9e71eb5::t_648102e79f9ba0 238
+tests/fixtures/opening.html
+  s_3952d0d9e71eb5::t_35c2f28703a258 44
+  s_b0be018ec6cfbc::t_b13f4098cdeb2c 25
+  s_3952d0d9e71eb5::t_aca8bb3463280c 1-18,20-24,26-43,45-65
+  s_3952d0d9e71eb5::t_77be480309df90 19
+src/components/WorldPreview.vue
+  s_3952d0d9e71eb5::t_b71d3400157e75 21
+  s_3952d0d9e71eb5::t_56584b419945cf 19
+  s_3952d0d9e71eb5::t_95d09b70112bd3 15,26
+docs/PROLOGUE-v2.md
+  s_3952d0d9e71eb5::t_a053032c3bb07f 11,22
+  s_b0be018ec6cfbc::t_4a54d365260aed 19,23-26
+  s_3952d0d9e71eb5::t_b0687dff6900c8 20-21,27-28
+  s_3952d0d9e71eb5::t_77be480309df90 43-44
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "fed1184cbb6992e23f685ef32805581aa5076152",
+  "prompts": {},
+  "sessions": {
+    "s_3952d0d9e71eb5": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1a091-54dd-7fb2-aec0-9e98e9988ec9",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "junjie.qu <junjie.qu@antgroup.com>"
+    },
+    "s_3bdda088eb163d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a19f12-b8e8-7172-ab3a-d4d72079e464",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "junjie.qu <junjie.qu@antgroup.com>"
+    },
+    "s_b0be018ec6cfbc": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1a0c3-a261-7182-8938-54371d497edd",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "junjie.qu <junjie.qu@antgroup.com>"
+    }
+  }
+}
