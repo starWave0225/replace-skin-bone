@@ -13,18 +13,18 @@ export interface OpeningBookPage {
 export const openingBookPages: readonly OpeningBookPage[] = [
   {
     id: 'invitation', kind: 'text', title: '雨夜来书',
-    verso: ['未闻县旧谱', '栖雨客舍藏本'],
-    lines: ['许文卿邀我来此校订旧谱', '说是旧宅名姓多有涂改', '信末只有一句莫认错了人', '落款的墨却迟迟没有干'],
+    verso: ['未闻县', '栖雨客舍记'],
+    lines: ['许文卿邀我来此校订旧谱', '备薄酒小菜叙叙旧事'],
   },
   {
     id: 'window', kind: 'text', title: '窗外人声',
     verso: ['东厢杂记', '戌初风雨未歇'],
-    lines: ['戌初有人在后窗低声相唤', '房内应声的竟与许兄相同', '小二只听两人说话未见人', '泥里留下的脚印没有回头'],
+    lines: ['戌初有人在后窗低声相唤', '房内应声的竟与故人同', '小二只听人声未见人影', '怕是梦魇来扰 莫回头'],
   },
   {
-    id: 'borrowed-face', kind: 'text', title: '借面旧闻',
+    id: 'borrowed-face', kind: 'text', title: '异闻',
     verso: ['县中异闻', '传者姓名已佚'],
-    lines: ['县人相传有物能借人面目', '灯下看它眉眼俱与活人同', '惟铜镜中影子总慢了半拍', '若问姓名它便闭口不言'],
+    lines: ['县人相传有异物能借人面目', '光下看它眉眼俱与活人同', '惟铜镜中影子可现原形'],
   },
   {
     id: 'missing-name', kind: 'text', title: '缺去的一名',

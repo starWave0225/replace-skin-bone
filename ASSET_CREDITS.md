@@ -4,7 +4,7 @@
 
 ## 古画
 
-大都会艺术博物馆各作品页面标记 **Public Domain**，Open Access 图像依 **CC0** 提供。用途为标题、行图与旧梦演出，不将画中人物标为本作人物。
+大都会艺术博物馆各作品页面标记 **Public Domain**，Open Access 图像依 **CC0** 提供。用途包括行图与旧梦演出，画中人物作为场景意象。
 
 | 本地文件 | 作品及来源 | 作者 / 年代 |
 | --- | --- | --- |
@@ -26,9 +26,9 @@
 
 作者 **Pixel-Boy / AAA**，来源为作者发布的 [Ninja Adventure Asset Pack](https://pixel-boy.itch.io/ninja-adventure-asset-pack)。作者页面与包内 LICENSE 均注明 **CC0 1.0 Universal**，允许用于商业或非商业游戏。使用 2026-03-29 上传版本，2026-11-03 下载。
 
-七处探索地图、四种主角形貌与五类地图 NPC 共使用 18 张原始 PNG，共 244587 字节（约 239 KiB）。原稿保存在 `assets-source/world-pixel/`，运行文件在 `public/assets/world-pixel/`；两处 PNG 逐字节一致。完整包校验和、每个文件的原路径、尺寸、SHA-256、角色映射见 `docs/world-pixel-assets.json`；包内许可与致谢为 `public/assets/world-pixel/LICENSE.txt`、`CREDITS.txt`。`scripts/prepare-world-pixel-assets.py` 可离线重建与核验。
+探索地图沿用此素材包的地形图块。18 张原始 PNG 包含旧版像素人物，完整原稿保存在 `assets-source/world-pixel/`，本地文件位于 `public/assets/world-pixel/`。完整包校验和、每个文件的原路径、尺寸、SHA-256、旧版角色映射见 `docs/world-pixel-assets.json`；包内许可与致谢为 `public/assets/world-pixel/LICENSE.txt`、`CREDITS.txt`。`scripts/prepare-world-pixel-assets.py` 可离线重建与核验。
 
-人物选型：陆知微使用 SamuraiBlue，沈砚使用 SorcererOrange，周平使用 Samurai，无相之身使用 Spirit；无面娘、戚婆婆、韩七、茶摊老板与井中童影分别使用 Princess、OldWoman、Hunter、OldMan、Child。服饰与轮廓按本作身份近似选配，四方向与走路姿态直接读取作者动画表。
+旧版人物选型：陆知微使用 SamuraiBlue，沈砚使用 SorcererOrange，周平使用 Samurai，无相之身使用 Spirit；无面娘、戚婆婆、韩七、茶摊老板与井中童影分别使用 Princess、OldWoman、Hunter、OldMan、Child。
 
 地形、树木与家具直接裁切作者图块；瓦面、木材、石路与地板在 Canvas 中降饱和与调明暗。建筑轮廓、庭院、街道和中文匾额由本作重组，保持现有地图的游戏布局。旧井由公开容器轮廓与石质井台组合。参考传统仙侠 RPG 的行图氛围，项目不包含《仙剑奇侠传》原作的角色或地图文件。
 
@@ -64,6 +64,10 @@
 ## 原创
 
 青瓦房屋、瓦檐、灯笼、长衫人物、庭院陈设、面具、界面纹饰、程序化环境声与游戏衍生剧情为此 Demo 新作。环境效果保留 Web Audio 合成的低声雨响与交互提示音，已移除自动五声音阶拨弦；正式场景配乐改用文末列出的 PeriTune 授权录音。
+
+## 标题插画与封面
+
+横版标题插画 `public/assets/title/painted-skin-title.webp` 与竖版封面 `assets-source/title/painted-skin-cover.png` 均由内置 ImageGen 生成。以用户提供的志怪插画为视觉参考，重新构图，表现一位披着美人皮相的妖物正在案上描眉。生成提示词见 `docs/title-assets.json`。
 
 ## 专属对话立绘
 
@@ -101,7 +105,7 @@
 
 ## 雨夜寻凶图片开场（2026-11-03）
 
-使用内置 imagegen 为本作累计生成十四张图片（含历史版本）：檐下滴雨、雨夜客栈、廊下跟拍、东厢房门、关窗与开窗的见尸房间、垂手特写、陆知微反应 v1 / v2、带字与空白书页、敲门手部，以及水墨女相 v1 / v2。当前使用惊惧男主 v2，预加载十张图，共 2264030 字节，约 2.16 MiB。末页改为程序绘制诗句，女相 v1 / v2 不再预加载或显示，原文件与提示词均保留归档。旧版带字书页与旧表情也保留归档。原始 PNG 位于 `assets-source/opening/`，运行时 WebP 位于 `public/assets/opening/`；手部与女相保留透明通道，女相 v2 的 WebP alpha 与原稿逐像素一致。生成方式、原文件、引用图和完整提示词见 `docs/opening-assets.json`。
+开场使用内置 ImageGen 生成的十张重绘素材，包括檐雨、抵店、廊下、房门、敲门手、垂手、关窗与开窗的东厢、陆知微越肩所见的东厢全景及空白旧谱。以《画皮：借面》横版标题画为风格参考，统一使用木刻墨线、褪色朱砂和旧纸纹理。PNG 原稿位于 `assets-source/opening/ink/`，运行时 WebP 位于 `public/assets/opening/ink/`，敲门手保留透明通道。参考图、归档镜头和完整提示词见 `docs/opening-assets-ink.json`。初版图片及曾用于旧谱的女相保存在 `docs/opening-assets.json` 所列的归档路径。
 
 图像是本作生成素材，不标作公有领域古画或 Poly Haven CC0 资产。当前旧谱片语在 `src/game/opening-book.ts` 中维护，末页诗文在 `src/game/opening-poem.ts` 中独立维护，由 Canvas 排成竖列，均为可替换的衍生占位文案，不作为《聊斋志异》原文引用。门窗开合、雨线、闪电、点击翻页、环境光或手动灯火驱动的暗处显诗、水墨显隐和镜头移动由程序合成；脚步、叩门、风雷、翻页和落水声由 Web Audio 合成。
 
@@ -111,13 +115,17 @@
 
 角色为衍生故事中的无名冤魂，与《画皮》原著陈氏不是同一人物。场景以透明投影、深度遮挡、缓慢浮动和镜中显影表现，未使用现成第三方女鬼角色模型。
 
-## 像素战斗专用素材
+## 版画人物与雨后斗法
+
+内置 ImageGen 以《画皮：借面》横版封面和现有角色立绘为参考，重绘四种主角形貌、六种地图 NPC、两种借面战斗背影、井中怨灵与雨后小院。PNG 原稿位于 `assets-source/characters/ink/`，运行素材位于 `public/assets/characters/ink/`。各图集的角色、方向、步幅、参考图和提示词见 `docs/character-ink-assets.json`。描墨纸面由 `BattlePaperMask.vue` 绘制。
+
+## 归档的像素战斗素材
 
 使用内置 imagegen 为本作生成四张原创像素图：`courtyard-v1` 月下小院、`shen-back-v1` 画师背身、`guard-back-v1` 捕快背身、`spirit-v1` 缠面影真身。战斗采用经典掌机回合制游戏常见的前后站位与底部菜单结构；画面中的人物、妖怪和场景为本作新设计。
 
 原始 PNG 保存在 `assets-source/combat/`，运行 WebP 位于 `public/assets/combat/`，完整提示词、生成方式与文件映射见 `docs/combat-pixel-assets.json`。三个透明角色使用无损 WebP，已逐像素核对 alpha 与生成原图一致；背景转换为 WebP。运行素材合计约 3.06 MiB。这些 AI 生成图不标作 Poly Haven 或 CC0 下载素材。
 
-飘浮的三张像素纸面由 `BattlePaperMask.vue` 绘制，舞台圆台、状态框、出招位移、伤害飘字和纸面掉落由本作界面代码制作。正式剧情的专属对话立绘继续使用人物谱中的原有文件。
+早期战斗的舞台圆台、状态框、出招位移、伤害飘字和纸面掉落由本作界面代码制作。
 
 
 ## 场景与战斗配乐（2026-10-31 接入）
@@ -126,15 +134,17 @@
 
 | 原曲 | 本作场景 | 官方来源 |
 | --- | --- | --- |
-| Chinatown_Healing | 标题、客舍 | https://peritune.com/blog/2017/06/22/chinatown/ |
+| Chinatown_Healing | 客舍 | https://peritune.com/blog/2017/06/22/chinatown/ |
 | Folk_Chinese | 白昼南街 | https://peritune.com/blog/2018/01/14/folk_chinese/ |
 | Taohua | 戚家小院、斗法胜利 | https://peritune.com/blog/2021/03/03/taohua/ |
 | Shenxian_Drumless | 无面茶楼、王宅 | https://peritune.com/blog/2020/06/05/shenxian/ |
-| Wuxia2_Guzheng_Pipa | 县衙、后井、夜间查案、败退 | https://peritune.com/blog/2018/10/13/wuxia2/ |
-| Suspense | 序章入夜、第一人称梦境 | https://peritune.com/blog/2015/05/10/suspense1/ |
-| Suspense3 | 回合制斗法 | https://peritune.com/blog/2015/08/29/suspense3/ |
+| Wuxia2_Guzheng_Pipa | 回合制斗法 | https://peritune.com/blog/2018/10/13/wuxia2/ |
+| Suspense | 县衙、后井、夜间查案、败退 | https://peritune.com/blog/2015/05/10/suspense1/ |
+| Suspense3 | 标题、梦境试玩 | https://peritune.com/blog/2015/08/29/suspense3/ |
 
 五首民乐曲取自作者提供的免费循环版 ZIP，Suspense 与 Suspense3 使用官方免费完整版本。原 OGG / M4A 文件未修改；游戏运行时循环播放、调整音量，并在切景时作 900 毫秒淡入淡出。两首悬疑曲为氛围配乐，不将其标注为中国传统民乐。界面中文曲签由本作命名，不是作者原曲名。
+
+序章从客舍调查至井边教学战使用本作为此章制作的《井底余声》。低弦和疏落的拨弦由程序合成，48 秒循环，文件为 `public/assets/music/prologue_undersong.ogg` 与同名 M4A。
 
 下载包与网页许可证据保存在 `assets-source/music/`；运行文件在 `public/assets/music/`，按需加载 OGG，浏览器不支持时使用 M4A。每个文件的 SHA-256、原下载链接、日期与场景映射见 `docs/music-public-assets.json`。游戏内「画外拾遗」提供原曲、作者与许可链接；配乐按钮仅提供开关。
 
@@ -147,3 +157,14 @@
 - 窗扇：将 `door_creak_close.wav`、`door_open.wav`、`door_close.wav` 剪辑混合成 1.2 秒的轴响与木框碰撞声，表现风吹开木窗；这些原录音来自门，不将其标作实录窗户。与现有程序风雨声同步播放。
 
 两段均为本地单声道 24kHz PCM16 WAV，包含短淡入淡出；跟随全局声量、静音、演出暂停与切后台，恢复时从当前音效的中途续播。预先解码，载入失败时保留原有合成音效。原始录音及许可页面位于 `assets-source/opening-sfx/`，运行文件位于 `public/assets/opening-sfx/`，剪辑说明与 SHA-256 见 `docs/opening-sfx-assets.json`。
+
+## 未闻县大地图
+
+`public/assets/maps/weiwen-county.webp` 为内置 ImageGen 生成的县城全景。画面以斜俯视的志怪版画呈现已实装的地点，地名和线路由游戏界面叠加。
+
+<details>
+<summary>全景生成提示词</summary>
+
+Use case: stylized-concept. Asset type: full-screen illustrated world map backdrop for the Chinese supernatural RPG Painted Skin. Paint a single continuous, geographically legible panorama of an old Chinese county seen from a 45-degree high oblique aerial view, with rooftops, facades, trees and terrain in depth, as if looking down from a mountain. Wide landscape roughly 16:10, all key sites comfortably within the frame. Compose as an original late-imperial Chinese gazetteer landscape with Liaozhai woodblock ink outlines, subtle etched paper texture and painted washes; mist and subdued slate-jade river, charcoal tile roofs, rice-paper beige and muted cinnabar lanterns. A quiet uneasy dusk, legible enough for interactive labels. Layout anchors in percent (left to right x, top to bottom y): foreground west/left a lantern-lit two-storey teahouse at (27,70); a small isolated traveller's inn tucked against low slopes at (15,39) with an adjacent stone well just behind it at (15,23); a broad stone-paved market street, main town hub (53,53); a larger dignified yamen gate compound on the higher central ground (52,25); at right a modest walled family courtyard (76,48), behind it a little round well among trees (79,27). River sweeps from the bottom left past the lower edge of the town towards the right side, crossed by a single central stone arch bridge roughly (43,67). Old lanes and courtyards organically connect the landmarks, with little patches of trees, distant hills and humid fog at edges. Each landmark clearly distinguishable, no cutaway interiors or grid. Full bleed illustration. No writing, signage glyphs, labels, UI, pins, route lines, compass, characters or watermarks.
+
+</details>

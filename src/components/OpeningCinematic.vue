@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import ScreenPages from './ScreenPages.vue'
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { continuingOpeningCues, crossedOpeningCues, openingDuration, openingFrame, openingWeather } from '../game/opening'
 import { openingBookPages, setOpeningBookBrightness } from '../game/opening-book'
@@ -13,7 +14,6 @@ import '../opening.css'
 const props = defineProps<{ motion: boolean; fromBook?: boolean; paused?: boolean }>()
 const emit = defineEmits<{ finish: []; exit: [] }>()
 const canvas = ref<HTMLCanvasElement>()
-const film = ref<HTMLElement>()
 const playback = ref(createOpeningPlayback(props.fromBook))
 const elapsed = computed(() => playback.value.elapsed)
 const bookActive = computed(() => isOpeningBookWaiting(playback.value))
@@ -120,7 +120,7 @@ onMounted(async () => {
       const { width, height } = entries[0].contentRect
       renderer?.resize(width, height); draw()
     })
-    observer.observe(film.value!)
+    observer.observe(canvas.value!)
     ready.value = true
     canvas.value?.focus({ preventScroll: true })
     revealControls()
@@ -139,11 +139,13 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <main class="opening-page" :class="{ 'opening-paused': paused, 'opening-controls-visible': controlsVisible }" :data-shot="frame.shot" :data-elapsed="Math.round(elapsed)" :data-book-page="playback.book.page + 1" :data-book-turning="turning" :data-light-mode="lightMode" data-audio-mode="environment" :data-audio-playing="musicState.playing" :data-audio-waiting="musicState.awaitingInteraction" aria-label="雨夜寻凶 · 开场演出" @pointermove="revealControls" @pointerdown="revealControls">
-    <div ref="film" class="opening-film">
-      <canvas ref="canvas" tabindex="0" role="img" :aria-label="bookActive ? bookLabel : '雨夜客舍开场演出'"/>
+  <main class="opening-page" :class="{ 'opening-paused': paused, 'opening-controls-visible': controlsVisible, 'opening-reading-book': bookActive }" :data-shot="frame.shot" :data-elapsed="Math.round(elapsed)" :data-book-page="playback.book.page + 1" :data-book-turning="turning" :data-light-mode="lightMode" data-audio-mode="environment" :data-audio-playing="musicState.playing" :data-audio-waiting="musicState.awaitingInteraction" aria-label="雨夜寻凶 · 开场演出" @pointermove="revealControls" @pointerdown="revealControls">
+    <div class="opening-film">
+      <div class="opening-picture">
+        <canvas ref="canvas" tabindex="0" role="img" :aria-label="bookActive ? bookLabel : '雨夜客舍开场演出'"/>
+        <button v-if="bookActive" class="opening-book-hitarea" :aria-label="poemPage ? '收起旧谱继续' : '翻到下一页'" aria-describedby="opening-book-text" :disabled="!ready || paused || turning || poemPage && !playback.book.revealed" @click="turnPage"/>
+      </div>
       <template v-if="bookActive">
-        <button class="opening-book-hitarea" :aria-label="poemPage ? '收起旧谱继续' : '翻到下一页'" aria-describedby="opening-book-text" :disabled="!ready || paused || turning || poemPage && !playback.book.revealed" @click="turnPage"/>
         <div class="opening-book-tools">
           <div class="opening-book-prompt" aria-hidden="true"><span>{{ playback.book.page + 1 }} / {{ openingBookPages.length }}</span><span>{{ paused ? '演出已暂停' : turning ? '翻页中' : poemPage ? (playback.book.revealed ? '点击书页继续' : '暗处有字，熄灯细看') : '点击书页翻阅' }}</span><span v-if="!paused && !turning && (!poemPage || playback.book.revealed)">→</span></div>
           <template v-if="poemPage">
@@ -151,6 +153,16 @@ onUnmounted(() => {
             <p id="opening-light-note" class="opening-light-note" role="status">{{ lightMode === 'ambient' ? '随环境光明暗显字；也可手动调光' : lightMode === 'sensing' ? '正在感应环境光，也可手动调光' : '手动调暗页内灯火，字迹渐显' }}</p>
           </template>
         </div>
+        <section class="opening-touch-book" aria-label="旧谱正文">
+          <ScreenPages :key="playback.book.page">
+          <h2>{{ poemPage && !playback.book.revealed ? '纸上墨痕' : bookPage.title }}</h2>
+          <p v-if="poemPage && !playback.book.revealed">调暗页内灯火，等字迹浮现。</p>
+          <template v-else><p v-for="line in bookPage.lines" :key="line">{{ line }}</p></template>
+          </ScreenPages>
+          <button class="outline-button" :disabled="!ready || paused || turning || poemPage && !playback.book.revealed" @click="turnPage">
+            {{ poemPage ? '收起旧谱继续' : '下一页' }} →
+          </button>
+        </section>
         <div id="opening-book-text" class="opening-visually-hidden" role="status" aria-live="polite"><p>{{ poemPage ? (playback.book.revealed ? '一则残谶已从纸上浮现，可以收起旧谱。' : '暗处藏着字迹。移至暗处或调低页内灯火，辨认纸上的残谶。') : bookPage.title }}</p><template v-if="!poemPage || playback.book.revealed"><p v-for="line in bookPage.lines" :key="line">{{ line }}</p></template></div>
       </template>
     </div>

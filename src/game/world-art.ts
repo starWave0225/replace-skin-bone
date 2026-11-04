@@ -1,12 +1,15 @@
 import { assetUrl } from './asset-url'
-import { pixelFacingColumns, pixelRegions, pixelWalkRow, worldPixelFiles } from './world-pixel-assets'
-import type { PixelActor, PixelRegionId, PixelSheet } from './world-pixel-assets'
+import { pixelEnvironmentFiles, pixelRegions } from './world-pixel-assets'
+import type { PixelRegionId } from './world-pixel-assets'
+import { actorFrame, adultActorHeight, worldActorFiles } from './world-actors'
+import type { WorldActor } from './world-actors'
 import type { WorldState } from './types'
 
-export const worldArtFiles = worldPixelFiles
+const worldArtFiles = { ...pixelEnvironmentFiles, ...worldActorFiles }
+type ArtSheet = keyof typeof worldArtFiles
 export type WorldMaterial = 'earth' | 'stone' | 'roof' | 'plaster' | 'brick' | 'floor' | 'wood'
 export interface WorldArt {
-  images: Partial<Record<PixelSheet, HTMLImageElement>>
+  images: Partial<Record<ArtSheet, HTMLImageElement>>
   surfaces: Partial<Record<WorldMaterial, HTMLCanvasElement>>
   failed: string[]
 }
@@ -29,7 +32,7 @@ export function loadWorldArt(): Promise<WorldArt> {
         await new Promise<void>((resolve, reject) => {
           image.onload = () => resolve(); image.onerror = () => reject(new Error(path)); image.src = assetUrl(path)
         })
-        await image.decode(); art.images[name as PixelSheet] = image
+        await image.decode(); art.images[name as ArtSheet] = image
       } catch { art.failed.push(path) }
     }))
     for (const [name, treatment] of Object.entries(treatments)) {
@@ -59,10 +62,21 @@ export function stampWorldPixel(context: CanvasRenderingContext2D, art: WorldArt
   if (!image) return
   context.drawImage(image, region.x, region.y, region.w, region.h, Math.round(x), Math.round(y), Math.round(width ?? region.w * 2), Math.round(height ?? region.h * 2))
 }
-export function drawWorldActor(context: CanvasRenderingContext2D, art: WorldArt | undefined, role: PixelActor, x: number, y: number, facing: WorldState['facing'], gait = 0, scale = 3) {
+export function drawWorldActor(context: CanvasRenderingContext2D, art: WorldArt | undefined, role: WorldActor, x: number, y: number, facing: WorldState['facing'], gait = 0, height = adultActorHeight) {
   const image = art?.images[role]
   if (!image) return
-  const size = 16 * scale, shadow = art?.images.shadow
-  if (shadow) { context.save(); context.globalAlpha *= .45; context.drawImage(shadow, Math.round(x - 13), Math.round(y - 3), 26, 10); context.restore() }
-  context.drawImage(image, pixelFacingColumns[facing] * 16, pixelWalkRow(gait, Math.floor(image.naturalHeight / 16)) * 16, 16, 16, Math.round(x - size / 2), Math.round(y - size + 3), size, size)
+  const width = height * actorFrame.width / actorFrame.height
+  const hasSteps = image.naturalWidth > actorFrame.width
+  const phase = Math.floor(gait * .65) % 4
+  const column = gait && hasSteps ? [1, 0, 2, 0][phase] : 0
+  const lift = role === 'nameless' && gait ? Math.abs(Math.sin(gait)) * 1.8 : 0
+  context.save()
+  context.fillStyle = '#18181065'
+  context.beginPath(); context.ellipse(x, y, width * .29, height * .058, 0, 0, Math.PI * 2); context.fill()
+  context.imageSmoothingEnabled = true
+  context.translate(x, y - lift)
+  if (facing === 'left') context.scale(-1, 1)
+  context.drawImage(image, column * actorFrame.width, actorFrame.rows[facing] * actorFrame.height,
+    actorFrame.width, actorFrame.height, -width / 2, -height, width, height)
+  context.restore()
 }

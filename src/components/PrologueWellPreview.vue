@@ -5,19 +5,21 @@ import { advancePrologue, caseClues, dreamStations, initialPrologue, startWellEn
 import { advanceWellEncounter, performWellAction } from '../game/prologue-battle'
 import type { CombatAction } from '../game/combat-data'
 import type { WorldState } from '../game/types'
+import { useSceneMusic } from '../game/music'
 function morning() {
   const state = initialPrologue()
   state.phase = 'morning'; state.clues = caseClues.map(c => c.id); state.dreamSeen = dreamStations.map(s => s.id)
   return state
 }
 const state = ref(morning())
+useSceneMusic('prologue', 10, () => state.value.phase !== 'completed')
 function action(id: CombatAction) { if (state.value.wellEncounter) performWellAction(state.value.wellEncounter, id) }
 function next() { if (state.value.wellEncounter) advanceWellEncounter(state.value.wellEncounter) }
 function exit() { window.location.href = './' }
 function position(value: WorldState) { if (value.map === state.value.world.map) state.value.world = value }
 </script>
 <template>
-  <div class="well-preview-banner">序章片段试玩 · 从梦醒开始，不写入正式存档 <button @click="state=morning()">重新体验</button><a href="./">返回首页 ↗</a></div>
+  <div class="well-preview-banner"><span>序章片段试玩</span><span class="well-preview-description">从梦醒开始 · 不写入正式存档</span><button @click="state=morning()">重新体验</button><a href="./">返回首页 ↗</a></div>
   <section v-if="state.phase==='completed'" class="well-preview-finish"><h1>井声暂歇，西街寻人。</h1><p>正式剧情在此接入无面茶楼，继续追查许文卿经手的旧谱。</p><a href="./">返回首页 →</a></section>
   <PrologueView v-else :state="state" :motion="true" @position="position" @travel="travelPrologue(state,$event)" @battle="startWellEncounter(state)" @battle-action="action" @battle-next="next" @next="advancePrologue(state)" @exit="exit"/>
 </template>

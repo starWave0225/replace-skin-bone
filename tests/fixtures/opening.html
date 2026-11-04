@@ -22,7 +22,7 @@
   <script type="module">
     import { OpeningRenderer } from '/src/game/opening-renderer.ts'
     import { openingFrame, openingShots, openingDuration } from '/src/game/opening.ts'
-    const labels={eaves:'檐雨',arrival:'抵店',gallery:'廊下',door:'叩门与等待',threshold:'推门',hand:'垂手',discovery:'见尸',reaction:'惊觉',storm:'窗开',pages:'翻页',blank:'空白',poem:'暗处诗现',dissolve:'余痕'}
+    const labels={eaves:'檐雨',arrival:'抵店',gallery:'廊下',door:'叩门与等待',threshold:'推门',hand:'垂手',discovery:'见尸',reaction:'越肩看东厢',storm:'窗开',pages:'翻页',blank:'空白',poem:'暗处诗现',dissolve:'余痕'}
     const params=new URLSearchParams(location.search), requested=params.get('time'), single=requested!==null
     const reduced=document.querySelector('#reduce'),slider=document.querySelector('#time'),clock=document.querySelector('#clock'),select=document.querySelector('#shots'),play=document.querySelector('#play')
     reduced.checked=params.get('reduced')==='1';slider.max=String(openingDuration)

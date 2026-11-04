@@ -1,0 +1,295 @@
+html, body { width: 100%; height: 100%; overflow: hidden; overscroll-behavior: none; }
+#app { width: 100%; height: 100dvh; display: flex; flex-direction: column; overflow: clip; }
+#app > .app {
+  flex: 1 1 0;
+  min-height: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: clip;
+}
+
+/* Fixed headers, flexible scene, and persistent actions. */
+#app .title-header { height: clamp(44px, 8dvh, 78px); }
+#app .title-main { flex: 1 1 0; min-height: 0; align-items: center; }
+#app .title-copy { margin-block: 0; }
+#app .title-copy .main-title { margin: clamp(5px, 2dvh, 20px) 0; gap: 12px; }
+#app .title-copy .main-title h1 { font-size: clamp(56px, 19dvh, 165px); }
+#app .title-copy .title-verse { margin: 8px 0 13px; }
+#app .title-previews { margin-top: 10px; }
+#app .title-previews > a { padding-block: 8px; }
+#app .title-previews > a > span { display: inline; }
+#app .title-footer { height: clamp(40px, 8dvh, 72px); }
+#app .game-body { flex: 1 1 0; min-height: 0; }
+#app .game-main.rpg-main { min-height: 0; height: auto; margin-block: 7px; }
+#app .game-main > .world-view { min-height: 0; height: 100%; }
+#app .game-header { flex: 0 0 auto; }
+#app .right-sidebar { min-height: 0; }
+#app .right-sidebar .screen-page-content { display: flex; flex-direction: column; gap: 16px; }
+#app .world-view .world-canvas { touch-action: none; }
+#app .world-destinations { max-height: calc(100% - 95px); min-height: 0; overflow: clip; }
+.world-destinations .screen-page-content { display: flex; flex-direction: column; gap: 3px; }
+.world-destinations .screen-page-content > span { color: #b3bfa4; font-size: 14px; }
+.world-destinations .screen-page-content > button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 32px;
+  gap: 6px;
+  font-size: 15px;
+  text-align: left;
+}
+.world-destinations .screen-pages-nav { color: #c7c19e; }
+#app .rpg-dialogue, #app .prologue-note {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  max-height: 90%;
+  overflow: clip;
+}
+.dialogue-pages, .prologue-note > .screen-pages { flex: 1 1 auto; }
+.prologue-note .screen-page-content > p { white-space: pre-line; font-size: 17px; line-height: 1.8; margin-block: 8px; }
+.rpg-dialogue > .speaker-row, .rpg-dialogue > .dialogue-footer,
+.prologue-note > button { flex-shrink: 0; }
+#app .rpg-dialogue .dialogue-text { margin: 7px 0; }
+#app .rpg-dialogue .story-choices { margin: 6px 0; }
+#app .ending-screen { min-height: 0; padding: 12px 16px; }
+.ending-pages { width: 100%; flex: 1 1 auto; position: relative; }
+
+#app .prologue-page { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; }
+#app .prologue-header { height: auto; min-height: 52px; flex: 0 0 auto; padding-block: 4px; }
+#app .prologue-investigation { flex: 1 1 0; min-height: 0; height: auto; position: relative; }
+#app .prologue-map, #app .prologue-map > .world-view { min-height: 0; height: 100%; }
+#app .prologue-casebook { display: flex; flex-direction: column; min-height: 0; overflow: clip; padding: 12px 16px; }
+.prologue-casebook .screen-pages { flex: 1 1 auto; }
+.prologue-casebook .screen-page-content > h1 { font: 31px MaShan, serif; color: #e0cfaa; margin: 8px 0; }
+.prologue-casebook .screen-page-content > article { display: flex; gap: 9px; padding: 8px 0; border-top: 1px solid #b2a57330; }
+.prologue-casebook .screen-page-content > article i { color: #bba778; }
+.prologue-casebook .screen-page-content h3 { font-size: 16px; }
+.prologue-casebook .screen-page-content p { font-size: 15px; line-height: 1.7; }
+.prologue-casebook .prologue-primary { margin: 8px 0; flex-shrink: 0; }
+.prologue-case-toggle { display: none; }
+#app .prologue-deduction, #app .prologue-night {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+  min-height: 0;
+  padding: clamp(9px, 3dvh, 28px) 18px;
+}
+.prologue-deduction > .screen-pages, .prologue-night > .screen-pages { flex: 1 1 auto; }
+.prologue-deduction .screen-page-content > h1, .prologue-night .screen-page-content > h1 {
+  font: clamp(29px, 7dvh, 61px)/1.25 MaShan, serif;
+  margin: 6px 0;
+  color: #e4d7b7;
+}
+.prologue-deduction .screen-page-content > p, .prologue-night .screen-page-content > p { font-size: 16px; line-height: 1.8; }
+#app .prologue-evidence { margin: 9px 0; }
+#app .prologue-evidence > span { padding: 8px 10px; }
+#app .prologue-deductions > button { padding: 9px 10px; min-height: 43px; }
+
+/* Long text uses explicit page buttons rather than an inner scrollbar. */
+#app .modal-panel { min-height: 0; max-height: min(100%, 91dvh); }
+#app .modal-content { display: flex; min-height: 0; overflow: clip; }
+#app .modal-content > .screen-pages { flex: 1 1 auto; }
+#app .modal-footer { padding-block: 7px; }
+#app .dream-experience { min-height: 0; height: auto; flex: 1 1 0; }
+#app .dream-reading, #app .dream-casebook {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100% - 20px);
+  overflow: clip;
+}
+.dream-reading > footer, .dream-casebook > button { flex-shrink: 0; }
+#app .dream-reading h2, #app .dream-casebook h2 { margin-block: 4px 8px; }
+#app .dream-casebook-notes { margin-block: 5px; }
+#app .dream-intro, #app .dream-error { overflow: clip; }
+#app .dream-intro { display: flex; flex-direction: column; max-height: 72%; min-height: 0; }
+.dream-intro > .screen-pages { flex: 1 1 auto; }
+.dream-intro .screen-page-content > p { font-size: clamp(15px, 2.6dvh, 19px); line-height: 1.8; margin: 8px 0; }
+.dream-intro .screen-page-content > small { display: block; font-size: 14px; line-height: 1.7; margin: 7px 0; }
+.dream-intro > .dream-mode-actions { flex-shrink: 0; margin-top: 8px; }
+#app .opening-page:not(.opening-reading-book) .opening-film {
+  width: min(100%, calc((100dvh - var(--dock-space, 0px) - 56px - env(safe-area-inset-bottom, 0px)) * 1.7778));
+}
+#app .opening-replay, #app .dream-preview-end { min-height: 0; height: 100%; }
+
+/* Keep the battlefield and the commands in the same viewport. */
+#app .combat-preview { flex: 1 1 0; min-height: 0; padding: 5px 10px; overflow: clip; }
+#app .combat-inner { display: flex; flex-direction: column; height: 100%; min-height: 0; position: relative; }
+#app .combat-header { min-height: 42px; gap: 8px; flex-shrink: 0; }
+#app .combat-header nav { gap: 6px; }
+#app .combat-heading { flex-shrink: 0; gap: 6px; padding: 4px 0 6px; flex-wrap: nowrap; }
+.combat-help-button { min-height: 38px; border: 1px solid #8c9b82; padding: 3px 8px; white-space: nowrap; font-size: 14px; }
+#app .combat-machine { flex: 1 1 0; min-height: 0; display: grid; grid-template-rows: minmax(0, 1fr) auto; }
+#app .combat-arena { height: auto; min-height: 0; }
+#app .combat-arena .combat-hero, #app .combat-arena .combat-enemy-art { height: min(76%, 255px); width: auto; aspect-ratio: 1; }
+#app .combat-arena .combat-enemy-art { top: auto; bottom: calc(25% + clamp(8px, 3dvh, 28px)); height: min(64%, 255px); }
+#app .combat-arena .enemy-platform { top: auto; bottom: 25%; }
+#app .combat-command-deck { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); }
+#app .combat-message-box, #app .combat-action-panel { padding: 7px 9px; min-width: 0; }
+#app .combat-moves { gap: 5px; }
+#app .combat-moves > button, #app .combat-common > button { padding: 4px 6px; min-height: 40px; }
+#app .combat-move-top { gap: 4px; }
+#app .combat-common { margin-top: 5px; }
+#app .combat-preview .combat-last-report, #app .combat-preview .combat-selected-note {
+  height: auto;
+  max-height: 3em;
+  min-height: 0;
+  overflow: clip;
+}
+#app .combat-footer { display: none; }
+#app .combat-result { overflow: clip; }
+#app .combat-story-copy { flex: 1 1 0; display: flex; flex-direction: column; min-height: 0; min-width: 0; align-self: stretch; }
+#app .combat-story-copy .screen-pages { flex: 1 1 auto; }
+#app .combat-story-copy > button { flex-shrink: 0; align-self: flex-start; }
+#app .encounter-intro, #app .encounter-aftermath { flex: 1 1 0; min-height: 0; margin: 0; padding: 10px 14px; }
+.combat-story-copy h2 { margin: 4px 0 9px; }
+.combat-help {
+  position: absolute;
+  inset: 0;
+  z-index: 12;
+  display: flex;
+  flex-direction: column;
+  padding: 12px 15px;
+  background: #fbf4db;
+  border: 2px solid #596d58;
+}
+.combat-help > header { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-bottom: 8px; }
+.combat-help > header h2 { font-size: 19px; }
+.combat-help > header button { min-height: 40px; border: 1px solid #8c9b82; flex-shrink: 0; }
+.combat-help > .screen-pages { flex: 1 1 auto; }
+#app .combat-help .combat-log ol { max-height: none; overflow: visible; }
+.combat-help blockquote { margin: 12px 0; }
+.combat-help cite { display: block; }
+
+#app .world-preview-page, #app .portrait-gallery { flex: 1 1 0; display: flex; flex-direction: column; min-height: 0; }
+#app .world-preview-map, #app .portrait-gallery-layout { flex: 1 1 0; min-height: 0; height: auto; }
+#app .world-preview-map .world-view, #app .portrait-gallery-stage { min-height: 0; }
+#app .well-preview-banner { flex-shrink: 0; min-height: 32px; padding: 4px 9px; gap: 6px; }
+#app .well-preview-finish { margin: auto; }
+.portrait-gallery-select { display: none; }
+.portrait-gallery-list .screen-page-content > button { display: flex; align-items: center; gap: 9px; padding: 6px; width: 100%; text-align: left; min-height: 55px; }
+.portrait-gallery-list .screen-page-content > button[aria-pressed="true"] { background: #4e5844; }
+.portrait-gallery-list .screen-page-content > button img { width: 38px; height: 51px; object-fit: contain; }
+.portrait-gallery-list .screen-page-content > button small { display: block; }
+
+@media (max-width: 760px), (any-pointer: coarse), (max-width: 1100px) and (max-height: 520px) {
+  #app .game-body { display: flex; }
+  #app .game-main { flex: 1 1 0; margin: 0; }
+  #app .game-main > .world-view { min-height: 0; }
+  #app .prologue-header { padding-inline: 8px; gap: 6px; flex-wrap: nowrap; }
+  #app .prologue-header > span { display: none; }
+  #app .prologue-logo { font-size: 25px; letter-spacing: 0; white-space: nowrap; }
+  #app .prologue-header > button:last-child { min-height: 40px; font-size: 13px; padding-inline: 4px; white-space: nowrap; }
+  #app .prologue-header .music-switch { margin-left: auto; }
+  #app .prologue-header .prologue-exit-tail { display: none; }
+  #app .prologue-header .music-switch { padding-inline: 5px; font-size: 13px; gap: 4px; }
+  #app .prologue-case-toggle { display: block; min-height: 40px; font-size: 14px; padding: 3px 5px; white-space: nowrap; border: 1px solid #b4a97d66; }
+  #app .prologue-map { flex: 1 1 0; }
+  #app .prologue-casebook { display: none; }
+  #app .prologue-casebook-open { display: flex; position: absolute; inset: 0; z-index: 22; }
+  #app .dream-intro { max-height: none; }
+  .prologue-case-close { align-self: flex-end; min-height: 38px; border: 1px solid #b4a97d66; }
+  #app .world-destinations.routes-open { max-height: calc(100% - 67px); }
+  .world-destinations .screen-page-content > button { min-height: 44px; }
+  #app .world-destinations .screen-page-content > span { display: none; }
+  #app .rpg-dialogue, #app .prologue-note { padding: 10px 12px; }
+  #app .prologue-note h2 { font-size: 24px; margin: 3px 0; }
+  #app .prologue-note p { line-height: 1.7; margin-block: 6px; }
+  #app .rpg-dialogue .choice-button { min-height: 44px; padding: 6px 8px; }
+  #app .opening-reading-book { display: flex; overflow: clip; }
+  #app .opening-reading-book .opening-film {
+    display: flex; flex-direction: column; flex: 1 1 0; min-height: 0;
+    width: min(100%, 600px); aspect-ratio: auto;
+  }
+  #app .opening-reading-book .opening-picture {
+    height: min(28dvh, 210px); flex-shrink: 0;
+  }
+  #app .opening-reading-book .opening-book-tools { width: 100%; padding: 4px 10px; }
+  #app .opening-reading-book .opening-touch-book { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; padding: 7px 12px; }
+  .opening-touch-book > .screen-pages { flex: 1 1 auto; }
+  #app .opening-reading-book .opening-controls {
+    position: static; flex-shrink: 0; width: 100%; justify-content: center; padding: 3px; margin: 0;
+  }
+  #app .combat-logo { font-size: 26px; }
+  #app .combat-logo i { font-size: 15px; }
+  #app .combat-edition { display: none; }
+  #app .combat-heading h1 { font-size: 18px; }
+  #app .combat-starting-face label { display: none; }
+  #app .combat-starting-face select { max-width: 128px; min-height: 36px; padding: 4px; }
+  #app .combat-scene-tag, #app .combat-selected-note, #app .combat-move-bottom > em { display: none; }
+  #app .combat-player-hud, #app .combat-enemy-hud { width: min(48%, 235px); padding: 4px 6px; border-width: 2px; }
+  #app .combat-enemy-hud { top: 4px; left: 4px; }
+  #app .combat-player-hud { bottom: 4px; right: 4px; }
+  #app .combat-player-hud > header, #app .combat-enemy-hud > header { margin: 0 0 3px; }
+  #app .combat-player-hud b, #app .combat-enemy-hud b { font-size: 13px; }
+  #app .combat-enemy-state, #app .combat-type { font-size: 12px; }
+  #app .combat-stat-row { margin-top: 2px; gap: 3px; font-size: 12px; grid-template-columns: 26px minmax(0, 1fr) 54px; }
+  #app .combat-ink { gap: 5px; margin-top: 4px; font-size: 12px; }
+  #app .combat-ink i { width: 8px; height: 8px; }
+  #app .combat-ink > div { gap: 2px; }
+  #app .combat-enemy-art, #app .combat-hero { width: auto; height: 78%; aspect-ratio: 1; }
+  #app .combat-enemy-art { right: 0; }
+  #app .combat-hero { bottom: 0; left: 0; }
+  #app .enemy-platform { top: auto; bottom: 25%; right: 1%; }
+  #app .hero-platform { width: 38%; height: 25%; }
+  #app .combat-turnline { padding-bottom: 3px; margin-bottom: 3px; }
+  #app .combat-intent { margin: 0; padding: 3px 5px; }
+  #app .combat-intent h2 { font-size: 17px; margin: 0; }
+  #app .combat-intent p, #app .combat-intent > span { font-size: 13px; line-height: 1.45; }
+  #app .combat-last-report { display: none; }
+  #app .combat-move-top > b, #app .combat-common b { font-size: 15px; }
+  #app .combat-move-top, #app .combat-common > button { flex-wrap: nowrap; }
+  #app .combat-move-top > i, #app .combat-common span { width: auto; margin-left: auto; }
+  #app .combat-move-top > i, #app .combat-common span, #app .combat-move-bottom > strong { font-size: 12px; }
+  #app .combat-move-bottom { margin-top: 2px; }
+  #app .combat-notebook-grid { grid-template-columns: 1fr; padding: 6px 0; }
+  #app .world-preview-page > header { min-height: 42px; height: auto; padding-block: 3px; gap: 7px; }
+  #app .world-preview-controls { padding-block: 4px; gap: 5px; }
+  #app .world-preview-controls > span { display: none; }
+  #app .world-preview-page > footer { font-size: 12px; gap: 3px; padding: 4px 0; }
+  #app .portrait-gallery { padding: 7px 10px; }
+  #app .portrait-gallery > header { margin: 0 0 5px; padding: 0; }
+  #app .portrait-gallery > header h1 { font-size: 28px; }
+  #app .portrait-gallery > header a { margin-top: 7px; }
+  #app .portrait-gallery-list { display: none; }
+  #app .portrait-gallery-select { display: flex; align-items: center; gap: 8px; font-size: 15px; margin-bottom: 6px; }
+  #app .portrait-gallery-select select { background: #24382b; color: inherit; min-height: 42px; }
+  #app .portrait-gallery-stage { flex: 1 1 0; }
+  #app .portrait-gallery > footer { margin-top: 4px; }
+  #app .well-preview-description { display: none; }
+}
+
+@media (max-width: 550px) {
+  #app .combat-command-deck { grid-template-columns: minmax(0, 1fr); }
+  #app .combat-message-box { padding: 4px 6px; }
+  #app .combat-intent { display: grid; grid-template-columns: auto 1fr; gap: 3px 6px; }
+  #app .combat-intent p { grid-column: 1 / -1; }
+  #app .combat-intent h2 { line-height: 1.3; }
+  #app .combat-header a, #app .combat-header button { min-height: 38px; font-size: 13px; }
+  #app .combat-header .combat-logo { font-size: 25px; }
+  #app .combat-heading h1 { white-space: nowrap; }
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+  #app .title-copy .main-title h1, #app .title-seal { writing-mode: horizontal-tb; }
+  #app .title-copy .main-title h1 { font-size: 62px; }
+  #app .title-copy .main-title { margin: 3px 0; }
+  #app .title-copy .title-verse { margin: 4px 0 8px; line-height: 1.55; }
+  #app .title-copy .eyebrow, #app .title-copy .title-note { display: none; }
+  #app .title-previews { margin-top: 6px; }
+  #app .game-header, #app .prologue-header { min-height: 44px; }
+  #app .world-view .world-pad { bottom: 42px; }
+  #app .opening-reading-book .opening-film {
+    display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: minmax(0, 1fr) auto; width: 100%;
+  }
+  #app .opening-reading-book .opening-picture { height: 100%; grid-area: 1 / 1; }
+  #app .opening-reading-book .opening-book-hitarea { display: none; }
+  #app .opening-reading-book .opening-book-tools { grid-area: 2 / 1; }
+  #app .opening-reading-book .opening-touch-book { grid-area: 1 / 2 / 3 / 3; }
+  #app .combat-inner .combat-machine { grid-template-rows: minmax(0, 1fr); grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); }
+  #app .combat-inner .combat-command-deck { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 1fr; border-top: 0; border-left: 2px solid var(--bi); }
+  #app .combat-message-box { padding: 4px 6px; }
+  #app .combat-move-bottom { display: none; }
+  #app .combat-notebook-grid { gap: 8px; }
+}

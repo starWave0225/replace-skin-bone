@@ -116,7 +116,7 @@ test('场景配乐自动开始、交互解锁和静音偏好', async t => {
       await settle()
       assert.equal(music.musicState.playing, true)
       assert.equal(current().loop, true)
-      assert.ok(current().src.endsWith('/music/chinatown_healing.ogg'))
+      assert.ok(current().src.endsWith('/music/suspense3.ogg'))
       assert.equal(Media.plays, 1)
     })
     await t.test('直接进入战斗时被拦截，首次点击同步重试且不重复播放', async () => {
@@ -299,7 +299,7 @@ test('场景配乐自动开始、交互解锁和静音偏好', async t => {
       } finally { overlay.unmount() }
       await settle()
       assert.equal(Media.plays, plays + 1)
-      assert.ok(current().src.endsWith('/music/chinatown_healing.ogg'))
+      assert.ok(current().src.endsWith('/music/suspense3.ogg'))
     })
   } finally {
     music.setMusicEnabled(false)

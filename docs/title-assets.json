@@ -1,0 +1,23 @@
+{
+  "generator": "OpenAI ImageGen (built-in)",
+  "assets": [
+    {
+      "file": "public/assets/title/painted-skin-title.webp",
+      "purpose": "16:9 首页背景，标题和菜单由页面排版",
+      "inputs": [
+        "美人版横向构图，用作场景与版式参考",
+        "全妖版横向构图，用作爪部与眼神参考"
+      ],
+      "prompt": "Use case: precise-object-edit. Produce a single full-bleed 16:9 landscape title illustration. Input 1 is the overall aesthetic and layout template with a beautiful painter. Input 2 is the same scene with a creature painter, a reference for how eerie the claw and eye can feel. Replace only the owner painting the paper face with this hybrid: The owner and painter is an elegant shapeshifting Qing-era female yaoguai. Design a single integrated face. In a fleeting glance, the fine brow, refined facial proportions, dark coiffure and antique vermilion robe make her read as a composed beautiful woman. On a second look she is unmistakably supernatural: a long pointed, faintly furred ear emerging sideways from the black hair and a second pointed ear silhouetted beside the hairpin, a clearly lit amber slit pupil in a smoky-black eye, a pale cool celadon cast to her cheek with fine grey-green scales and branching ink fissures under the cheekbone and down the neck, parted vermilion lips with a small visible fang, and elongated multi-jointed green-grey fingers ending in long dark hooked claws. The forearm transitions into subtle scales as it leaves the robe. Keep the brow and jaw as beautiful as the first version and the hand as uncanny as the second. Sophisticated classic Chinese shapeshifting demon from an antique folk-tale print, poised with a quietly uncanny expression. No skull head, no old hag, no full animal head or cosplay look, no split down the face, no gore. Make all details clearly drawn and visible without relying on a zoom. The paper face has soft warm ivory skin color and closed eyes; its expression and angle visibly echo her painted beauty, without her妖 traits. Preserve the composition of the inputs: her elegant bowed three-quarter face and dark hair at x=55–72%, painter's hand in center-right, brush tip touching the eyebrow of the separate curled paper face at x=70–85%; reserve x=0–34% as nearly black, very quiet old ink-washed paper for the live game title and menu. Preserve one candle, rain-streaked geometric wood lattice with a spying human silhouette behind it, cinnabar dish and opened old register on black lacquer desk. Mineral pigment washes, grain, flat ink-woodcut edges, limited vermilion, warm paper, celadon and soot. A scene from an eerie old Chinese ghost-story book. No letters, typography, seals, UI, or frame."
+    },
+    {
+      "file": "assets-source/title/painted-skin-cover.png",
+      "purpose": "2:3 独立竖封",
+      "inputs": [
+        "最终横版，用作角色与场景参考",
+        "初版竖封，用作题字与边框参考"
+      ],
+      "prompt": "Use case: precise-object-edit. Deliver the finished standalone 2:3 portrait game cover for 《画皮：借面》. The most recent horizontal title illustration is the character, scene, color, and printing reference. The previous 2:3 portrait is the typography and framing template only. Recompose the corrected horizontal image into that portrait layout. Preserve the EXACT unmistakably inhuman entity from the horizontal reference: hunchback and angular shoulders, mottled grey celadon skull, exaggerated bony brow and sunken tiny pale eyes, long pointed folded ears, sparse hair, cracked mouth, long jointed claw fingers, plain dark russet and faded green robe. The creature is the sole painter and should look absorbed and unnerving. The creature's brush is touching the eyebrow of the flat separate serene ivory paper human face; its brush hand and both faces are fully legible at thumbnail size. The paper face is the only beautiful human face. Retain one candle at right, rain-latticed wood window with dark spying silhouette above and behind, lacquer desk and old paper book, restrained ivory/cinnabar/celadon mineral wash and deep ink contours, mottled aged paper, slim inset bronze frame. Reserve lower quarter as very dark foreground and set identical Chinese typography to portrait template: small spaced ivory series line “未闻志异”; two very large warm ivory brush characters “画皮” horizontally beneath; red vertical seal at the right containing exactly “借面”. All Chinese text must be accurate. No other text, no human painter, no decorative hair ornaments on creature, no violence or gore. Cinematic folk horror, original old Chinese ghost tale printed book plate."
+    }
+  ]
+}

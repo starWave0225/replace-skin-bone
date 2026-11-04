@@ -10,7 +10,7 @@
 .encounter-intro,.encounter-aftermath{display:flex;gap:22px;align-items:center}
 .encounter-intro>img,.encounter-aftermath>img{width:112px;height:150px;object-fit:cover;object-position:50% 18%;border:2px solid #81958b;border-radius:5px;filter:saturate(.65)}
 .encounter-aftermath{margin-top:24px}
-.combat-self-sprite{display:block;width:100%;height:100%;image-rendering:pixelated;filter:drop-shadow(3px 5px 0 #243e4933)}
+.combat-self-sprite{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(1px 3px 3px #120c09a0)}
 .hero-attacking .combat-self-sprite{animation:combat-lunge .55s steps(6,end)}
 .combat-tutorial .combat-moves button.lesson-target,.combat-tutorial .combat-common button.lesson-target{border-color:#ba8744;box-shadow:inset 0 0 0 3px #f4d88c,0 4px 0 #8b744d;background:#fff3c6}
 .combat-tutorial .combat-moves button:disabled{opacity:.48}

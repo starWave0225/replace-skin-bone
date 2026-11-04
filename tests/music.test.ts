@@ -15,9 +15,9 @@ class Media implements MusicMedia {
 test('查案、梦境、战斗与日常有不同配乐，所有场景均有本地曲目', () => {
   assert.equal(musicSceneForPrologue('arrival'), 'opening')
   assert.equal(musicScenes.opening.track, null)
-  assert.equal(musicSceneForPrologue('investigation'), 'investigation')
-  assert.equal(musicSceneForPrologue('night'), 'dream')
-  assert.equal(musicSceneForPrologue('dream'), 'dream')
+  for (const phase of ['investigation', 'deduction', 'night', 'dream', 'morning']) {
+    assert.equal(musicScenes[musicSceneForPrologue(phase)].track, 'prologue_undersong', phase)
+  }
   assert.equal(musicSceneForMap('street', 'day'), 'street')
   assert.equal(musicSceneForMap('street', 'night'), 'night')
   assert.equal(musicSceneForMap('home'), 'home')

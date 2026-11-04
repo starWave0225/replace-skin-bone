@@ -30,18 +30,18 @@ export async function createDreamScene(host: HTMLElement, options: DreamSceneOpt
   const camera = new T.PerspectiveCamera(63, 1, .08, 70)
   const initial = options.pose && !dreamBlocked(options.pose.x, options.pose.z) ? options.pose : { x: 0, z: 8.3, yaw: 0, pitch: -.03 }
   let pose = { ...initial }, paused = true, disposed = false, low = !!options.lowQuality
-  let route: {x:number;z:number}[] = [], dragging = false, lastPointer:{x:number;y:number}|undefined, lastPoseAt = 0
+  let route: {x:number;z:number}[] = [], lookPointer: number | undefined, lastPointer:{x:number;y:number}|undefined, lastPoseAt = 0
   let mouseLook=matchMedia('(pointer:fine)').matches,lookMode:DreamLookMode=mouseLook?'free':'touch',lockPending=false
   let guideFocus: {x:number;y:number;z:number}|undefined
-  const keys = new Set<string>(), textures = new Set<T.Texture>(), animated: ((time:number)=>void)[] = []
-  const renderer = new T.WebGLRenderer({ antialias: !low, powerPreference: 'high-performance', alpha: false })
+  const keys = new Set<string>(), touchKeys = new Set<string>(), textures = new Set<T.Texture>(), animated: ((time:number)=>void)[] = []
+  const renderer = new T.WebGLRenderer({ antialias: !low, powerPreference: low ? 'low-power' : 'high-performance', alpha: false })
   renderer.setPixelRatio(Math.min(devicePixelRatio, low ? 1 : 1.6))
   renderer.outputColorSpace = T.SRGBColorSpace
   renderer.toneMapping = T.ACESFilmicToneMapping
   renderer.toneMappingExposure = .92
   renderer.shadowMap.enabled = !low
   renderer.shadowMap.type = T.PCFShadowMap
-  renderer.domElement.setAttribute('aria-label', '梦境三维探索。WASD行走，移动鼠标环顾，E查验，Esc释放鼠标。')
+  renderer.domElement.setAttribute('aria-label', '梦境三维探索。触屏拖动环顾，方向按钮行走。也可用 WASD 行走和鼠标环顾。')
   renderer.domElement.setAttribute('tabindex', '0')
   renderer.domElement.className = 'dream-canvas'
   host.appendChild(renderer.domElement)
@@ -259,7 +259,7 @@ export async function createDreamScene(host: HTMLElement, options: DreamSceneOpt
     if(['w','a','s','d','arrowup','arrowdown','arrowleft','arrowright','shift'].includes(k)&&!paused&&lookMode!=='free'){e.preventDefault();keys.add(k);route=[];guideFocus=undefined}
   }
   function up(e:KeyboardEvent){keys.delete(e.key.toLowerCase())}
-  function clear(){keys.clear();dragging=false;lastPointer=undefined}
+  function clear(){keys.clear();touchKeys.clear();lookPointer=undefined;lastPointer=undefined}
   function setLookMode(mode:DreamLookMode){lookMode=mode;renderer.domElement.dataset.lookMode=mode;options.onLookMode?.(mode)}
   function releaseLook(){clear();route=[];guideFocus=undefined;if(document.pointerLockElement===renderer.domElement)document.exitPointerLock();setLookMode(mouseLook?'free':'touch');options.onPose({...pose})}
   function lockFailed(reason?:unknown){lockPending=false;if(reason instanceof Error)renderer.domElement.dataset.lookError=`${reason.name}: ${reason.message}`;if(!disposed&&!paused)setLookMode('hover')}
@@ -288,27 +288,53 @@ export async function createDreamScene(host: HTMLElement, options: DreamSceneOpt
     if(paused)return
     renderer.domElement.focus({preventScroll:true})
     if(e.pointerType==='mouse'){mouseLook=true;if(e.button===0)requestLook();return}
-    dragging=true;guideFocus=undefined;route=[];lastPointer={x:e.clientX,y:e.clientY};renderer.domElement.setPointerCapture(e.pointerId)
+    if (lookPointer !== undefined) return
+    e.preventDefault()
+    lookPointer = e.pointerId
+    setLookMode('touch')
+    guideFocus=undefined;route=[];lastPointer={x:e.clientX,y:e.clientY};renderer.domElement.setPointerCapture(e.pointerId)
   }
   function pointerEnter(e:PointerEvent){if(e.pointerType==='mouse')lastPointer={x:e.clientX,y:e.clientY}}
-  function pointerLeave(){if(!dragging)lastPointer=undefined}
+  function pointerLeave(){if(lookPointer===undefined)lastPointer=undefined}
   function pointerMove(e:PointerEvent){
     if(paused)return
     if(document.pointerLockElement===renderer.domElement)return // Relative motion is handled once, by mousemove.
-    if(dragging||lookMode==='hover'&&e.pointerType==='mouse'){
+    if(lookPointer===e.pointerId||lookPointer===undefined&&lookMode==='hover'&&e.pointerType==='mouse'){
       if(lastPointer)turn(e.clientX-lastPointer.x,e.clientY-lastPointer.y,.004)
       lastPointer={x:e.clientX,y:e.clientY}
     }
   }
-  function pointerUp(){dragging=false;options.onPose({...pose})}
+  function pointerUp(event: PointerEvent) {
+    if (lookPointer !== event.pointerId) return
+    lookPointer = undefined
+    lastPointer = undefined
+    options.onPose({ ...pose })
+  }
   function visibility(){if(document.hidden)releaseLook()}
   function contextMenu(e:Event){if(document.pointerLockElement===renderer.domElement)e.preventDefault()}
   setLookMode(lookMode)
   renderer.domElement.addEventListener('pointerdown',pointerDown);renderer.domElement.addEventListener('pointermove',pointerMove);renderer.domElement.addEventListener('pointerup',pointerUp);renderer.domElement.addEventListener('pointercancel',pointerUp);renderer.domElement.addEventListener('pointerenter',pointerEnter);renderer.domElement.addEventListener('pointerleave',pointerLeave);renderer.domElement.addEventListener('contextmenu',contextMenu)
+  renderer.domElement.addEventListener('lostpointercapture', pointerUp)
   document.addEventListener('mousemove',mouseMove);document.addEventListener('pointerlockchange',lockChanged);document.addEventListener('pointerlockerror',lockFailed);document.addEventListener('visibilitychange',visibility)
   window.addEventListener('keydown',down);window.addEventListener('keyup',up);window.addEventListener('blur',releaseLook)
   function resize(){const {width,height}=host.getBoundingClientRect();camera.aspect=width/height;camera.updateProjectionMatrix();renderer.setSize(width,height);composer.setSize(width,height)}
   const observer=new ResizeObserver(resize);observer.observe(host);resize()
+  function held(key: string) { return keys.has(key) || touchKeys.has(key) }
+  function walk(forward: number, side: number, seconds: number) {
+    const speed = (held('shift') ? 3.6 : 2.45) * seconds / Math.hypot(forward, side)
+    const next = moveInDream(pose, (-Math.sin(pose.yaw) * forward + Math.cos(pose.yaw) * side) * speed, (-Math.cos(pose.yaw) * forward - Math.sin(pose.yaw) * side) * speed)
+    const distance = Math.hypot(next.x - pose.x, next.z - pose.z)
+    pose = { ...pose, ...next }
+    return distance
+  }
+  function tap(key: string) {
+    if (paused) return
+    const forward = Number(key === 'w') - Number(key === 's')
+    const side = Number(key === 'd') - Number(key === 'a')
+    if (!forward && !side) return
+    route = []; guideFocus = undefined
+    walk(forward, side, .045)
+  }
   function frame(now:number){
     if(disposed)return;raf=requestAnimationFrame(frame)
     if(document.hidden){previous=now;return}
@@ -318,9 +344,9 @@ export async function createDreamScene(host: HTMLElement, options: DreamSceneOpt
     const seen=options.seen(), current=dreamStations[Math.min(seen.length,4)]
     let distance=0
     if(!paused){
-      let forward=Number(keys.has('w')||keys.has('arrowup'))-Number(keys.has('s')||keys.has('arrowdown')),side=Number(keys.has('d'))-Number(keys.has('a'))
+      const forward=Number(held('w')||held('arrowup'))-Number(held('s')||held('arrowdown')),side=Number(held('d'))-Number(held('a'))
       if(keys.has('arrowleft'))pose.yaw+=dt*1.5;if(keys.has('arrowright'))pose.yaw-=dt*1.5
-      if(forward||side){const speed=(keys.has('shift')?3.6:2.45)*dt/Math.hypot(forward,side),next=moveInDream(pose,(-Math.sin(pose.yaw)*forward+Math.cos(pose.yaw)*side)*speed,(-Math.cos(pose.yaw)*forward-Math.sin(pose.yaw)*side)*speed);distance=Math.hypot(next.x-pose.x,next.z-pose.z);pose={...pose,...next}}
+      if(forward||side)distance=walk(forward,side,dt)
       else if(route.length){const target=route[0],dist=Math.hypot(target.x-pose.x,target.z-pose.z);if(dist<.12)route.shift();else{const stride=Math.min(dt*2.2,dist),dx=(target.x-pose.x)/dist,dz=(target.z-pose.z)/dist,next=moveInDream(pose,dx*stride,dz*stride);distance=Math.hypot(next.x-pose.x,next.z-pose.z);pose={...pose,...next};const desired=Math.atan2(-dx,-dz);let delta=desired-pose.yaw;while(delta>Math.PI)delta-=Math.PI*2;while(delta< -Math.PI)delta+=Math.PI*2;pose.yaw+=delta*Math.min(1,dt*6)}}
       if(!route.length&&guideFocus){
         const dx=guideFocus.x-pose.x,dz=guideFocus.z-pose.z,desired=Math.atan2(-dx,-dz)
@@ -374,12 +400,19 @@ export async function createDreamScene(host: HTMLElement, options: DreamSceneOpt
     guide(){if(paused)return;const station=dreamStations[Math.min(options.seen().length,4)];route=dreamPath(pose,{x:station.approach[0],z:station.approach[1]});pose.pitch=-.04;guideFocus=station.id==='brush'?{x:-4.5,y:1.15,z:-1}:station.id==='scroll'?{x:6.69,y:2.75,z:-5.5}:station.id==='mirror'?{x:-6.8,y:2.3,z:-10}:station.id==='door'?{x:0,y:3,z:-17.4}:{x:0,y:1.55,z:4}},
     look:requestLook,
     releaseLook,
-    direction(key:string,active:boolean){if(active&&!paused){keys.add(key);route=[];guideFocus=undefined}else keys.delete(key)},
+    tap,
+    direction(key: string, active: boolean) {
+      if (!active) { touchKeys.delete(key); return }
+      if (paused) return
+      touchKeys.add(key)
+      tap(key)
+    },
     dispose(){
       disposed=true;cancelAnimationFrame(raf);observer.disconnect();options.onPose({...pose});clear()
       window.removeEventListener('keydown',down);window.removeEventListener('keyup',up);window.removeEventListener('blur',releaseLook)
       document.removeEventListener('mousemove',mouseMove);document.removeEventListener('pointerlockchange',lockChanged);document.removeEventListener('pointerlockerror',lockFailed);document.removeEventListener('visibilitychange',visibility)
       renderer.domElement.removeEventListener('pointerdown',pointerDown);renderer.domElement.removeEventListener('pointermove',pointerMove);renderer.domElement.removeEventListener('pointerup',pointerUp);renderer.domElement.removeEventListener('pointercancel',pointerUp);renderer.domElement.removeEventListener('pointerenter',pointerEnter);renderer.domElement.removeEventListener('pointerleave',pointerLeave);renderer.domElement.removeEventListener('contextmenu',contextMenu)
+      renderer.domElement.removeEventListener('lostpointercapture', pointerUp)
       if(document.pointerLockElement===renderer.domElement)document.exitPointerLock()
       scene.traverse(o=>{if(o instanceof T.Mesh||o instanceof T.Points||o instanceof T.LineSegments){o.geometry.dispose();const mats=Array.isArray(o.material)?o.material:[o.material];mats.forEach(m=>m.dispose())}})
       assets.dispose();mirror.getRenderTarget().dispose();textures.forEach(t=>t.dispose());composer.dispose();renderer.dispose();renderer.domElement.remove()

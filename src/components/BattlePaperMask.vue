@@ -2,18 +2,15 @@
 withDefaults(defineProps<{expression?:'calm'|'smile'|'cross'}>(),{expression:'calm'})
 </script>
 <template>
-  <svg viewBox="0 0 32 42" shape-rendering="crispEdges" aria-hidden="true">
-    <path d="M9 2H23V5H27V10H29V25H26V31H22V35H18V38H14V35H10V31H6V25H3V10H5V5H9Z" fill="#30454c"/>
-    <path d="M10 4H22V7H25V11H27V24H24V29H20V33H17V35H15V33H12V29H8V24H5V11H7V7H10Z" fill="#f8e6b4"/>
-    <path d="M10 4H22V7H11V10H8V23H5V11H7V7H10Z" fill="#fff5d7"/>
-    <path d="M24 12H27V24H24V29H20V33H17V35H15V33H18V29H22V23H24Z" fill="#d7b87d"/>
-    <path d="M9 12H14V14H8V13H9ZM19 12H24V14H18V13H19Z" fill="#69565b"/>
-    <path v-if="expression==='cross'" d="M8 16H11V18H14V20H10V18H8ZM22 16H25V18H23V20H19V18H22Z" fill="#34434a"/>
-    <path v-else d="M8 16H14V18H12V19H9V18H8ZM18 16H24V18H23V19H20V18H18Z" fill="#34434a"/>
-    <path d="M15 19H17V24H14V22H15Z" fill="#c59b75"/>
-    <path v-if="expression==='smile'" d="M12 26H14V28H18V26H20V29H17V30H15V29H12Z" fill="#b96b63"/>
-    <path v-else d="M13 27H19V29H13Z" fill="#b96b63"/>
-    <path d="M7 21H10V23H7ZM22 21H25V23H22Z" fill="#e5a58b"/>
-    <path d="M15 37H18V40H15ZM11 39H15V42H11ZM18 39H22V42H18Z" fill="#c56558"/>
+  <svg viewBox="0 0 32 42" aria-hidden="true">
+    <path d="M4 8Q10 1 18 3L20 2Q27 4 29 11L28 16Q29 23 25 29L23 30Q20 34 16 36Q11 34 8 30L8 28Q3 23 3 16Z" fill="#d7c5a0" stroke="#3b2d25" stroke-width="1.15"/>
+    <path d="M5 14Q7 6 17 5M26 12Q29 21 22 28Q20 32 17 34M5 20L7 24M10 28l2 2" fill="none" stroke="#ae9070" stroke-width=".7"/>
+    <path v-if="expression==='cross'" d="M7 13q4 0 7 3M25 13q-4 0-7 3" fill="none" stroke="#534236" stroke-width=".85"/>
+    <path v-else d="M7 14q4-3 7 0M18 14q4-3 7 0" fill="none" stroke="#534236" stroke-width=".85"/>
+    <path d="M7 17q4-2 7 1q-4 2-7-1m11 1q3-3 7-1q-3 3-7 1" fill="#2a2621"/>
+    <path d="M16 18q0 4-2 6l3 .5" fill="none" stroke="#9b795f" stroke-width=".9"/>
+    <path v-if="expression==='smile'" d="M12 26q4 3 8 0" fill="none" stroke="#8d4d46" stroke-width="1.2" stroke-linecap="round"/>
+    <path v-else d="M12 28q4-2 8 0" fill="none" stroke="#8d4d46" stroke-width="1.2" stroke-linecap="round"/>
+    <path d="M16 36q-3 3 2 5m-2-5q2 3-1 6" fill="none" stroke="#905042" stroke-width="1"/>
   </svg>
 </template>

@@ -5,16 +5,16 @@ import { createOpeningBook, openingBookPages, openingPoemVisibility, type Openin
 import { openingPoem } from './opening-poem'
 
 export const openingImages = {
-  eaves: assetUrl('/assets/opening/eaves-rain-v1.webp'),
-  exterior: assetUrl('/assets/opening/inn-exterior-v1.webp'),
-  door: assetUrl('/assets/opening/guestroom-door-v1.webp'),
-  room: assetUrl('/assets/opening/guestroom-closed-v1.webp'),
-  storm: assetUrl('/assets/opening/guestroom-body-v1.webp'),
-  book: assetUrl('/assets/opening/blank-book-v1.webp'),
-  hand: assetUrl('/assets/opening/knocking-hand-v1.webp'),
-  gallery: assetUrl('/assets/opening/gallery-track-v1.webp'),
-  ground: assetUrl('/assets/opening/dead-hand-v1.webp'),
-  reaction: assetUrl('/assets/opening/lu-reaction-v2.webp'),
+  eaves: assetUrl('/assets/opening/ink/eaves-rain.webp'),
+  exterior: assetUrl('/assets/opening/ink/inn-exterior.webp'),
+  door: assetUrl('/assets/opening/ink/guestroom-door.webp'),
+  room: assetUrl('/assets/opening/ink/guestroom-closed.webp'),
+  storm: assetUrl('/assets/opening/ink/guestroom-storm.webp'),
+  book: assetUrl('/assets/opening/ink/blank-book.webp'),
+  hand: assetUrl('/assets/opening/ink/knocking-hand.webp'),
+  gallery: assetUrl('/assets/opening/ink/gallery-track.webp'),
+  ground: assetUrl('/assets/opening/ink/dead-hand.webp'),
+  reaction: assetUrl('/assets/opening/ink/guestroom-over-shoulder.webp'),
 }
 type Images = Record<keyof typeof openingImages, HTMLImageElement>
 let pending: Promise<Images> | undefined
@@ -115,9 +115,15 @@ export class OpeningRenderer {
       const ctx = this.context, w = this.width, h = this.height, image = this.images.room
       const wx = w * .64, wy = h * .105, ww = w * .292, wh = h * .39
       const factor = Math.max(.015, Math.cos(open * Math.PI * .56)), drift = Math.sin(open * Math.PI / 2) * w * .023
+      const leaf = ww / 2 * factor
+      const left = wx - drift, right = wx + ww + drift
+      // Paint the exposed gap at full opacity so closed lattice bars do not bleed through the rain.
+      ctx.save(); ctx.beginPath(); ctx.rect(left + leaf, wy, right - left - 2 * leaf, wh); ctx.clip()
+      this.background(this.images.storm)
+      ctx.restore()
       ctx.save(); ctx.globalAlpha = 1 - ease((open - .7) / .3)
-      ctx.drawImage(image, image.width * .64, image.height * .105, image.width * .146, image.height * .39, wx - drift, wy, ww / 2 * factor, wh)
-      ctx.drawImage(image, image.width * .786, image.height * .105, image.width * .146, image.height * .39, wx + ww - ww / 2 * factor + drift, wy, ww / 2 * factor, wh)
+      ctx.drawImage(image, image.width * .64, image.height * .105, image.width * .146, image.height * .39, left, wy, leaf, wh)
+      ctx.drawImage(image, image.width * .786, image.height * .105, image.width * .146, image.height * .39, right - leaf, wy, leaf, wh)
       ctx.restore()
     }
     if (!reduced) this.rain(time, Math.round(open * 100), true)

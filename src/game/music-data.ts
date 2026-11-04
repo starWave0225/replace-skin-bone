@@ -1,19 +1,24 @@
 import type { Location } from './types'
 
-export const musicTracks = [
-  { id: 'chinatown_healing', title: 'Chinatown_Healing', label: '雨落客舍', mood: '笛与筝 · 清淡、舒缓', scenes: '标题 / 栖雨客舍', source: 'https://peritune.com/blog/2017/06/22/chinatown/' },
+export const licensedMusicTracks = [
+  { id: 'chinatown_healing', title: 'Chinatown_Healing', label: '雨落客舍', mood: '笛与筝 · 清淡、舒缓', scenes: '栖雨客舍', source: 'https://peritune.com/blog/2017/06/22/chinatown/' },
   { id: 'folk_chinese', title: 'Folk_Chinese', label: '未闻县市声', mood: '二胡与笛 · 轻快市井', scenes: '白昼南街', source: 'https://peritune.com/blog/2018/01/14/folk_chinese/' },
   { id: 'taohua', title: 'Taohua', label: '庭前桃花', mood: '二胡、古筝 · 温柔人情', scenes: '戚家小院 / 斗法胜利', source: 'https://peritune.com/blog/2021/03/03/taohua/' },
   { id: 'shenxian_drumless', title: 'Shenxian_Drumless', label: '灯下问相', mood: '无鼓版 · 幽微、空灵', scenes: '无面茶楼 / 王宅', source: 'https://peritune.com/blog/2020/06/05/shenxian/' },
   { id: 'suspense', title: 'Suspense', label: '井下旧事', mood: '低回弦乐 · 疑案未明', scenes: '县衙 / 后井 / 夜间调查', source: 'https://peritune.com/blog/2015/05/10/suspense1/' },
-  { id: 'suspense3', title: 'Suspense3', label: '灯外幽魂', mood: '悬疑氛围 · 不安、残梦', scenes: '第一人称梦境 / 入夜', source: 'https://peritune.com/blog/2015/08/29/suspense3/' },
+  { id: 'suspense3', title: 'Suspense3', label: '灯外幽魂', mood: '悬疑氛围 · 不安、残梦', scenes: '标题 / 梦境试玩', source: 'https://peritune.com/blog/2015/08/29/suspense3/' },
   { id: 'wuxia2_guzheng_pipa', title: 'Wuxia2_Guzheng_Pipa', label: '借面斗法', mood: '古筝与琵琶 · 灵动武侠', scenes: '回合制战斗', source: 'https://peritune.com/blog/2018/10/13/wuxia2/' },
 ] as const
+export const prologueTrack = {
+  id: 'prologue_undersong', title: '井底余声', label: '井底余声', mood: '低弦长音 · 零落拨弦', scenes: '序章 · 雨夜寻凶',
+} as const
+export const musicTracks = [...licensedMusicTracks, prologueTrack] as const
 export type MusicTrackId = typeof musicTracks[number]['id']
-export type MusicScene = 'title' | 'opening' | 'inn' | 'street' | 'home' | 'teahouse' | 'investigation' | 'night' | 'dream' | 'battle' | 'victory' | 'defeat'
+export type MusicScene = 'title' | 'opening' | 'prologue' | 'inn' | 'street' | 'home' | 'teahouse' | 'investigation' | 'night' | 'dream' | 'battle' | 'victory' | 'defeat'
 export const musicScenes: Record<MusicScene, { name: string; track: MusicTrackId | null }> = {
   opening: { name: '雨夜客舍 · 环境声', track: null },
-  title: { name: '未闻志异', track: 'chinatown_healing' }, inn: { name: '栖雨客舍', track: 'chinatown_healing' },
+  prologue: { name: '雨夜寻凶', track: prologueTrack.id },
+  title: { name: '未闻志异', track: 'suspense3' }, inn: { name: '栖雨客舍', track: 'chinatown_healing' },
   street: { name: '未闻县南街', track: 'folk_chinese' }, home: { name: '戚家小院', track: 'taohua' },
   teahouse: { name: '灯下寻人', track: 'shenxian_drumless' }, investigation: { name: '旧案寻踪', track: 'suspense' },
   night: { name: '夜雨疑踪', track: 'suspense' }, dream: { name: '灯外有魂', track: 'suspense3' },
@@ -27,10 +32,7 @@ export function musicSceneForMap(location: Location, time: 'day' | 'dusk' | 'nig
   return time === 'night' ? 'night' : 'street'
 }
 export function musicSceneForPrologue(phase: string): MusicScene {
-  if (phase === 'arrival') return 'opening'
-  if (phase === 'dream' || phase === 'night') return 'dream'
-  if (phase === 'investigation' || phase === 'deduction') return 'investigation'
-  return 'inn'
+  return phase === 'arrival' ? 'opening' : 'prologue'
 }
 export const musicAuthor = 'PeriTune / むつき醒 (Sei Mutsuki)'
 export const musicLicense = 'https://creativecommons.org/licenses/by/4.0/'

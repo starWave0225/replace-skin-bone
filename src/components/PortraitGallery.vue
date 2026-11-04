@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import ScreenPages from './ScreenPages.vue'
 import DialoguePortrait from './DialoguePortrait.vue'
 import { characterPortraits } from '../game/portraits'
 import type { PortraitId } from '../game/portraits'
@@ -22,10 +23,11 @@ const lines: Record<PortraitId, string> = {
 <template>
   <main class="portrait-gallery">
     <header><div><span class="eyebrow">画皮 · 借面</span><h1>借面人物谱</h1></div><a href="./">返回游戏 ↗</a></header>
+    <label class="portrait-gallery-select">人物<select v-model="selected"><option v-for="portrait in characterPortraits" :key="portrait.id" :value="portrait.id">{{portrait.name}}</option></select></label>
     <div class="portrait-gallery-layout">
-      <nav class="portrait-gallery-list" aria-label="选择对话人物">
+      <ScreenPages class="portrait-gallery-list" aria-label="选择对话人物">
         <button v-for="portrait in characterPortraits" :key="portrait.id" :class="{active: selected === portrait.id}" :aria-label="`预览${portrait.name}对话`" :aria-pressed="selected === portrait.id" @click="selected = portrait.id"><img :src="portrait.src" alt="" width="64" height="80" loading="lazy"/><span><b>{{ portrait.name }}</b><small>{{ portrait.role }}</small></span></button>
-      </nav>
+      </ScreenPages>
       <section class="portrait-gallery-stage" aria-label="人物对话展示" style="--dialogue-height:225px">
         <div class="portrait-gallery-scene"><span>未闻县 · 旧梦灯影</span></div>
         <DialoguePortrait :portrait="active"/>

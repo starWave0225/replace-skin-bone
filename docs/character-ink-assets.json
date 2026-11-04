@@ -1,0 +1,124 @@
+{
+  "generator": "OpenAI ImageGen (built-in)",
+  "purpose": "以封面的志怪版画风格重绘探索人物和斗法画面。",
+  "world_atlas": {
+    "cell": [
+      104,
+      144
+    ],
+    "rows": [
+      "down",
+      "up",
+      "right"
+    ],
+    "left": "以向右侧视图镜像绘制",
+    "columns": [
+      "静立",
+      "第一步幅",
+      "第二步幅"
+    ],
+    "one_column": "地图 NPC 和无相之身使用每个方向的静立帧；无相之身移动时轻微浮动。",
+    "anchor": "每格水平居中，鞋底距格底 3 像素。"
+  },
+  "assets": [
+    {
+      "source": "assets-source/characters/ink/lu-walk.png",
+      "runtime": [
+        "public/assets/characters/ink/world/self.webp"
+      ],
+      "references": [
+        "public/assets/title/painted-skin-title.webp",
+        "public/assets/portraits/lu-v1.webp"
+      ],
+      "prompt": "Use case: illustration-story. A production-ready transparent game character sheet for the Chinese Liaozhai RPG Painted Skin. Image 1 is STYLE only: mottled rice paper pigment inside each silhouette, hand-carved black ink contours, dry engraving hatching, near-black, grey jade, indigo, faded cinnabar and warm ivory. Every character must read like a historical woodcut figure from the same book as Image 1. Use real anatomy with long limbs, small heads (roughly 7–7.5 heads tall for adults), readable silhouettes and a subdued woodblock palette. Strong clean silhouette, controlled ink shading and contrast readable when reduced to 60px. Use an elevated orthographic RPG angle, only mildly above eye level; no lens perspective. No pixel art, chibi, anime, poster, text, labels, grid lines, scenery, panels, cast shadows, items floating off figures, or baselines. RGBA TRANSPARENT background everywhere between characters. No overlap, each complete figure has generous empty space around it including above hats and below both shoes. EXACTLY NINE full-body isolated sprites in a strict evenly spaced 3x3 matrix, one figure at the center of every cell, with column centers 16.7%, 50%, 83.3% and row centers 16.7%, 50%, 83.3%. ROW 1: facing directly toward viewer, front. ROW 2: facing away from viewer, back. ROW 3: right-facing full profile. Within EVERY row column 1 is feet together idle, column 2 is mid-walk stride left foot forward right foot back, column 3 is the alternate mid-walk right foot forward left foot back. Show both shoes, and use believable arm counter-swing. Same figure height and same stable base of the feet within each cell. Lu Zhiwei, a lean twenty-seven year old Qing book copyist. Exactly the indigo ankle-length robe, warm weathered umber sleeveless vest, soft folded charcoal cloth cap, braid, light canvas cross-body satchel and black cloth boots from reference 2. At profile he looks to screen RIGHT. Hands free for natural walking."
+    },
+    {
+      "source": "assets-source/characters/ink/shen-walk.png",
+      "runtime": [
+        "public/assets/characters/ink/world/shen.webp"
+      ],
+      "references": [
+        "public/assets/title/painted-skin-title.webp",
+        "public/assets/portraits/shen-v2.webp"
+      ],
+      "prompt": "Use case: illustration-story. A production-ready transparent game character sheet for the Chinese Liaozhai RPG Painted Skin. Image 1 is STYLE only: mottled rice paper pigment inside each silhouette, hand-carved black ink contours, dry engraving hatching, near-black, grey jade, indigo, faded cinnabar and warm ivory. Every character must read like a historical woodcut figure from the same book as Image 1. Use real anatomy with long limbs, small heads (roughly 7–7.5 heads tall for adults), readable silhouettes and a subdued woodblock palette. Strong clean silhouette, controlled ink shading and contrast readable when reduced to 60px. Use an elevated orthographic RPG angle, only mildly above eye level; no lens perspective. No pixel art, chibi, anime, poster, text, labels, grid lines, scenery, panels, cast shadows, items floating off figures, or baselines. RGBA TRANSPARENT background everywhere between characters. No overlap, each complete figure has generous empty space around it including above hats and below both shoes. EXACTLY NINE full-body isolated sprites in a strict evenly spaced 3x3 matrix, one figure at the center of every cell, with column centers 16.7%, 50%, 83.3% and row centers 16.7%, 50%, 83.3%. ROW 1: facing directly toward viewer, front. ROW 2: facing away from viewer, back. ROW 3: right-facing full profile. Within EVERY row column 1 is feet together idle, column 2 is mid-walk stride left foot forward right foot back, column 3 is the alternate mid-walk right foot forward left foot back. Show both shoes, and use believable arm counter-swing. Same figure height and same stable base of the feet within each cell. Shen Yan, a slim adult male Qing painter, in faded grey-green celadon robe with ivory collar and charcoal sash, with tied dark hair and bone-white narrow cloth ribbon, little brush tucked into the sash. Match reference 2 identity and restrained scholarly costume. Make the profile face RIGHT."
+    },
+    {
+      "source": "assets-source/characters/ink/guard-walk.png",
+      "runtime": [
+        "public/assets/characters/ink/world/guard.webp"
+      ],
+      "references": [
+        "public/assets/title/painted-skin-title.webp",
+        "public/assets/portraits/guard-v2.webp"
+      ],
+      "prompt": "Use case: illustration-story. A production-ready transparent game character sheet for the Chinese Liaozhai RPG Painted Skin. Image 1 is STYLE only: mottled rice paper pigment inside each silhouette, hand-carved black ink contours, dry engraving hatching, near-black, grey jade, indigo, faded cinnabar and warm ivory. Every character must read like a historical woodcut figure from the same book as Image 1. Use real anatomy with long limbs, small heads (roughly 7–7.5 heads tall for adults), readable silhouettes and a subdued woodblock palette. Strong clean silhouette, controlled ink shading and contrast readable when reduced to 60px. Use an elevated orthographic RPG angle, only mildly above eye level; no lens perspective. No pixel art, chibi, anime, poster, text, labels, grid lines, scenery, panels, cast shadows, items floating off figures, or baselines. RGBA TRANSPARENT background everywhere between characters. No overlap, each complete figure has generous empty space around it including above hats and below both shoes. EXACTLY NINE full-body isolated sprites in a strict evenly spaced 3x3 matrix, one figure at the center of every cell, with column centers 16.7%, 50%, 83.3% and row centers 16.7%, 50%, 83.3%. ROW 1: facing directly toward viewer, front. ROW 2: facing away from viewer, back. ROW 3: right-facing full profile. Within EVERY row column 1 is feet together idle, column 2 is mid-walk stride left foot forward right foot back, column 3 is the alternate mid-walk right foot forward left foot back. Show both shoes, and use believable arm counter-swing. Same figure height and same stable base of the feet within each cell. Zhou Ping, solidly built adult Chinese Qing constable, charcoal blue cloth uniform, broad waist belt, rusty brick-red narrow trim and shoulder band, wrapped boots, simple constable cap, restrained short sheathed sabre close to the body. Reference 2 for identity and costume. Make the profile face RIGHT."
+    },
+    {
+      "source": "assets-source/characters/ink/teahouse-cast.png",
+      "runtime": [
+        "public/assets/characters/ink/world/faceless.webp",
+        "public/assets/characters/ink/world/child.webp",
+        "public/assets/characters/ink/world/chen.webp"
+      ],
+      "references": [
+        "public/assets/title/painted-skin-title.webp",
+        "public/assets/portraits/faceless-v2.webp",
+        "public/assets/portraits/child-v2.webp",
+        "public/assets/portraits/chen-v2.webp"
+      ],
+      "prompt": "Use case: illustration-story. A production-ready transparent game character sheet for the Chinese Liaozhai RPG Painted Skin. Image 1 is STYLE only: mottled rice paper pigment inside each silhouette, hand-carved black ink contours, dry engraving hatching, near-black, grey jade, indigo, faded cinnabar and warm ivory. Every character must read like a historical woodcut figure from the same book as Image 1. Use real anatomy with long limbs, small heads (roughly 7–7.5 heads tall for adults), readable silhouettes and a subdued woodblock palette. Strong clean silhouette, controlled ink shading and contrast readable when reduced to 60px. Use an elevated orthographic RPG angle, only mildly above eye level; no lens perspective. No pixel art, chibi, anime, poster, text, labels, grid lines, scenery, panels, cast shadows, items floating off figures, or baselines. RGBA TRANSPARENT background everywhere between characters. No overlap, each complete figure has generous empty space around it including above hats and below both shoes. EXACTLY NINE complete figures, strict 3x3 matrix with even column and row centers at 16.7%, 50%, 83.3%. Each ROW has a different character. In EACH ROW left column = front view facing camera, middle column = back view facing away, right column = right-facing side profile. Feet grounded, standing neutral. Never switch character costumes across rows. ROW 1: the Faceless Tea Mistress, an adult woman with plain curved ivory PAPER mask without a mouth, dark bun, faded cinnabar wide-sleeved robe and dull celadon trim (ref 2). ROW 2: Xiaoman, a child ghost aged about eight, realistically child-proportioned, long thin ash-blue robe, old ivory cuffs, dark two small tied knots or the hair of ref 3, bare or wrapped feet, almost grey pale face with no cute expression. ROW 3: the adult Chen echo, in bone-ivory and muted stone-blue embroidered robes, soft dark hair bun and long silhouette (ref 4), composed like a spectral Qing woman."
+    },
+    {
+      "source": "assets-source/characters/ink/county-cast.png",
+      "runtime": [
+        "public/assets/characters/ink/world/mother.webp",
+        "public/assets/characters/ink/world/han.webp",
+        "public/assets/characters/ink/world/tea.webp"
+      ],
+      "references": [
+        "public/assets/title/painted-skin-title.webp",
+        "public/assets/portraits/mother-v2.webp",
+        "public/assets/portraits/han-v2.webp",
+        "public/assets/portraits/tea-v2.webp"
+      ],
+      "prompt": "Use case: illustration-story. A production-ready transparent game character sheet for the Chinese Liaozhai RPG Painted Skin. Image 1 is STYLE only: mottled rice paper pigment inside each silhouette, hand-carved black ink contours, dry engraving hatching, near-black, grey jade, indigo, faded cinnabar and warm ivory. Every character must read like a historical woodcut figure from the same book as Image 1. Use real anatomy with long limbs, small heads (roughly 7–7.5 heads tall for adults), readable silhouettes and a subdued woodblock palette. Strong clean silhouette, controlled ink shading and contrast readable when reduced to 60px. Use an elevated orthographic RPG angle, only mildly above eye level; no lens perspective. No pixel art, chibi, anime, poster, text, labels, grid lines, scenery, panels, cast shadows, items floating off figures, or baselines. RGBA TRANSPARENT background everywhere between characters. No overlap, each complete figure has generous empty space around it including above hats and below both shoes. EXACTLY NINE complete figures, strict 3x3 matrix with even column and row centers at 16.7%, 50%, 83.3%. Each ROW has a different character. In EACH ROW left column = front view facing camera, middle column = back view facing away, right column = right-facing side profile. Feet grounded, standing neutral. Never switch character costumes across rows. ROW 1: elderly Granny Qi, grey hair in a bun, stooped but realistically proportioned, muted clay-plum jacket and cream neck scarf with dark trousers, ref 2. ROW 2: Han Qi, an alert adult Chinese constable in weathered ink-indigo uniform, soot-black cap, small red-brown belt, sheathed sabre, ref 3. ROW 3: tea seller, middle-aged broad-shouldered man in straw-brown apron over dark faded sage, rolled sleeves, cloth head wrap and trousers, ref 4."
+    },
+    {
+      "source": "assets-source/characters/ink/nameless-views.png",
+      "runtime": [
+        "public/assets/characters/ink/world/nameless.webp"
+      ],
+      "references": [
+        "public/assets/title/painted-skin-title.webp"
+      ],
+      "prompt": "Use case: illustration-story. A production-ready transparent game character sheet for the Chinese Liaozhai RPG Painted Skin. Image 1 is STYLE only: mottled rice paper pigment inside each silhouette, hand-carved black ink contours, dry engraving hatching, near-black, grey jade, indigo, faded cinnabar and warm ivory. Every character must read like a historical woodcut figure from the same book as Image 1. Use real anatomy with long limbs, small heads (roughly 7–7.5 heads tall for adults), readable silhouettes and a subdued woodblock palette. Strong clean silhouette, controlled ink shading and contrast readable when reduced to 60px. Use an elevated orthographic RPG angle, only mildly above eye level; no lens perspective. No pixel art, chibi, anime, poster, text, labels, grid lines, scenery, panels, cast shadows, items floating off figures, or baselines. RGBA TRANSPARENT background everywhere between characters. No overlap, each complete figure has generous empty space around it including above hats and below both shoes. EXACTLY THREE full-body figures in one wide horizontal row, equal spacing, centers at x=16.7%,50%,83.3%; standing neutral with feet fully visible. LEFT front, CENTER back, RIGHT right-facing profile. Three views of the SAME androgynous adult faceless paper spirit in a long ash-beige Qing traveling robe with one faded cinnabar stitching line and frayed dark sash. A smooth ivory paper face, discreet short dark hair or charcoal cloth cap, narrow shoulders, cloth shoes, straight quiet bearing. Like a paper double of a person from a Liaozhai woodcut."
+    },
+    {
+      "source": "assets-source/characters/ink/duel-cast.png",
+      "runtime": [
+        "public/assets/characters/ink/combat/shen.webp",
+        "public/assets/characters/ink/combat/guard.webp",
+        "public/assets/characters/ink/combat/wraith.webp"
+      ],
+      "references": [
+        "public/assets/title/painted-skin-title.webp",
+        "public/assets/combat/shen-back-v1.webp",
+        "public/assets/combat/guard-back-v1.webp",
+        "public/assets/combat/spirit-v1.webp"
+      ],
+      "prompt": "Use case: illustration-story. A production-ready transparent game character sheet for the Chinese Liaozhai RPG Painted Skin. Image 1 is STYLE only: mottled rice paper pigment inside each silhouette, hand-carved black ink contours, dry engraving hatching, near-black, grey jade, indigo, faded cinnabar and warm ivory. Every character must read like a historical woodcut figure from the same book as Image 1. Use real anatomy with long limbs, small heads (roughly 7–7.5 heads tall for adults), readable silhouettes and a subdued woodblock palette. Strong clean silhouette, controlled ink shading and contrast readable when reduced to 60px. Use an elevated orthographic RPG angle, only mildly above eye level; no lens perspective. No pixel art, chibi, anime, poster, text, labels, grid lines, scenery, panels, cast shadows, items floating off figures, or baselines. RGBA TRANSPARENT background everywhere between characters. No overlap, each complete figure has generous empty space around it including above hats and below both shoes. EXACTLY THREE standalone full-body combat cutouts in one wide horizontal row, equal spacing, centers x=16.7%,50%,83.3%, and ample transparent gutters. Full figures complete from head to shoes or trailing robe, each entirely in its own third. Use a low-angle classic turn-based RPG battle perspective, heroes rear-facing toward screen-right, wraith three-quarter facing screen-left. LEFT: full-body rear three-quarter Shen Yan, adult lean man in smoky celadon robe with tied dark hair and cloth ribbon, holds a short ink brush in one low ready hand. CENTER: full-body rear three-quarter Zhou Ping, adult sturdier dark indigo constable with muted red sash, cap and a short saber held low, facing the distance. RIGHT: the front-facing WELL WRAITH, an elongated human-shaped Qing folk demon with small solemn hollow celadon face, water-black hair, desaturated grey-green tattered robe, thin humanlike hands, old cream talisman strips and a thin cinnabar binding cord. Lower hems trail into restrained dry-ink wash, body is upright and tall with small head. Keep it uncanny and quiet rather than cute, no snarling cartoon face. Reference 2–4 for identity motifs only."
+    },
+    {
+      "source": "assets-source/characters/ink/courtyard.png",
+      "runtime": [
+        "public/assets/characters/ink/combat/courtyard.webp"
+      ],
+      "references": [
+        "public/assets/combat/courtyard-v1.webp",
+        "public/assets/title/painted-skin-title.webp"
+      ],
+      "prompt": "Use case: style-transfer. A wide 16:9 illustrated game battle plate. Image 1 is the composition reference of the existing Qing inn courtyard, with roofed side room on left, old well far right, center gate and low wall behind, unobstructed court in the bottom half. Image 2 is the only artistic style reference from the title screen. Repaint this exact place as a somber Liaozhai woodblock print at the end of a rainstorm. Hard black ink contours, distinct dry-brush worn paper grain, old chalky plaster walls, slate-blue and green-gray ink washes in shadow, old iron-grey tile, one desaturated red lantern and a cool small ivory moon through ink clouds. Flat layers of hand-carved ink texture rather than pixels or photographic shading. Uncanny stillness, enough candlelight and moon haze to read the room and keep dark actors visible. Lower 55% of the frame is quiet fairly even mid-value worn wet flagstone, with subtle shallow puddles. Combat figures are composited by the game; no people, ghosts, statues, round platforms, text, decals, interface, frame or watermark. The scene is a modest provincial inn, no grand palaces."
+    }
+  ]
+}

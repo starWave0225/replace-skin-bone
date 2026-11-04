@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import ScreenPages from './ScreenPages.vue'
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import type { WorldState } from '../game/types'
 import { PLAYER_SPEED, TILE, findPath, movePlayer, nearestSpot, worldMaps } from '../game/world'
@@ -7,6 +8,8 @@ import { makeBackground, renderWorld, renderInteractionHints } from '../game/wor
 import { appearanceNames, DISGUISE_DURATION } from '../game/player-sprite'
 import type { DisguiseFrame, PlayerAppearance } from '../game/player-sprite'
 import Icon from './Icon.vue'
+import TouchPad from './TouchPad.vue'
+import { interactionRingsEnabled } from '../game/hints'
 import { loadWorldArt } from '../game/world-art'
 import type { WorldArt } from '../game/world-art'
 
@@ -16,20 +19,22 @@ const canvas=ref<HTMLCanvasElement>()
 const host=ref<HTMLElement>()
 const nearby=ref<WorldSpot>()
 const moving=ref(false)
+const routesOpen = ref(false)
+const touchKeys = new Set<string>()
 const map=computed(()=>worldMaps[props.world.map])
-const hintIds=computed(()=>props.hints ?? map.value.spots.map(spot=>spot.id))
-const primaryIds=computed(()=>props.primaryHints ?? props.hints ?? [])
+const hintIds = computed(() => interactionRingsEnabled.value ? (props.hints ?? map.value.spots.map(spot => spot.id)) : [])
+const primaryIds = computed(() => interactionRingsEnabled.value ? (props.primaryHints ?? props.hints ?? []) : [])
 let player={...props.world},keys=new Set<string>(),raf=0,last=0,background:HTMLCanvasElement|undefined
 let camera={x:0,y:0},zoom=1.4,size={w:800,h:600},path:{x:number;y:number}[]=[],targetSpot:WorldSpot|undefined,wasMoving=false
 let observer:ResizeObserver|undefined
 let art:WorldArt|undefined,alive=false
 let gait=0,disguise:{from:PlayerAppearance;to:PlayerAppearance;startedAt:number}|undefined
 function sendPosition(){emit('position',{...player})}
-function setMap(){player={...props.world};keys.clear();path=[];targetSpot=undefined;nearby.value=undefined;background=makeBackground(map.value,art);camera={x:player.x-size.w/zoom/2,y:player.y-size.h/zoom/2}}
+function setMap(){player={...props.world};keys.clear();touchKeys.clear();path=[];targetSpot=undefined;nearby.value=undefined;routesOpen.value=false;background=makeBackground(map.value,art);camera={x:player.x-size.w/zoom/2,y:player.y-size.h/zoom/2}}
 watch(()=>props.world.map,setMap)
 watch(()=>props.appearance,(to,from)=>{disguise=props.motion?{from,to,startedAt:performance.now()}:undefined})
 watch(()=>props.motion,enabled=>{if(!enabled)disguise=undefined})
-watch(()=>props.paused,paused=>{if(paused){keys.clear();path=[];targetSpot=undefined;sendPosition()}})
+watch(()=>props.paused,paused=>{if(paused)blur()})
 function resize(){if(!canvas.value||!host.value)return;const box=host.value.getBoundingClientRect();size={w:box.width,h:box.height};const dpr=Math.min(2,window.devicePixelRatio||1);canvas.value.width=Math.round(size.w*dpr);canvas.value.height=Math.round(size.h*dpr);zoom=size.w<520?1.18:1.45}
 function step(dx:number,dy:number){
   const result=movePlayer(map.value,player,dx,dy);player.x=result.x;player.y=result.y
@@ -45,10 +50,12 @@ function keyDown(e:KeyboardEvent){
   }
 }
 function keyUp(e:KeyboardEvent){keys.delete(e.key.toLowerCase());if(!keys.size)sendPosition()}
-function blur(){keys.clear();path=[];sendPosition()}
+function blur(){keys.clear();touchKeys.clear();path=[];targetSpot=undefined;routesOpen.value=false;sendPosition()}
+function onVisibilityChange() { if (document.hidden) blur() }
 function interact(){if(props.paused)return;const spot=nearestSpot(map.value,player.x,player.y);if(spot){sendPosition();emit('interact',spot)}}
 function walkTo(spot:WorldSpot){
   if(props.paused)return
+  routesOpen.value = false
   if(Math.hypot(spot.x*TILE-player.x,spot.y*TILE-player.y)<62){sendPosition();emit('interact',spot);return}
   targetSpot=spot
   const approaches=[[spot.x,spot.y+1],[spot.x+1,spot.y],[spot.x-1,spot.y],[spot.x,spot.y-1]]
@@ -56,14 +63,27 @@ function walkTo(spot:WorldSpot){
   for(const [x,y]of approaches){path=findPath(map.value,player,{x:x*TILE,y:y*TILE});if(path.length)break}
   if(!path.length)targetSpot=undefined
 }
-function point(e:PointerEvent){
+function point(e: MouseEvent){
   if(props.paused||!canvas.value)return
+  if (routesOpen.value) { routesOpen.value = false; return }
   canvas.value.focus({preventScroll:true});const bounds=canvas.value.getBoundingClientRect();const x=(e.clientX-bounds.left)/zoom+camera.x,y=(e.clientY-bounds.top)/zoom+camera.y
   const hit=map.value.spots.find(spot=>Math.hypot(spot.x*TILE-x,spot.y*TILE-15-y)<35)
   if(hit){walkTo(hit);return}targetSpot=undefined;path=findPath(map.value,player,{x,y})
 }
-function touchDirection(key:string,e:PointerEvent){e.preventDefault();if(props.paused)return;(e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);keys.add(key);path=[]}
-function touchEnd(){keys.clear();sendPosition()}
+function touchTap(key: string) {
+  if (props.paused) return
+  path = []; targetSpot = undefined
+  const distance = touchKeys.has('shift') ? PLAYER_SPEED.tap * 1.5 : PLAYER_SPEED.tap
+  step((Number(key === 'd') - Number(key === 'a')) * distance, (Number(key === 's') - Number(key === 'w')) * distance)
+  sendPosition()
+}
+function touchDirection(key: string, held: boolean) {
+  if (!held) { touchKeys.delete(key); return }
+  if (props.paused) return
+  touchKeys.add(key)
+  if (key !== 'shift') touchTap(key)
+}
+function held(key: string) { return keys.has(key) || touchKeys.has(key) }
 function draw(now:number){
   raf=requestAnimationFrame(draw)
   if(!canvas.value||!background)return
@@ -71,8 +91,8 @@ function draw(now:number){
   const previousX=player.x,previousY=player.y
   let dx=0,dy=0
   if(!props.paused){
-    if(keys.has('w')||keys.has('arrowup'))dy--;if(keys.has('s')||keys.has('arrowdown'))dy++;if(keys.has('a')||keys.has('arrowleft'))dx--;if(keys.has('d')||keys.has('arrowright'))dx++
-    if(dx||dy){const length=Math.hypot(dx,dy),speed=keys.has('shift')?PLAYER_SPEED.run:PLAYER_SPEED.walk;step(dx/length*speed*dt,dy/length*speed*dt)}
+    if(held('w')||held('arrowup'))dy--;if(held('s')||held('arrowdown'))dy++;if(held('a')||held('arrowleft'))dx--;if(held('d')||held('arrowright'))dx++
+    if(dx||dy){const length=Math.hypot(dx,dy),speed=held('shift')?PLAYER_SPEED.run:PLAYER_SPEED.walk;step(dx/length*speed*dt,dy/length*speed*dt)}
     else if(path.length){
       let budget=PLAYER_SPEED.path*elapsed
       while(path.length&&budget>0){
@@ -106,21 +126,23 @@ function draw(now:number){
   canvas.value.dataset.playerX=player.x.toFixed(1);canvas.value.dataset.playerY=player.y.toFixed(1);canvas.value.dataset.map=map.value.id
   canvas.value.dataset.disguising=disguiseFrame?'true':'false'
   canvas.value.dataset.worldArt=art?(art.failed.length?'partial':'ready'):'loading'
-  canvas.value.dataset.artStyle='public-pixel'
+  canvas.value.dataset.artStyle='ink-characters'
 }
 onMounted(()=>{
   alive=true;loadWorldArt().then(value=>{if(alive){art=value;background=makeBackground(map.value,art)}})
   setMap();resize();observer=new ResizeObserver(resize);if(host.value)observer.observe(host.value)
   window.addEventListener('keydown',keyDown);window.addEventListener('keyup',keyUp);window.addEventListener('blur',blur);raf=requestAnimationFrame(draw)
+  document.addEventListener('visibilitychange', onVisibilityChange)
 })
-onUnmounted(()=>{alive=false;cancelAnimationFrame(raf);observer?.disconnect();window.removeEventListener('keydown',keyDown);window.removeEventListener('keyup',keyUp);window.removeEventListener('blur',blur)})
+onUnmounted(()=>{alive=false;cancelAnimationFrame(raf);observer?.disconnect();window.removeEventListener('keydown',keyDown);window.removeEventListener('keyup',keyUp);window.removeEventListener('blur',blur);document.removeEventListener('visibilitychange',onVisibilityChange)})
 </script>
 <template>
   <section ref="host" class="world-view" :class="{ 'world-paused':paused }" :aria-label="`${map.name}俯视角探索地图`">
-    <canvas ref="canvas" class="world-canvas" :data-player-appearance="appearance" :aria-label="`${map.name}。当前形貌：${appearanceNames[appearance]}。WASD或方向键移动，E键交互，也可点击地面行走。${hintIds.length ? '交互光圈：'+map.spots.filter(spot=>hintIds.includes(spot.id)).map(spot=>spot.name).join('、')+'。' : ''}${primaryIds.length ? '任务光圈：'+map.spots.filter(spot=>primaryIds.includes(spot.id)).map(spot=>spot.name).join('、')+'。' : ''}`" tabindex="0" @pointerdown="point"></canvas>
+    <canvas ref="canvas" class="world-canvas" :data-player-appearance="appearance" :aria-label="`${map.name}。当前形貌：${appearanceNames[appearance]}。点地面或用方向按钮行走。靠近后点交互按钮。也可用 WASD 和 E。${hintIds.length ? '交互光圈：'+map.spots.filter(spot=>hintIds.includes(spot.id)).map(spot=>spot.name).join('、')+'。' : ''}${primaryIds.length ? '任务光圈：'+map.spots.filter(spot=>primaryIds.includes(spot.id)).map(spot=>spot.name).join('、')+'。' : ''}`" tabindex="0" @click="point"></canvas>
     <div class="world-top"><div class="world-place"><span class="small-diamond"></span><h2>{{ map.name }}</h2><span>{{ night ? '夜雨' : '未闻县' }}</span></div><div class="world-key-guide"><kbd>W A S D</kbd> 行走 <i></i><kbd>E</kbd> 交互</div></div>
-    <div class="world-destinations" aria-label="场景中的人物与出入口"><span>寻路</span><button v-for="spot in map.spots" :key="spot.id" :disabled="paused" @click="walkTo(spot)">{{ spot.name }}<small>{{ spot.kind==='door'?'↗':'·' }}</small></button></div>
+    <button v-if="!paused" class="world-route-toggle" :aria-expanded="routesOpen" @click="routesOpen=!routesOpen">{{ routesOpen ? '收起' : '寻路' }}</button>
+    <ScreenPages class="world-destinations" :class="{ 'routes-open': routesOpen }" aria-label="场景中的人物与出入口"><span>寻路</span><button v-for="spot in map.spots" :key="spot.id" :disabled="paused" @click="walkTo(spot)">{{ spot.name }}<small>{{ spot.kind==='door'?'↗':'·' }}</small></button></ScreenPages>
     <div v-if="!paused" class="world-bottom"><p><span class="small-diamond"></span>{{ quest }}</p><button class="world-interact" :disabled="!nearby" @click="interact"><kbd>E</kbd><span>{{ nearby ? `${nearby.hint} · ${nearby.name}` : '靠近人物或物件互动' }}</span><Icon :name="nearby?.kind==='door'?'arrow':'leaf'" :size="17"/></button></div>
-    <div v-if="!paused" class="touch-controls" aria-label="触屏行走"><div class="dpad"><button aria-label="向上行走" @pointerdown="touchDirection('w',$event)" @pointerup="touchEnd" @pointercancel="touchEnd">↑</button><button aria-label="向左行走" @pointerdown="touchDirection('a',$event)" @pointerup="touchEnd" @pointercancel="touchEnd">←</button><span></span><button aria-label="向右行走" @pointerdown="touchDirection('d',$event)" @pointerup="touchEnd" @pointercancel="touchEnd">→</button><button aria-label="向下行走" @pointerdown="touchDirection('s',$event)" @pointerup="touchEnd" @pointercancel="touchEnd">↓</button></div><button class="touch-interact" aria-label="与附近目标交互" :disabled="!nearby" @click="interact">叩</button></div>
+    <TouchPad v-if="!paused" :key="map.id" class="world-pad" label="地图触屏行走" @direction="touchDirection" @tap="touchTap"/>
   </section>
 </template>

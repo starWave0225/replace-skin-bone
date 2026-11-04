@@ -1,0 +1,130 @@
+{
+  "generator": "OpenAI ImageGen (built-in)",
+  "purpose": "雨夜寻凶开场美术重绘，统一为标题插画的木刻墨线、矿物色和旧纸质感。",
+  "active_replacements": {
+    "lu-reaction": "guestroom-over-shoulder"
+  },
+  "assets": [
+    {
+      "id": "eaves-rain",
+      "source": "assets-source/opening/ink/eaves-rain.png",
+      "runtime": "public/assets/opening/ink/eaves-rain.webp",
+      "transparent": false,
+      "references": [
+        "assets-source/opening/eaves-rain-v1.png",
+        "public/assets/title/painted-skin-title.webp"
+      ],
+      "prompt": "Use case: style-transfer. Image 1 is the EDIT TARGET and source of all characters, pose, props and exact framing. Image 2 is solely a STYLE and PALETTE REFERENCE from the approved 《画皮：借面》 cover. Redraw Image 1 so it looks like another leaf illustrated by the same artist and printing workshop as Image 2. Transform the photographic realism into an unmistakably hand-drawn Qing ghost-tale woodblock illustration. Strong irregular charcoal-ink outlines, graphic silhouettes, flat layered mineral-pigment washes, etched fine parallel hatching, subtle mottling and old Xuan paper grain throughout. Use warm near-black ink, muted cinnabar lacquer, desaturated dark celadon and rain-grey, restrained amber and bone-ivory as in the cover; quiet, uneasy rain-night values but keep the important silhouette legible. Do not import the cover character or any objects from the cover; redraw existing content only. Keep the chipped roof tiles, dangling raindrops and hanging paper lantern at x=68% y=53%. Ink-outline each tile like carved woodcut; draw rain with thin washed blue-grey streaks and the paper lantern in warm yellow and ochre. One sparse accent of dusty vermilion in the lantern tassel. Let this be the readable opening beat in night rain. Full-bleed exactly 16:9 landscape, preserve camera geometry and subject placement to support programmed camera movement. No title, fake writing, border, caption, panel gutters or watermark."
+    },
+    {
+      "id": "inn-exterior",
+      "source": "assets-source/opening/ink/inn-exterior.png",
+      "runtime": "public/assets/opening/ink/inn-exterior.webp",
+      "transparent": false,
+      "references": [
+        "assets-source/opening/inn-exterior-v1.png",
+        "public/assets/title/painted-skin-title.webp"
+      ],
+      "prompt": "Use case: style-transfer. Image 1 is the EDIT TARGET and source of all characters, pose, props and exact framing. Image 2 is solely a STYLE and PALETTE REFERENCE from the approved 《画皮：借面》 cover. Redraw Image 1 so it looks like another leaf illustrated by the same artist and printing workshop as Image 2. Transform the photographic realism into an unmistakably hand-drawn Qing ghost-tale woodblock illustration. Strong irregular charcoal-ink outlines, graphic silhouettes, flat layered mineral-pigment washes, etched fine parallel hatching, subtle mottling and old Xuan paper grain throughout. Use warm near-black ink, muted cinnabar lacquer, desaturated dark celadon and rain-grey, restrained amber and bone-ivory as in the cover; quiet, uneasy rain-night values but keep the important silhouette legible. Do not import the cover character or any objects from the cover; redraw existing content only. Preserve the dark lone traveler's silhouette and clothing: dark folded cloth cap, indigo robe, brown vest and shoulder bag, viewed from behind walking to the right of the courtyard. Maintain two lanterns by the closed doorway. Layering and positions of tree and old inn stay fixed. Wet paving rendered as broad irregular dry-brush water reflections and contour ripples. Full-bleed exactly 16:9 landscape, preserve camera geometry and subject placement to support programmed camera movement. No title, fake writing, border, caption, panel gutters or watermark."
+    },
+    {
+      "id": "gallery-track",
+      "source": "assets-source/opening/ink/gallery-track.png",
+      "runtime": "public/assets/opening/ink/gallery-track.webp",
+      "transparent": false,
+      "references": [
+        "assets-source/opening/gallery-track-v1.png",
+        "public/assets/title/painted-skin-title.webp"
+      ],
+      "prompt": "Use case: style-transfer. Image 1 is the EDIT TARGET and source of all characters, pose, props and exact framing. Image 2 is solely a STYLE and PALETTE REFERENCE from the approved 《画皮：借面》 cover. Redraw Image 1 so it looks like another leaf illustrated by the same artist and printing workshop as Image 2. Transform the photographic realism into an unmistakably hand-drawn Qing ghost-tale woodblock illustration. Strong irregular charcoal-ink outlines, graphic silhouettes, flat layered mineral-pigment washes, etched fine parallel hatching, subtle mottling and old Xuan paper grain throughout. Use warm near-black ink, muted cinnabar lacquer, desaturated dark celadon and rain-grey, restrained amber and bone-ivory as in the cover; quiet, uneasy rain-night values but keep the important silhouette legible. Do not import the cover character or any objects from the cover; redraw existing content only. Preserve the center-right silhouette of the same adult man seen from behind, dark folded cloth cap, indigo robe, brown vest, shoulder bag. Maintain the receding geometry of the gallery, closed doorway and lights toward the right, rain in open courtyard on left and lantern cropped at top left. Black angular beam shapes, understated grey blue and muted lacquer red color washes. Full-bleed exactly 16:9 landscape, preserve camera geometry and subject placement to support programmed camera movement. No title, fake writing, border, caption, panel gutters or watermark."
+    },
+    {
+      "id": "guestroom-door",
+      "source": "assets-source/opening/ink/guestroom-door.png",
+      "runtime": "public/assets/opening/ink/guestroom-door.webp",
+      "transparent": false,
+      "references": [
+        "assets-source/opening/guestroom-door-v1.png",
+        "public/assets/title/painted-skin-title.webp"
+      ],
+      "prompt": "Use case: style-transfer. Image 1 is the EDIT TARGET and source of all characters, pose, props and exact framing. Image 2 is solely a STYLE and PALETTE REFERENCE from the approved 《画皮：借面》 cover. Redraw Image 1 so it looks like another leaf illustrated by the same artist and printing workshop as Image 2. Transform the photographic realism into an unmistakably hand-drawn Qing ghost-tale woodblock illustration. Strong irregular charcoal-ink outlines, graphic silhouettes, flat layered mineral-pigment washes, etched fine parallel hatching, subtle mottling and old Xuan paper grain throughout. Use warm near-black ink, muted cinnabar lacquer, desaturated dark celadon and rain-grey, restrained amber and bone-ivory as in the cover; quiet, uneasy rain-night values but keep the important silhouette legible. Do not import the cover character or any objects from the cover; redraw existing content only. Strict straight-on texture for a two-leaf door that will be digitally split exactly at x=50%. Preserve the CENTRAL dark vertical seam exactly down x=50%, position and size of both two circular ring handles, outer hinges and all panel edges. The whole image is the closed door, edge to edge. Dark brown timber, a hint of faded cinnabar lacquer and olive-black wood. Draw grain as thick-thin ink contours and distressed pigment rather than photographic grain. No hand or background. Full-bleed exactly 16:9 landscape, preserve camera geometry and subject placement to support programmed camera movement. No title, fake writing, border, caption, panel gutters or watermark."
+    },
+    {
+      "id": "knocking-hand",
+      "source": "assets-source/opening/ink/knocking-hand.png",
+      "runtime": "public/assets/opening/ink/knocking-hand.webp",
+      "transparent": true,
+      "references": [
+        "assets-source/opening/knocking-hand-v1.png",
+        "public/assets/title/painted-skin-title.webp"
+      ],
+      "prompt": "Use case: style-transfer. Image 1 is the EDIT TARGET and source of all characters, pose, props and exact framing. Image 2 is solely a STYLE and PALETTE REFERENCE from the approved 《画皮：借面》 cover. Redraw Image 1 so it looks like another leaf illustrated by the same artist and printing workshop as Image 2. Transform the photographic realism into an unmistakably hand-drawn Qing ghost-tale woodblock illustration. Strong irregular charcoal-ink outlines, graphic silhouettes, flat layered mineral-pigment washes, etched fine parallel hatching, subtle mottling and old Xuan paper grain throughout. Use warm near-black ink, muted cinnabar lacquer, desaturated dark celadon and rain-grey, restrained amber and bone-ivory as in the cover; quiet, uneasy rain-night values but keep the important silhouette legible. Do not import the cover character or any objects from the cover; redraw existing content only. Output a single transparent isolated foreground sprite: natural young adult man's closed knocking fist from its back, exactly the same diagonal silhouette from fist in upper left to plain folded indigo sleeve cut off in bottom right, with ivory cloth cuff. No claws. Hand and sleeve fill their prior bounds with very little padding. Dark variable ink outlines, flat warm ochre and ivory on skin, dry hatching on folds, age-grain inside shapes only. True RGBA transparent exterior, no background or drop shadow, no door. Keep the original nearly square bounding aspect and exact framing. No title, fake writing, border, caption, panel gutters or watermark."
+    },
+    {
+      "id": "dead-hand",
+      "source": "assets-source/opening/ink/dead-hand.png",
+      "runtime": "public/assets/opening/ink/dead-hand.webp",
+      "transparent": false,
+      "references": [
+        "assets-source/opening/dead-hand-v1.png",
+        "public/assets/title/painted-skin-title.webp"
+      ],
+      "prompt": "Use case: style-transfer. Image 1 is the EDIT TARGET and source of all characters, pose, props and exact framing. Image 2 is solely a STYLE and PALETTE REFERENCE from the approved 《画皮：借面》 cover. Redraw Image 1 so it looks like another leaf illustrated by the same artist and printing workshop as Image 2. Transform the photographic realism into an unmistakably hand-drawn Qing ghost-tale woodblock illustration. Strong irregular charcoal-ink outlines, graphic silhouettes, flat layered mineral-pigment washes, etched fine parallel hatching, subtle mottling and old Xuan paper grain throughout. Use warm near-black ink, muted cinnabar lacquer, desaturated dark celadon and rain-grey, restrained amber and bone-ivory as in the cover; quiet, uneasy rain-night values but keep the important silhouette legible. Do not import the cover character or any objects from the cover; redraw existing content only. Keep the exact ground-level close-up on the ordinary adult man's limp pale hand, lower center-right at x=62% y=70%, extending from an indigo sleeve and parchment cuff from the left. Same unresponsive man behind left and same single candle and book behind right. Ensure exactly five anatomically natural fingers including thumb, no elongated claws, no wounds or blood. Use the cover's visible dry-ink lines and fine hatching as used on the hands but keep this hand human. Full-bleed exactly 16:9 landscape, preserve camera geometry and subject placement to support programmed camera movement. No title, fake writing, border, caption, panel gutters or watermark."
+    },
+    {
+      "id": "guestroom-closed",
+      "source": "assets-source/opening/ink/guestroom-closed.png",
+      "runtime": "public/assets/opening/ink/guestroom-closed.webp",
+      "transparent": false,
+      "references": [
+        "assets-source/opening/guestroom-closed-v1.png",
+        "public/assets/title/painted-skin-title.webp"
+      ],
+      "prompt": "Use case: style-transfer. Image 1 is the EDIT TARGET and source of all characters, pose, props and exact framing. Image 2 is solely a STYLE and PALETTE REFERENCE from the approved 《画皮：借面》 cover. Redraw Image 1 so it looks like another leaf illustrated by the same artist and printing workshop as Image 2. Transform the photographic realism into an unmistakably hand-drawn Qing ghost-tale woodblock illustration. Strong irregular charcoal-ink outlines, graphic silhouettes, flat layered mineral-pigment washes, etched fine parallel hatching, subtle mottling and old Xuan paper grain throughout. Use warm near-black ink, muted cinnabar lacquer, desaturated dark celadon and rain-grey, restrained amber and bone-ivory as in the cover; quiet, uneasy rain-night values but keep the important silhouette legible. Do not import the cover character or any objects from the cover; redraw existing content only. Inside the inn room: preserve the exact room registration, including window, floorboards, candle, desk and book, left bed and drapes, the still clothed adult on the floor and face at x≈45% y≈73%. The existing CLOSED window is a geometric double lattice in the upper right, precisely in x=64–93.2%, y=10.5–49.5%. Keep both closed shutters and their seam in that same rectangle. Do not add anyone to the window. The open book stays lower right x≈76% y≈73%. Quiet tragedy, no blood or wounds. Full-bleed exactly 16:9 landscape, preserve camera geometry and subject placement to support programmed camera movement. No title, fake writing, border, caption, panel gutters or watermark."
+    },
+    {
+      "id": "lu-reaction",
+      "source": "assets-source/opening/ink/lu-reaction.png",
+      "runtime": "public/assets/opening/ink/lu-reaction.webp",
+      "transparent": false,
+      "references": [
+        "assets-source/opening/lu-reaction-v2.png",
+        "public/assets/title/painted-skin-title.webp"
+      ],
+      "prompt": "Use case: style-transfer. Image 1 is the EDIT TARGET and source of all characters, pose, props and exact framing. Image 2 is solely a STYLE and PALETTE REFERENCE from the approved 《画皮：借面》 cover. Redraw Image 1 so it looks like another leaf illustrated by the same artist and printing workshop as Image 2. Transform the photographic realism into an unmistakably hand-drawn Qing ghost-tale woodblock illustration. Strong irregular charcoal-ink outlines, graphic silhouettes, flat layered mineral-pigment washes, etched fine parallel hatching, subtle mottling and old Xuan paper grain throughout. Use warm near-black ink, muted cinnabar lacquer, desaturated dark celadon and rain-grey, restrained amber and bone-ivory as in the cover; quiet, uneasy rain-night values but keep the important silhouette legible. Do not import the cover character or any objects from the cover; redraw existing content only. A close-up of the SAME ordinary young Chinese adult man under a dark folded cloth cap, indigo robe and brown vest. Maintain the precise frame and orientation, his small mole, and his very visible shock: wide human dark pupils, furrowed brows, parted mouth, looks down and right at the discovery. Pale warm ivory shading against smoky doorway, grey blue rain at right, restrained cinnabar reflection on timber. The cover is style only, no pointed ears, scales, claws or female features. Full-bleed exactly 16:9 landscape, preserve camera geometry and subject placement to support programmed camera movement. No title, fake writing, border, caption, panel gutters or watermark."
+    },
+    {
+      "id": "guestroom-over-shoulder",
+      "source": "assets-source/opening/ink/guestroom-over-shoulder.png",
+      "runtime": "public/assets/opening/ink/guestroom-over-shoulder.webp",
+      "transparent": false,
+      "references": [
+        "assets-source/opening/ink/guestroom-closed.png",
+        "assets-source/opening/ink/gallery-track.png"
+      ],
+      "prompt": "Use case: illustration-story. Create a NEW wide 16:9 full-bleed shot for the existing hand-printed Qing folk-horror opening of 《画皮：借面》. Input 1 is the exact East Guest Room set and lighting continuity reference. Input 2 is Lu Zhiwei's clothing and back silhouette, as well as a print-style reference. Change the viewpoint: an eye-level, cinematic WIDE OVER-THE-SHOULDER view from just behind and just to the right of Lu Zhiwei as he stops inside the doorway. Use a wide enough lens that the ENTIRE interior is the main subject, showing the ceiling beams, room walls, and an unbroken breadth of floor. His back and the near shoulder form a small, distinct, softly shadowed foreground silhouette hugging the FAR LEFT edge; the rear of his dark folded cloth cap and damp braid, umber vest over ink-indigo sleeve, and shoulder-bag strap identify him. Keep his silhouette within the leftmost roughly 20–23 percent of the image with the near shoulder cropped off left and bottom, never extending over the person lying on the floor. He looks inward; NO visible face or expression, no hands held up, simply stillness in his posture. Keep the SAME recognizable room plan as input 1, opening the composition out enough to show everything at once: rumpled bed and draped cloth on the left behind Lu but clearly legible, wooden chest and ceramic jar mid-back, unmoving fully clothed man on the bare floor left of center with his face and extended relaxed hand clearly visible around x=43–54%, the SAME large closed double lattice window upper right and black lacquered wooden desk with an open old book, brush, and a single candle in lower right. Put all important items comfortably inside x=20–92% and y=10–90% of frame; all must be visible in one glance. Keep the shutters closed. The composition should guide the eye from his shoulder, to the body, across the floor to the candle and closed window. Use precisely the established heavy irregular black woodcut lines, dry hatching, tactile old Xuan paper mottling, desaturated celadon, faded cinnabar, ink-indigo cloth and bone-ivory candlelight, with a dark foreground silhouette to convey shock through stillness. Atmosphere of a carefully illustrated antique Liaozhai print, not a photo. No supernatural figures, blood, gore, signage, text, labels, borders or watermark."
+    },
+    {
+      "id": "guestroom-storm",
+      "source": "assets-source/opening/ink/guestroom-storm.png",
+      "runtime": "public/assets/opening/ink/guestroom-storm.webp",
+      "transparent": false,
+      "references": [
+        "assets-source/opening/ink/guestroom-closed.png",
+        "assets-source/opening/guestroom-body-v1.png"
+      ],
+      "prompt": "Use case: precise-object-edit. Input 1 is the EXACT approved hand-painted woodblock guestroom frame to EDIT. Input 2 is the old open-window shot, used only as a reference for the angle of the shutters and the view beyond. Replace only the CLOSED double lattice window in the upper-right region with the SAME lattice casements blown OPEN, hinged at the sides so both open wooden shutters are visible. Reveal the rainy inn roof, sparse black tree silhouette and dusty slate-blue night in the rectangular opening. The window frame, sill and center of the opening must stay at precisely the same pixel coordinates as Input 1. A subtle cool rain-light wash just below the window and across the near right of the desk is fine. Keep the full composition as a 16:9 pixel-registered alternate state of Input 1. Leave literally everything else as close to pixel identical to Input 1 as possible: no camera change, don't move or redraw the bed, man lying on the floor, candle, book, walls, furniture, brush, floorboards, or left doorframe. Identical old printed Xuan paper texture, hand-cut ink contours and restrained faded cinnabar of Input 1, same nighttime values, only the window opening changes. No figure outside the window, no text or new props, no border."
+    },
+    {
+      "id": "blank-book",
+      "source": "assets-source/opening/ink/blank-book.png",
+      "runtime": "public/assets/opening/ink/blank-book.webp",
+      "transparent": false,
+      "references": [
+        "assets-source/opening/blank-book-v1.png",
+        "public/assets/title/painted-skin-title.webp"
+      ],
+      "prompt": "Use case: style-transfer. Image 1 is the EDIT TARGET and source of all characters, pose, props and exact framing. Image 2 is solely a STYLE and PALETTE REFERENCE from the approved 《画皮：借面》 cover. Redraw Image 1 so it looks like another leaf illustrated by the same artist and printing workshop as Image 2. Transform the photographic realism into an unmistakably hand-drawn Qing ghost-tale woodblock illustration. Strong irregular charcoal-ink outlines, graphic silhouettes, flat layered mineral-pigment washes, etched fine parallel hatching, subtle mottling and old Xuan paper grain throughout. Use warm near-black ink, muted cinnabar lacquer, desaturated dark celadon and rain-grey, restrained amber and bone-ivory as in the cover; quiet, uneasy rain-night values but keep the important silhouette legible. Do not import the cover character or any objects from the cover; redraw existing content only. This is a projection surface for interactive typeset text. Preserve its EXACT aspect, geometry, top and bottom corners, and binding at x=48.2% all along. Keep both open ivory pages ENTIRELY BLANK: clean low-contrast gently worn fibrous paper with high enough luminosity for legible dark text. The quadrilateral of the right blank leaf runs x=50–88% at y≈14% and x=50–95% at y≈92%, and the left leaf mirrors the original. Maintain inkstone/brush and cut-off candle at left, rain window at top, dim lacquered table. Bold stylization on surrounding objects and edges; page centers remain quietly even. Full-bleed exactly 16:9 landscape, preserve camera geometry and subject placement to support programmed camera movement. No title, fake writing, border, caption, panel gutters or watermark."
+    }
+  ]
+}

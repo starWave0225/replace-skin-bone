@@ -13,9 +13,7 @@ export const pixelCharacterFiles = {
   woman: '/assets/world-pixel/woman.png', mother: '/assets/world-pixel/mother.png',
   han: '/assets/world-pixel/han.png', tea: '/assets/world-pixel/tea.png', child: '/assets/world-pixel/child.png',
 } as const
-export type PixelActor = keyof typeof pixelCharacterFiles
 export const worldPixelFiles = { ...pixelEnvironmentFiles, ...pixelCharacterFiles }
-export type PixelSheet = keyof typeof worldPixelFiles
 export interface PixelRegion { sheet: keyof typeof pixelEnvironmentFiles; x: number; y: number; w: number; h: number }
 const cell = (sheet: PixelRegion['sheet'], x: number, y: number, w = 1, h = 1): PixelRegion => ({ sheet, x: x * 16, y: y * 16, w: w * 16, h: h * 16 })
 export const pixelRegions = {
@@ -38,9 +36,3 @@ export const pixelRegions = {
   bridge: cell('water', 1, 13), ripple: cell('water', 11, 2),
 } as const
 export type PixelRegionId = keyof typeof pixelRegions
-// 作者图集从左到右为下、上、左、右；前四行为 Walk，第五行为 Attack。
-export const pixelFacingColumns = { down: 0, up: 1, left: 2, right: 3 } as const
-export function pixelWalkRow(gait: number, frameRows = 7) {
-  const walkingRows = Math.min(4, Math.max(1, frameRows))
-  return gait > 0 ? Math.floor(gait * .65) % walkingRows : 0
-}

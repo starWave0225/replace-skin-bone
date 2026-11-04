@@ -5,7 +5,8 @@ import { drawDisguisedPlayer } from './player-sprite'
 import type { DisguiseFrame, PlayerAppearance } from './player-sprite'
 import { drawWorldActor, fillWorldTexture, stampWorldPixel } from './world-art'
 import type { WorldArt, WorldMaterial } from './world-art'
-import type { PixelActor, PixelRegionId } from './world-pixel-assets'
+import type { PixelRegionId } from './world-pixel-assets'
+import { npcHeight, type WorldNpc } from './world-actors'
 
 type Ctx = CanvasRenderingContext2D
 const noise = (x: number, y: number) => { const n = Math.sin(x * 127.1 + y * 311.7) * 43758.5453; return n - Math.floor(n) }
@@ -133,9 +134,9 @@ export function drawLantern(c: Ctx, art: WorldArt | undefined, x: number, y: num
   glow.addColorStop(0, night ? '#f6bd5745' : '#f6bd571a'); glow.addColorStop(1, '#f6bd5700')
   c.fillStyle = glow; c.fillRect(x - 100, y - 137, 200, 200)
 }
-export function drawCharacter(c: Ctx, art: WorldArt | undefined, x: number, y: number, role: PixelActor, facing: WorldState['facing'] = 'down') {
-  c.save(); if (role === 'child') c.globalAlpha = .74
-  drawWorldActor(c, art, role, x, y, facing, 0, role === 'child' ? 2.5 : 3); c.restore()
+export function drawCharacter(c: Ctx, art: WorldArt | undefined, x: number, y: number, role: WorldNpc, facing: WorldState['facing'] = 'down') {
+  c.save(); if (role === 'child' || role === 'chen') c.globalAlpha = .8
+  drawWorldActor(c, art, role, x, y, facing, 0, npcHeight[role]); c.restore()
 }
 const spriteCaches = new WeakMap<WorldArt, Map<string, { surface: HTMLCanvasElement; x: number; y: number }>>()
 function objectSprite(object: WorldObject, art: WorldArt) {
@@ -191,9 +192,10 @@ export function renderWorld(c: Ctx, background: HTMLCanvasElement, map: WorldMap
     if (spot.kind === 'npc') objects.push({ y: spot.y * TILE, draw: () => {
       const facing = Math.hypot(player.x - spot.x * TILE, player.y - spot.y * TILE) < 100
         ? (Math.abs(player.x - spot.x * TILE) > Math.abs(player.y - spot.y * TILE) ? (player.x > spot.x * TILE ? 'right' : 'left') : (player.y > spot.y * TILE ? 'down' : 'up')) : 'down'
-      drawCharacter(c, art, spot.x * TILE, spot.y * TILE, spot.character ?? 'tea', facing)
-      label(c, spot.name, spot.x * TILE, spot.y * TILE - 58, 13)
-      if (nearest?.id === spot.id) label(c, '◆', spot.x * TILE, spot.y * TILE - 75, 12, '#f2cc7d')
+      const role = spot.character ?? 'tea', nameY = spot.y * TILE - npcHeight[role] - 11
+      drawCharacter(c, art, spot.x * TILE, spot.y * TILE, role, facing)
+      label(c, spot.name, spot.x * TILE, nameY, 13)
+      if (nearest?.id === spot.id) label(c, '◆', spot.x * TILE, nameY - 17, 12, '#f2cc7d')
     } })
     if (spot.kind === 'door') {
       label(c, '⌄', spot.x * TILE, spot.y * TILE + 3, 22, '#e2c38b')

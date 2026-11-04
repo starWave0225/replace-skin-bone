@@ -17,8 +17,8 @@ function remember(value:WorldState){if(value.map===location.value)world.value=va
 <template>
   <main class="world-preview-page"><header><a href="./" class="world-preview-logo">画皮 <span>借面</span></a><div><b>未闻县行图</b><p>青瓦旧墙，雨后苔生。</p></div><MusicControls/><a href="./">返回首页 ↗</a></header>
     <section class="world-preview-controls" aria-label="行图预览设置"><label>场景<select v-model="location" @change="visit(location)"><option v-for="map in Object.values(worldMaps)" :key="map.id" :value="map.id">{{map.name}}</option></select></label><label>形貌<select v-model="appearance"><option value="self">陆知微</option><option value="shen">沈砚之面</option><option value="guard">周平之面</option><option value="nameless">无相之身</option></select></label><button @click="night=!night">{{night?'切至白昼':'切至夜雨'}}</button><span>WASD 行走 · E 交互 · 点击寻路</span></section>
-    <div class="world-preview-map"><WorldView :key="world.map" :world="world" :paused="false" :night="night" :appearance="appearance" :motion="true" quest="走近出口，按 E 切换场景。" @position="remember" @interact="interact"/></div>
-    <footer><p role="status">{{message||'行图试玩，不影响剧情存档。'}}</p><a href="https://pixel-boy.itch.io/ninja-adventure-asset-pack" target="_blank" rel="noopener">像素素材：Pixel-Boy / AAA · CC0 ↗</a></footer>
+    <div class="world-preview-map"><WorldView :key="world.map" :world="world" :paused="false" :night="night" :appearance="appearance" :motion="true" quest="走近出口，点交互按钮切换场景。" @position="remember" @interact="interact"/></div>
+    <footer><p role="status">{{message||'行图试玩，不影响剧情存档。'}}</p><a href="https://pixel-boy.itch.io/ninja-adventure-asset-pack" target="_blank" rel="noopener">地形图块：Pixel-Boy / AAA · CC0 ↗</a></footer>
   </main>
 </template>
 <style>

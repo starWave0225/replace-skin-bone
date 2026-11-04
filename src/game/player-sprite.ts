@@ -1,6 +1,7 @@
 import type { Face, WorldState } from './types'
 import { drawWorldActor } from './world-art'
 import type { WorldArt } from './world-art'
+import { adultActorHeight } from './world-actors'
 
 export type PlayerAppearance = Face | 'nameless' | 'self'
 export const DISGUISE_DURATION = 720
@@ -10,15 +11,16 @@ export const appearanceNames: Record<PlayerAppearance, string> = {
 export interface DisguiseFrame { from: PlayerAppearance; to: PlayerAppearance; progress: number }
 type Ctx = CanvasRenderingContext2D
 
-// Public CC0 four-direction sheets share the existing feet anchor and collision footprint.
+// Each figure stays anchored to the same ground point through a disguise change.
 export function drawPlayerSprite(c: Ctx, x: number, y: number, appearance: PlayerAppearance, facing: WorldState['facing'], frame = 0, art?: WorldArt) {
   drawWorldActor(c, art, appearance, x, y, facing, frame)
 }
 
 export function drawDisguisedPlayer(c: Ctx, x: number, y: number, appearance: PlayerAppearance, facing: WorldState['facing'], frame: number, disguise?: DisguiseFrame, art?: WorldArt) {
   if (!disguise || disguise.progress >= 1) { drawPlayerSprite(c, x, y, appearance, facing, frame, art); return }
-  const progress = Math.max(0, disguise.progress), seam = Math.round(y - 52 + progress * 59)
-  c.save(); c.beginPath(); c.rect(x - 26, y - 55, 52, seam - (y - 55)); c.clip()
+  const progress = Math.max(0, disguise.progress), top = y - adultActorHeight - 3
+  const seam = Math.round(top + progress * (y + 7 - top))
+  c.save(); c.beginPath(); c.rect(x - 26, top, 52, Math.max(0, seam - top)); c.clip()
   drawPlayerSprite(c, x, y, disguise.to, facing, frame, art); c.restore()
   c.save(); c.beginPath(); c.rect(x - 26, seam, 52, y + 8 - seam); c.clip()
   drawPlayerSprite(c, x, y, disguise.from, facing, frame, art); c.restore()
