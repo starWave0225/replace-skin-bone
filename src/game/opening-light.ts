@@ -1,50 +1,28 @@
-// 浏览器环境光（lux），不是系统屏幕背光。不可用时由玩家手动调节页内灯火。
-export interface OpeningLightSensor extends EventTarget {
-  readonly illuminance: number | null
-  start(): void
-  stop(): void
-}
-export type OpeningLightSensorConstructor = new (options: { frequency: number }) => OpeningLightSensor
-export type OpeningLightMode = 'sensing' | 'ambient' | 'manual'
+const clamp = (value: number) => Math.max(0, Math.min(1, value))
+const smooth = (value: number) => { const t = clamp(value); return t * t * (3 - 2 * t) }
 
-export function openingBrightnessFromLux(lux: number) {
-  if (!Number.isFinite(lux) || lux < 0) return null
-  return Math.min(1, .05 + .95 * Math.log1p(lux / 10) / Math.log1p(100))
+export const openingCandleDuration = 3600
+export const openingCandleDimDuration = 1250
+
+// The same playback clock drives the candle and the light on the page.
+export function openingCandleFrame(elapsed: number | null, time = 0, reduced = false) {
+  const lit = elapsed === null || !Number.isFinite(elapsed)
+  const t = lit ? 0 : Math.max(0, elapsed)
+  const gust = lit ? 0 : Math.sin(Math.PI * clamp(t / 700))
+  const flame = lit ? 1 : 1 - smooth((t - 220) / 500)
+  return {
+    flame: flame * (reduced ? 1 : 1 + .045 * Math.sin(time / 93) + .025 * Math.sin(time / 47)),
+    lean: reduced ? 0 : gust * .9 + (lit ? Math.sin(time / 170) * .045 : 0),
+    brightness: lit ? 1 : 1 - .92 * smooth((t - 250) / 1000),
+    smoke: lit ? 0 : smooth((t - 610) / 420) * (1 - smooth((t - 1700) / 1900)),
+    rise: reduced ? .45 : clamp((t - 610) / 2300),
+    ember: lit ? 0 : smooth((t - 400) / 250) * (1 - smooth((t - 900) / 1500)),
+  }
 }
 
-export function observeOpeningLight(
-  onBrightness: (brightness: number) => void,
-  onMode: (mode: OpeningLightMode) => void,
-  Sensor: OpeningLightSensorConstructor | undefined = typeof window !== 'undefined' && window.isSecureContext
-    ? (window as Window & { AmbientLightSensor?: OpeningLightSensorConstructor }).AmbientLightSensor : undefined,
-) {
-  let sensor: OpeningLightSensor | undefined
-  let stopped = false
-  let timeout: ReturnType<typeof setTimeout> | undefined
-  const stop = () => {
-    stopped = true
-    clearTimeout(timeout)
-    sensor?.removeEventListener('reading', reading)
-    sensor?.removeEventListener('error', unavailable)
-    try { sensor?.stop() } catch { /* Some implementations throw after an unsuccessful start. */ }
-  }
-  const unavailable = () => { if (!stopped) { stop(); onMode('manual') } }
-  const reading = () => {
-    if (stopped || sensor?.illuminance == null) return
-    const brightness = openingBrightnessFromLux(sensor.illuminance)
-    if (brightness === null) return
-    clearTimeout(timeout)
-    onBrightness(brightness); onMode('ambient')
-  }
-  if (!Sensor) { onMode('manual'); return stop }
-  try {
-    sensor = new Sensor({ frequency: 2 })
-    sensor.addEventListener('reading', reading)
-    sensor.addEventListener('error', unavailable)
-    onMode('sensing')
-    // A present API can still fail to deliver readings; never leave the player waiting for it.
-    timeout = setTimeout(unavailable, 3000)
-    sensor.start()
-  } catch { unavailable() }
-  return stop
+export function openingCandleLayout(width: number, height: number) {
+  const scale = height / 720
+  const x = width * .947, base = height * .84, wick = base - 166 * scale
+  const hitWidth = Math.max(44, 105 * scale), hitHeight = Math.max(74, 290 * scale)
+  return { x, base, wick, scale, hit: { left: Math.max(0, Math.min(width - hitWidth, x - hitWidth / 2)), top: Math.max(0, wick - 90 * scale), width: hitWidth, height: hitHeight } }
 }

@@ -4,5 +4,21 @@
   "source": "assets-source/prologue/wronged-spirit-v1.png",
   "runtime": "public/assets/dream/wronged-spirit-v1.webp",
   "transparent": true,
-  "generated_file": "C:\\Users\\junji\\.codex\\generated_images\\01a1900b-3653-7d03-8eff-0053a729d011\\exec-b3d24cbe-413d-4d5a-9560-cb609f7c9e8b.png"
+  "generated_file": "C:\\Users\\junji\\.codex\\generated_images\\01a1900b-3653-7d03-8eff-0053a729d011\\exec-b3d24cbe-413d-4d5a-9560-cb609f7c9e8b.png",
+  "borrowed_form": {
+    "runtime": "public/assets/dream/borrowed-woman-v1.webp",
+    "mode": "built-in imagegen",
+    "generated_file": "C:/Users/junji/.codex/generated_images/01a1900b-3653-7d03-8eff-0053a729d011/exec-3b71b5a5-6849-41d4-bb24-54f124e725c8.png",
+    "transparent": true,
+    "use": "同一面容用于自行绘制的画卷和女魂易相后的形貌。",
+    "prompt": "An unidentified adult Chinese woman, frontal waist-up transparent cutout, late-imperial Chinese gongbi fine ink and muted watercolor, asymmetric features, slight crooked nose, temple mole, plain bun and brass pin, weathered gray-green cross-collar robe, no text or scenery."
+  },
+  "teahouse_box": {
+    "runtime": "public/assets/opening/ink/teahouse-skin-box-v1.webp",
+    "mode": "built-in imagegen",
+    "generated_file": "C:/Users/junji/.codex/generated_images/01a1900b-3653-7d03-8eff-0053a729d011/exec-f61b2c2c-279e-484e-98cc-3e9877767e27.png",
+    "reference": "public/assets/opening/ink/guestroom-closed.webp",
+    "use": "开匣入梦全屏插画；铜镜中截取左侧空床映出将要醒来的客房。",
+    "prompt": "Early Qing Chinese teahouse attic, weathered timber, candle light, red-brown woodcut and muted ink wash matching the opening. Empty bed and a tea cup on the left; open chest on the right with a thin painted face skin folded among fabric, no body, no blood, no text."
+  }
 }

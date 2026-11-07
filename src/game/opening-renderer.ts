@@ -3,6 +3,7 @@ import { openingBeats, openingDuration, openingFrame, openingShots } from './ope
 import { openingCamera } from './opening-camera'
 import { createOpeningBook, openingBookPages, openingPoemVisibility, type OpeningBookState } from './opening-book'
 import { openingPoem } from './opening-poem'
+import { drawOpeningCandle } from './opening-candle'
 
 export const openingImages = {
   eaves: assetUrl('/assets/opening/ink/eaves-rain.webp'),
@@ -33,6 +34,26 @@ function preload() {
 const clamp = (value: number) => Math.min(1, Math.max(0, value))
 const ease = (value: number) => { const x = clamp(value); return x * x * (3 - 2 * x) }
 const noise = (value: number) => { const n = Math.sin(value * 127.1 + 311.7) * 43758.5453; return n - Math.floor(n) }
+const manuscriptFont = 'MaShan, KaiTi, STKaiti, serif'
+
+function writeManuscriptColumn(ink: CanvasRenderingContext2D, text: string, x: number, y: number, size: number, spacing: number, seed: number) {
+  ink.save()
+  ink.font = `${size}px ${manuscriptFont}`
+  ink.textAlign = 'center'; ink.textBaseline = 'top'
+  Array.from(text).forEach((character, row) => {
+    // Fixed variations follow the page through turns and never flicker between frames.
+    const mark = seed + row * 17 + character.codePointAt(0)!
+    ink.save()
+    ink.translate(x + (noise(mark) - .5) * size * .075, y + row * spacing + (noise(mark + 1) - .5) * size * .05)
+    ink.rotate((noise(mark + 2) - .5) * .055)
+    const scale = .97 + noise(mark + 3) * .06
+    ink.scale(scale, scale)
+    ink.globalAlpha *= .84 + noise(mark + 4) * .16
+    ink.fillText(character, 0, 0)
+    ink.restore()
+  })
+  ink.restore()
+}
 type Point = [number, number]
 type PaintedImage = HTMLImageElement | HTMLCanvasElement
 export interface OpeningRenderState { book?: Readonly<OpeningBookState>; ambienceTime?: number }
@@ -78,7 +99,8 @@ export class OpeningRenderer {
     grain.putImageData(pixels, 0, 0)
   }
   static async create(canvas: HTMLCanvasElement) {
-    const [images] = await Promise.all([preload(), document.fonts.ready])
+    // Canvas-only fonts must be requested before caching the rendered book leaves.
+    const [images] = await Promise.all([preload(), document.fonts.load('42px MaShan', '雨夜来书井边残谶')])
     return new OpeningRenderer(canvas, images)
   }
   resize(width: number, height: number) {
@@ -158,8 +180,7 @@ export class OpeningRenderer {
       ink.textAlign = 'center'; ink.textBaseline = 'top'; ink.fillStyle = '#32251de8'
       const stride = Math.min(43, 470 / Math.max(1, ...lines.map(line => Array.from(line).length)))
       const column = (text: string, x: number, size: number, spacing = 43) => {
-        ink.font = `${size}px NotoSerif, "Songti SC", SimSun, serif`
-        Array.from(text).forEach((character, i) => ink.fillText(character, x * 512, 92 + i * spacing))
+        writeManuscriptColumn(ink, text, x * 512, 92, size, spacing, index * 101 + x * 512)
       }
       column(title, .89, 42)
       lines.forEach((line, i) => column(line, .67 - i * .17, Math.min(38, stride * .9), stride))
@@ -211,11 +232,9 @@ export class OpeningRenderer {
     const ink = this.ink.getContext('2d')!, mask = this.mask.getContext('2d')!
     ink.clearRect(0, 0, 512, 768); mask.clearRect(0, 0, 512, 768)
     ink.fillStyle = '#30271e'; ink.textAlign = 'center'; ink.textBaseline = 'top'
-    ink.font = '30px NotoSerif, "Songti SC", SimSun, serif'
-    Array.from(openingPoem.title).forEach((character, i) => ink.fillText(character, 455, 100 + i * 38))
-    ink.font = '44px NotoSerif, "Songti SC", SimSun, serif'
+    writeManuscriptColumn(ink, openingPoem.title, 455, 100, 32, 38, 310)
     openingPoem.lines.forEach((line, column) => {
-      Array.from(line).forEach((character, row) => ink.fillText(character, 360 - column * 85, 170 + row * 62))
+      writeManuscriptColumn(ink, line, 360 - column * 85, 170, 46, 62, 400 + column * 83)
     })
     for (let i = 0; i < 9; i++) {
       const x = 256 + (noise(i + 8) - .5) * 310, y = 365 + (noise(i + 15) - .5) * 400
@@ -244,7 +263,7 @@ export class OpeningRenderer {
   }
   private bookLighting(brightness: number) {
     const ctx = this.context
-    ctx.save(); ctx.fillStyle = `rgba(4,9,12,${(1 - brightness) * .36})`; ctx.fillRect(0, 0, this.width, this.height); ctx.restore()
+    ctx.save(); ctx.fillStyle = `rgba(4,9,12,${(1 - brightness) * .48})`; ctx.fillRect(0, 0, this.width, this.height); ctx.restore()
   }
   private water(time: number, p: number, reduced: boolean, opacity = 1) {
     const ctx = this.context, w = this.width, h = this.height
@@ -313,6 +332,9 @@ export class OpeningRenderer {
       }
     }
     ctx.restore()
+    if (state.book && ['pages', 'poem', 'blank', 'dissolve'].includes(shot)) {
+      drawOpeningCandle(ctx, w, h, state.book.candleElapsed, state.ambienceTime ?? time, reducedMotion)
+    }
     const flash = reducedMotion ? 0 : Math.max(0, ...openingBeats.thunder.map(at => 1 - Math.abs(time - at) / 180))
     if (flash > 0) { ctx.fillStyle = `rgba(185,211,233,${flash * .35})`; ctx.fillRect(0, 0, w, h) }
     const vignette = ctx.createRadialGradient(w * .5, h * .5, h * .15, w * .5, h * .5, w * .65)

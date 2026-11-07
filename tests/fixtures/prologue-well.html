@@ -4,11 +4,13 @@
 <script type="module">
 import { startGame } from '/src/game/engine.ts'
 import { caseClues, dreamStations } from '/src/game/prologue.ts'
+import { worldSpawn } from '/src/game/world.ts'
 import { writeSave } from '/src/game/saves.ts'
 document.querySelector('#prepare').addEventListener('click',async()=>{
  if(location.hostname!=='well-qa.localhost'){document.querySelector('#result').textContent='请使用独立测试域';return}
  const state=startGame(true),p=state.prologue
  p.phase='morning';p.clues=caseClues.map(c=>c.id);p.dreamSeen=dreamStations.map(s=>s.id)
+ p.wallOpen=true;p.briefed=true;p.world=worldSpawn('inn_well')
  await writeSave('auto',state)
  document.querySelector('#result').textContent='测试存档已准备，可进入正式游戏点击继续前缘。'
 })

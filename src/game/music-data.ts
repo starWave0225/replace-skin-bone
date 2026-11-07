@@ -26,7 +26,7 @@ export const musicScenes: Record<MusicScene, { name: string; track: MusicTrackId
 }
 export function musicSceneForMap(location: Location, time: 'day' | 'dusk' | 'night' = 'day'): MusicScene {
   if (location === 'well' || location === 'inn_well' || location === 'yamen') return 'investigation'
-  if (location === 'theatre' || location === 'mansion') return 'teahouse'
+  if (location === 'theatre' || location === 'theatre_upper' || location === 'mansion') return 'teahouse'
   if (location === 'home') return 'home'
   if (location === 'inn') return 'inn'
   return time === 'night' ? 'night' : 'street'

@@ -53,8 +53,13 @@
 .opening-book-prompt{display:flex;align-items:center;gap:16px;pointer-events:none}
 .opening-book-prompt>span:first-child{color:#b6aa8d;font-size:12px;letter-spacing:1px}.opening-book-prompt>span:last-child{font-size:18px}
 .opening-visually-hidden{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
-.opening-brightness{display:grid;grid-template-columns:34px minmax(0,1fr) 38px;align-items:center;gap:10px;margin-top:4px;font-size:12px;letter-spacing:1px}
-.opening-brightness input{width:100%;min-width:0;min-height:44px;margin:0;accent-color:#b6a779;cursor:pointer;touch-action:none}.opening-brightness output{text-align:right;font-variant-numeric:tabular-nums}
-.opening-light-note{margin:7px 0 0;font-size:11px;line-height:1.7;letter-spacing:.5px;color:#b6aa8d}
+.opening-page .opening-touch-book h2 { font-family: MaShan, KaiTi, STKaiti, serif; font-weight: 400; }
+.opening-page .opening-touch-book .screen-page-content > p { font: 400 22px/1.85 MaShan, KaiTi, STKaiti, serif; letter-spacing: .035em; }
+.opening-page .opening-touch-book .screen-page-content > p:nth-of-type(even) { padding-left: .18em; color: #dfcfae; }
+.opening-candle-hitarea{position:absolute;z-index:3;min-width:44px;min-height:74px;padding:0;border:0;background:transparent;touch-action:manipulation;cursor:pointer}
+.opening-candle-hitarea:disabled{opacity:1;cursor:default}
+.opening-candle-hitarea>span{position:absolute;bottom:0;left:50%;transform:translateX(-50%);font:20px MaShan,KaiTi,serif;letter-spacing:.15em;white-space:nowrap;color:#e1cda0;text-shadow:0 2px 5px #0c0a07}
+.opening-candle-hitarea:not(:disabled):hover{background:radial-gradient(ellipse,#e6ba5914,transparent 70%)}
+.opening-candle-hitarea:focus-visible{outline:1px dashed #ecd6a1;outline-offset:1px;border-radius:45% 45% 12px 12px}
 @media(max-width:600px){.opening-controls{right:16px;bottom:max(18px,env(safe-area-inset-bottom));gap:8px}.opening-controls>button{width:44px;height:44px}}
 @media(prefers-reduced-motion:reduce){.opening-controls{transition:none}}

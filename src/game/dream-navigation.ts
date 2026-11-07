@@ -1,7 +1,8 @@
 export interface DreamObstacle { x: number; z: number; w: number; d: number }
 export const dreamObstacles: DreamObstacle[] = [
   { x: -5.7, z: -1.7, w: 2.4, d: 1.2 }, { x: 3.8, z: -6.1, w: 2.1, d: 1.3 },
-  { x: -.65, z: 3.35, w: 1.3, d: 1.3 }, { x: -6.8, z: -11, w: 1, d: 2 },
+  { x: .35, z: -.5, w: 1.3, d: 1.3 }, { x: -6.8, z: -11, w: 1, d: 2 },
+  { x: 3.6, z: 3.1, w: 1.1, d: 1.2 },
   { x:-6.1,z:7.1,w:1,d:1 },{x:5.1,z:2.7,w:1,d:1},
   { x:-6.1,z:-6,w:.8,d:2 },{x:5.3,z:-11,w:.8,d:2},
   { x:5.3,z:-15.3,w:1.3,d:1.6 },

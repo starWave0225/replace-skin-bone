@@ -1,21 +1,24 @@
-import { combatFaces, combatIntents, combatMoves } from './combat-data'
+import { combatFaces, combatIntents, combatMoves, paperPuppetIntents } from './combat-data'
 import type { CombatAction, CombatFace } from './combat-data'
 export interface CombatLog {turn:number;side:'player'|'enemy'|'system';text:string}
 export interface CombatState {
-  context?: 'prologue';
+  context?: 'prologue'|'chapter-one';
+  repairWeakened?:boolean; pigmentSpent?:boolean;
   turn:number;face:CombatFace;hp:number;ink:number;
   enemy:{hp:number;skin:number;maxHp:number;maxSkin:number};
   intentIndex:number;exposure:number;mark:number;counter:boolean;intentKnown:boolean;
   swapReadyAt:number;bindReadyAt:number;status:'active'|'won'|'lost';
   breaks:number;damageTaken:number;log:CombatLog[];
 }
-export function createCombat(face:CombatFace='shen', context?:'prologue'):CombatState{
-  return {context,turn:1,face,hp:100,ink:3,enemy:{hp:24,skin:24,maxHp:24,maxSkin:24},intentIndex:0,exposure:0,mark:0,counter:false,intentKnown:false,swapReadyAt:1,bindReadyAt:1,status:'active',breaks:0,damageTaken:0,log:[]}
+export function createCombat(face:CombatFace='shen', context?:'prologue'|'chapter-one'):CombatState{
+  const hp=context==='chapter-one'?48:24,skin=context==='chapter-one'?30:24
+  return {context,turn:1,face,hp:100,ink:3,enemy:{hp,skin,maxHp:hp,maxSkin:skin},intentIndex:0,exposure:0,mark:0,counter:false,intentKnown:false,swapReadyAt:1,bindReadyAt:1,status:'active',breaks:0,damageTaken:0,log:[]}
 }
-export function currentCombatIntent(s:CombatState){return combatIntents[s.intentIndex%combatIntents.length]}
+export function currentCombatIntent(s:CombatState){const intents=s.context==='chapter-one'?paperPuppetIntents:combatIntents;return intents[s.intentIndex%intents.length]}
 export function combatActionReason(s:CombatState,id:CombatAction):string{
   if(s.status!=='active')return '此阵已结束，重新试法即可再战。'
   if(id==='swap'&&s.context==='prologue')return '尚未学会借面，须到无面茶楼问法。'
+  if(id==='swap'&&s.context==='chapter-one')return '本章仅借得沈砚之面。'
   const move=combatMoves[id]
   if(!move)return '没有这门招式。'
   if(move.face&&move.face!==s.face)return '须先换上此招所属的面。'
@@ -53,7 +56,7 @@ export function performCombatAction(previous:CombatState,id:CombatAction,expecte
   const intent=currentCombatIntent(s),alreadyExposed=s.enemy.skin===0&&s.exposure>0,oldMark=s.mark
   let broken=false,cancelled=false,markCreated=false,counterGranted=false
   const say=(side:CombatLog['side'],text:string)=>s.log.push({turn:s.turn,side,text})
-  function win(){if(s.enemy.hp<=0){s.status='won';say('system',s.context==='prologue'?'皮相散尽，怨势暂息。井中哭声渐低，且听她诉说。':'皮相散尽，怨势暂息。此处只演练压制，不替任何人决定归宿。');return true}return false}
+  function win(){if(s.enemy.hp<=0){s.status='won';say('system',s.context==='chapter-one'?'纸傀散作旧纸。值夜录保住了，快取去给韩七辨认。':s.context==='prologue'?'皮相散尽，怨势暂息。井中哭声渐低，且听鬼童诉说。':'皮相散尽，怨势暂息。此处只演练压制，不替任何人决定归宿。');return true}return false}
   function hitEnemy(values:{skin:number;body:number},name:string){
     const skin=s.enemy.skin>0,base=skin?values.skin:values.body
     if(base<=0)return
@@ -81,7 +84,12 @@ export function performCombatAction(previous:CombatState,id:CombatAction,expecte
   }
   if(s.status==='active'){
     if(cancelled)say('enemy',`${intent.name}未能施展。`)
-    else if(!intent.hits.length)say('enemy','水缚蓄势，下一回合将夺相。')
+    else if(intent.kind==='repair'){
+      if(s.enemy.skin===0)say('enemy','纸面已破，胶矾无处着力。')
+      else if(s.repairWeakened&&!s.pigmentSpent){s.pigmentSpent=true;say('system','备下的松烟散开，阻断了这次补相。')}
+      else{const amount=Math.min(8,s.enemy.maxSkin-s.enemy.skin);s.enemy.skin+=amount;say('enemy',`胶矾补相，修复 ${amount} 皮相。`)}
+    }
+    else if(!intent.hits.length)say('enemy',s.context==='chapter-one'?'背画蓄势，下一回合碎纸夺卷。':'水缚蓄势，下一回合将夺相。')
     else{
       let countered=false
       for(const raw of intent.hits){
@@ -97,7 +105,7 @@ export function performCombatAction(previous:CombatState,id:CombatAction,expecte
     if(oldMark>0&&!markCreated&&s.mark>0){s.mark--;if(!s.mark)say('system','识破的余痕散去。')}
     if(alreadyExposed&&!broken)s.exposure--
     s.turn++;s.intentIndex=(s.intentIndex+1)%combatIntents.length
-    if(s.enemy.skin===0&&s.exposure===0&&s.enemy.maxSkin>0){s.enemy.skin=s.enemy.maxSkin;say('system','显形窗口已尽，缠面影重新补相。')}
+    if(s.enemy.skin===0&&s.exposure===0&&s.enemy.maxSkin>0){s.enemy.skin=s.enemy.maxSkin;say('system',s.context==='chapter-one'?'显形窗口已尽，纸傀翻过一页，重覆纸面。':'显形窗口已尽，缠面影重新补相。')}
   }
   s.log=s.log.slice(-120)
   return {ok:true,state:s}

@@ -1,6 +1,7 @@
 import type { GameState, SaveData } from './types'
 import { isValidState } from './engine'
-const DB_NAME = 'borrowed-face-v1'
+import { isPrologueDemo, saveDatabaseName } from './build-profile'
+const DB_NAME = saveDatabaseName
 let database: Promise<IDBDatabase> | undefined
 function db() {
   return database ??= new Promise<IDBDatabase>((resolve, reject) => {
@@ -28,6 +29,7 @@ export async function readSave(slot: string): Promise<SaveData | undefined> {
     request.onsuccess = () => {
       const value = request.result as SaveData | undefined
       if (value && (value.version !== 1 || !isValidState(value.state))) { reject(new Error('此存档版本或内容无法读取')); return }
+      if (value && isPrologueDemo && (!value.state.prologue || value.state.chapterOne)) { reject(new Error('此存档不属于序章试玩')); return }
       // Existing saves keep a copy of past dialogue, including the former place name.
       if (value) for (const entry of value.state.history) entry.text = entry.text.replace(/槐阴(?:县)?/g, '未闻县')
       resolve(value)

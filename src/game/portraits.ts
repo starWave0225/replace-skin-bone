@@ -4,7 +4,7 @@ import type { Face } from './types'
 export const characterPortraits = {
   self: { id: 'self', name: '陆知微', role: '抄书人 · 本来面目', src: assetUrl('/assets/portraits/lu-v1.webp'), side: 'left' },
   shen: { id: 'shen', name: '沈砚之面', role: '借面之人', src: assetUrl('/assets/portraits/shen-v2.webp'), side: 'left' },
-  guard: { id: 'guard', name: '周平之面', role: '故捕快之相', src: assetUrl('/assets/portraits/guard-v2.webp'), side: 'left' },
+  guard: { id: 'guard', name: '周平之面', role: '故游侠之相', src: assetUrl('/assets/portraits/guard-v2.webp'), side: 'left' },
   mother: { id: 'mother', name: '戚婆婆', role: '沈砚的养母', src: assetUrl('/assets/portraits/mother-v2.webp'), side: 'right' },
   han: { id: 'han', name: '韩七', role: '未闻县捕快', src: assetUrl('/assets/portraits/han-v2.webp'), side: 'right' },
   faceless: { id: 'faceless', name: '无面娘', role: '无面茶楼之主', src: assetUrl('/assets/portraits/faceless-v2.webp'), side: 'right' },
@@ -19,7 +19,7 @@ export type CharacterPortrait = typeof characterPortraits[PortraitId]
 export const dialogueSpeakerPortraits: Record<string, PortraitId> = {
   '陆知微': 'self',
   '戚婆婆': 'mother', '韩七': 'han', '无面娘': 'faceless', '井中童影': 'child',
-  '小满': 'child', '茶摊老板': 'tea', '卖灯人': 'lantern', '镜中残影': 'chen', '陈氏': 'chen',
+  '小满': 'child', '茶摊老板': 'tea', '客舍掌柜': 'tea', '卖灯人': 'lantern', '镜中残影': 'chen', '陈氏': 'chen',
 }
 
 export function getDialoguePortrait(speaker?: string, face: Face = 'shen', portraitSpeaker?: string): CharacterPortrait | undefined {

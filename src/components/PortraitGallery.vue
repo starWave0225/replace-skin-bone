@@ -9,7 +9,7 @@ const active = computed(() => characterPortraits[selected.value])
 const lines: Record<PortraitId, string> = {
   self:'许兄约我来校旧谱，我总得查清他最后见过谁。',
   shen:'婆婆，我有这张脸，却不是沈砚。',
-  guard:'借故捕快之相，重查一卷未了旧案。',
+  guard:'借故游侠之相，重查一卷未了旧案。',
   mother:'阿砚……你总算回来了。',
   han:'有些旧事，总要讲清楚。',
   faceless:'须记：此面名沈砚。面虽是他，你却非他。',
@@ -22,7 +22,7 @@ const lines: Record<PortraitId, string> = {
 
 <template>
   <main class="portrait-gallery">
-    <header><div><span class="eyebrow">画皮 · 借面</span><h1>借面人物谱</h1></div><a href="./">返回游戏 ↗</a></header>
+    <header><div><span class="eyebrow">画皮 · 千面</span><h1>借面人物谱</h1></div><a href="./">返回游戏 ↗</a></header>
     <label class="portrait-gallery-select">人物<select v-model="selected"><option v-for="portrait in characterPortraits" :key="portrait.id" :value="portrait.id">{{portrait.name}}</option></select></label>
     <div class="portrait-gallery-layout">
       <ScreenPages class="portrait-gallery-list" aria-label="选择对话人物">

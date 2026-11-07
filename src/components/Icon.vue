@@ -1,6 +1,7 @@
 <script setup lang="ts">
 withDefaults(defineProps<{ name: string; size?: number }>(), { size: 20 })
 const paths: Record<string, string> = {
+  task: 'M5 21V3m0 1c4-3 9 3 15 0v10c-6 3-11-3-15 0',
   map: 'm3 5 6-2 6 2 6-2v16l-6 2-6-2-6 2V5Zm6-2v16M15 5v16',
   bag: 'M6 8h12l2 12H4L6 8Zm3 0V5a3 3 0 0 1 6 0v3M8 13h8',
   mask: 'M4 3c4 2 12 2 16 0v9c0 5-5 9-8 10-3-1-8-5-8-10V3Zm3 6 3 1m4 0 3-1m-8 7c2 1 4 1 6 0',

@@ -3,6 +3,7 @@ import { story } from './story'
 import { activities } from './catalog'
 import { worldSpawn, worldMaps } from './world'
 import { initialPrologue, isValidPrologue } from './prologue'
+import { isValidChapterOne } from './chapter-one'
 
 export function initialState(): GameState {
   return { version: 1, nodeId: 'opening_1', day: 1, time: 'day', actionPoints: 3, face: 'shen',
@@ -57,7 +58,7 @@ export function enterNode(s: GameState, id: string) {
 }
 export function startGame(withPrologue = false): GameState { const s = initialState(); if(withPrologue)s.prologue=initialPrologue();else enterNode(s, s.nodeId); return s }
 export function advance(s: GameState) {
-  if (s.prologue && s.prologue.phase !== 'completed') return false
+  if (s.prologue || s.chapterOne) return false
   if (s.mode !== 'story') return false
   const node = story[s.nodeId]
   if (node.choices) return false
@@ -75,7 +76,7 @@ export function advance(s: GameState) {
   return true
 }
 export function choose(s: GameState, choiceId: string) {
-  if (s.prologue && s.prologue.phase !== 'completed') return false
+  if (s.prologue || s.chapterOne) return false
   if (s.mode !== 'story') return false
   const choice = story[s.nodeId]?.choices?.find(c => c.id === choiceId)
   if (!choice || !conditionMet(s, choice.when)) return false
@@ -91,6 +92,7 @@ export function spendTime(s: GameState) {
   else s.time = s.time === 'day' ? 'dusk' : 'night'
 }
 export function activityReason(s: GameState, activity: Activity) {
+  if(s.chapterOne)return '随第一章线索寻访，不消耗行动点'
   if (s.mode !== 'hub') return '当前事件结束后再安排行动'
   if (s.completed.includes(activity.id)) return '此事已访，不可重复'
   if (s.actionPoints < 1) return '今日行动已尽'
@@ -106,12 +108,14 @@ export function beginActivity(s: GameState, id: string) {
   return true
 }
 export function rest(s: GameState) {
+  if(s.chapterOne)return false
   if (s.mode !== 'hub') return false
   spendTime(s)
   if (s.day === 3 && s.time === 'dusk') enterNode(s, 'deadline_1')
   return true
 }
 export function changeFace(s: GameState, face: GameState['face']) {
+  if(s.chapterOne)return false
   if (!s.flags.wearing_first_face || s.mode === 'ending') return false
   if (face === 'guard' && !s.flags.guard_unlocked) return false
   if (s.mode === 'story' && !['case_archive', 'well_choice'].includes(s.nodeId)) return false
@@ -136,6 +140,7 @@ export function isValidState(value: unknown): value is GameState {
   const s = value as GameState
   return s.version === 1 && typeof s.nodeId === 'string' && !!story[s.nodeId]
     && (s.prologue === undefined || isValidPrologue(s.prologue))
+    && (s.chapterOne === undefined || (!s.prologue && isValidChapterOne(s.chapterOne)))
     && ['story', 'hub', 'ending'].includes(s.mode) && ['shen', 'guard'].includes(s.face)
     && Number.isInteger(s.day) && s.day >= 1 && s.day <= 3 && ['day', 'dusk', 'night'].includes(s.time)
     && Number.isInteger(s.actionPoints) && s.actionPoints >= 0 && s.actionPoints <= 3

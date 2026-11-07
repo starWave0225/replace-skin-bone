@@ -157,11 +157,11 @@ sequence('case_silence', 'yamen', [
 ], 'case_gift_1')
 sequence('case_gift', 'yamen', [
   ['旧卷所载 ·《画皮》', original('scroll')],
-  ['韩七', '这是周平的旧面谱。他是捕快，早已不在了。\n那位懂术的人说，亡者遗形可以制成仿面。你若能用，就替他再查一次案。'],
-  '你接过面谱。纸上的轮廓微微发热。\n面谱已收录「故捕快之面」。在面谱中借用它，可以用另一个身份与韩七交涉。',
+  ['韩七', '这是周平的旧面谱。他曾在县衙当差，后来离任行侠，早已不在了。\n那位懂术的人说，亡者遗形可以制成仿面。你若能用，就替他再查一次案。'],
+  '你接过面谱。纸上的轮廓微微发热。\n面谱已收录「故游侠之面」。在面谱中借用它，可以用另一个身份与韩七交涉。',
 ], 'case_archive', [{ item: 'face_guard' }, { flag: 'guard_unlocked' }, { clue: 'child_name' }, { clue: 'mansion' }, { stat: 'guard', add: 10 }])
 add({ id: 'case_archive', location: 'yamen', speaker: '韩七', text: '“后架还有一卷封存的值夜录。\n按规矩，只有当值捕快能看。”\n他把钥匙放在案角，转过身去。', choices: [
-  { id: 'guard', text: '借故捕快之面，查阅值夜录。', note: '面谱中切换面皮后可用', next: 'case_guard_1', when: { face: 'guard' }, locked: '需要在面谱中借用故捕快之面', effects: [{ clue: 'child_promise' }, { flag: 'sealed_file' }, { stat: 'guard', add: 20 }] },
+  { id: 'guard', text: '借故游侠之面，查阅值夜录。', note: '面谱中切换面皮后可用', next: 'case_guard_1', when: { face: 'guard' }, locked: '需要在面谱中借用故游侠之面', effects: [{ clue: 'child_promise' }, { flag: 'sealed_file' }, { stat: 'guard', add: 20 }] },
   { id: 'leave', text: '记下现有线索，离开值房。', next: 'case_end_1' },
 ] })
 sequence('case_guard', 'yamen', [

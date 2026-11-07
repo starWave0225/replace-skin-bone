@@ -3,13 +3,16 @@ import type { WorldNpc } from './world-actors'
 export const TILE = 32
 export const PLAYER_SPEED = { walk: 160, run: 245, path: 190, tap: 6 } as const
 export interface Rect { x: number; y: number; w: number; h: number }
-export interface WorldObject { kind: 'house' | 'tree' | 'pine' | 'willow' | 'wall' | 'table' | 'bed' | 'shelf' | 'well' | 'pot' | 'stage' | 'mirror' | 'lantern' | 'bench' | 'bamboo' | 'flowers'; x: number; y: number; w?: number; h?: number; title?: string; color?: string }
+export interface WorldObject { kind: 'house' | 'tree' | 'pine' | 'willow' | 'wall' | 'table' | 'bed' | 'shelf' | 'well' | 'pot' | 'stage' | 'mirror' | 'lantern' | 'bench' | 'bamboo' | 'flowers' | 'door' | 'chest' | 'tracks'; x: number; y: number; w?: number; h?: number; title?: string; color?: string }
 export interface WorldSpot { id: string; name: string; hint: string; x: number; y: number; kind: 'npc' | 'door' | 'object'; character?: WorldNpc; destination?: Location; arrival?: [number, number] }
 export interface WorldMap { id: Location; name: string; width: number; height: number; interior: boolean; spawn: [number,number]; solids: Rect[]; objects: WorldObject[]; spots: WorldSpot[] }
 const R=(x:number,y:number,w:number,h:number):Rect=>({x:x*TILE,y:y*TILE,w:w*TILE,h:h*TILE})
 const trees=(points:[number,number][]):WorldObject[]=>points.map(([x,y],index)=>({kind:index%3===0?'willow':index%3===1?'tree':'pine',x,y}))
 const boundary=(w:number,h:number):Rect[]=>[R(0,0,w,1),R(0,h-1,w,1),R(0,0,1,h),R(w-1,0,1,h)]
 export const worldMaps: Record<Location,WorldMap> = {
+  studio:{id:'studio',name:'沈砚画舍',width:28,height:22,interior:true,spawn:[14,18],solids:[...boundary(28,22),R(3,2,22,3),R(4,8,5,2),R(17,8,6,2),R(3,13,3,3)],objects:[
+    {kind:'shelf',x:3,y:2,w:22,h:3,title:'旧画'},{kind:'table',x:4,y:8,w:5,h:2,title:'残画'},{kind:'table',x:17,y:8,w:6,h:2,title:'灯影'},{kind:'shelf',x:3,y:13,w:3,h:3,title:'颜料'},{kind:'chest',x:20,y:14,w:2,h:2},{kind:'mirror',x:24,y:6},{kind:'lantern',x:10,y:6},{kind:'lantern',x:16,y:6},{kind:'bench',x:11,y:14}
+  ],spots:[]},
   inn:{id:'inn',name:'栖雨客舍 · 东厢',width:28,height:22,interior:true,spawn:[14,17],solids:[...boundary(28,22),R(3,2,22,3),R(4,7,4,2),R(18,6,5,4),R(18,13,4,2)],objects:[
     {kind:'shelf',x:3,y:2,w:22,h:3},{kind:'table',x:4,y:7,w:4,h:2,title:'宿簿'},{kind:'bed',x:18,y:6,w:5,h:4},{kind:'table',x:18,y:13,w:4,h:2,title:'书札'},{kind:'bench',x:7,y:14},{kind:'lantern',x:4,y:11},{kind:'lantern',x:23,y:11},{kind:'pot',x:3,y:17},{kind:'flowers',x:23,y:17}
   ],spots:[{id:'ledger',name:'入宿簿',hint:'核对账目',x:6,y:10,kind:'object'},{id:'letter',name:'案下半笺',hint:'拾看书信',x:20,y:16,kind:'object'},{id:'tracks',name:'窗下湿泥',hint:'查看鞋印',x:24,y:7,kind:'object'},{id:'owner',name:'茶摊老板',hint:'询问昨夜',x:11,y:11,kind:'npc',character:'tea'},{id:'backyard',name:'客舍后井',hint:'循哭声去后院',x:2,y:12,kind:'door',destination:'inn_well',arrival:[11,16]},{id:'teahouse',name:'西街尽处',hint:'离开客舍',x:14,y:20,kind:'object'}]},
@@ -19,6 +22,9 @@ export const worldMaps: Record<Location,WorldMap> = {
   theatre:{ id:'theatre', name:'无面茶楼',width:26,height:20,interior:true,spawn:[13,14],solids:[...boundary(26,20),R(3,2,20,3),R(4,7,3,2),R(9,7,4,1),R(18,7,4,2),R(2,11,3,3),R(22,11,2,3)],objects:[
     {kind:'stage',x:3,y:2,w:20,h:3,title:'无面戏台'}, {kind:'table',x:9,y:7,w:4,h:1}, {kind:'mirror',x:5,y:7}, {kind:'shelf',x:19,y:7,w:3,h:2,title:'面谱'}, {kind:'shelf',x:2,y:11,w:2,h:3}, {kind:'pot',x:22,y:12}, {kind:'lantern',x:6,y:5}, {kind:'lantern',x:20,y:5}, {kind:'lantern',x:4,y:15}, {kind:'lantern',x:22,y:15}, {kind:'bench',x:5,y:11}, {kind:'bench',x:19,y:11},
   ],spots:[{id:'faceless',name:'无面娘',hint:'交谈',x:12,y:8,kind:'npc',character:'faceless'},{id:'mirror',name:'旧铜镜',hint:'照镜',x:6,y:9,kind:'object'},{id:'skin',name:'画师的面皮',hint:'查看',x:19,y:9.5,kind:'object'},{id:'exit',name:'未闻县南街',hint:'离开戏楼',x:13,y:18,kind:'door',destination:'street',arrival:[8,29]}]},
+  theatre_upper:{id:'theatre_upper',name:'无面茶楼 · 二楼',width:22,height:17,interior:true,spawn:[4,13],solids:[...boundary(22,17),R(1,5,14,1),R(18,5,3,1),R(4,7,5,3),R(10,7,3,2)],objects:[
+    {kind:'wall',x:1,y:5,w:14,h:1},{kind:'wall',x:18,y:5,w:3,h:1},{kind:'bed',x:4,y:7,w:5,h:3},{kind:'table',x:10,y:7,w:3,h:2},{kind:'lantern',x:4,y:11},{kind:'lantern',x:16,y:9},{kind:'shelf',x:10,y:2,w:4,h:2}
+  ],spots:[]},
   street:{id:'street',name:'未闻县南街',width:42,height:32,interior:false,spawn:[20,16],solids:[...boundary(42,32),R(3,3,10,7),R(29,3,10,7),R(3,22,10,6),R(29,23,10,5),R(1,20,17,2),R(23,20,18,2),R(25,12,4,2),R(2,13,4,3)],objects:[
     {kind:'house',x:3,y:3,w:10,h:7,title:'县 衙',color:'#616b65'},{kind:'house',x:29,y:3,w:10,h:7,title:'戚 家',color:'#657069'},{kind:'house',x:3,y:22,w:10,h:6,title:'无面茶楼',color:'#744d42'},{kind:'house',x:29,y:23,w:10,h:5,title:'沈记纸铺',color:'#606760'},
     {kind:'table',x:25,y:12,w:4,h:2,title:'茶'},{kind:'bench',x:25,y:15},{kind:'table',x:3,y:13,w:3,h:2,title:'香'},{kind:'lantern',x:7,y:10},{kind:'lantern',x:35,y:10},{kind:'lantern',x:7,y:28},{kind:'lantern',x:34,y:28},{kind:'lantern',x:17,y:19},{kind:'lantern',x:24,y:19},

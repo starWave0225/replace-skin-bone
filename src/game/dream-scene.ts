@@ -5,18 +5,18 @@ import { RenderPass } from 'three/addons/postprocessing/RenderPass.js'
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js'
 import { Reflector } from 'three/addons/objects/Reflector.js'
-import { dreamSpirit, dreamStations } from './prologue'
+import { borrowedSpiritPortrait, dreamStations } from './prologue'
 import type { DreamPose, DreamStationId } from './prologue'
 import { dreamBlocked, dreamPath, moveInDream } from './dream-navigation'
+import { dreamContact, dreamMirror, dreamMirrorContact, dreamShadows } from './dream-presence'
 import { loadDreamAssets } from './dream-assets'
 
 export type DreamLookMode='captured'|'free'|'hover'|'touch'
 export interface DreamSceneOptions {
   pose?: DreamPose; lowQuality?: boolean;
   seen: () => readonly DreamStationId[];
-  onNear: (id: DreamStationId | undefined) => void;
-  onInspect: (id: DreamStationId) => void;
-  onWhisper?: (id: DreamStationId | undefined) => void;
+  onTouch: (id: DreamStationId) => void;
+  onMirrorTouch: () => void;
   onLookMode?: (mode:DreamLookMode) => void;
   onPose: (pose: DreamPose) => void;
   onReady: () => void;
@@ -29,7 +29,7 @@ export async function createDreamScene(host: HTMLElement, options: DreamSceneOpt
   scene.fog = new T.FogExp2('#0b171b', .043)
   const camera = new T.PerspectiveCamera(63, 1, .08, 70)
   const initial = options.pose && !dreamBlocked(options.pose.x, options.pose.z) ? options.pose : { x: 0, z: 8.3, yaw: 0, pitch: -.03 }
-  let pose = { ...initial }, paused = true, disposed = false, low = !!options.lowQuality
+  let pose = { ...initial }, paused = true, storyActive = false, disposed = false, low = !!options.lowQuality
   let route: {x:number;z:number}[] = [], lookPointer: number | undefined, lastPointer:{x:number;y:number}|undefined, lastPoseAt = 0
   let mouseLook=matchMedia('(pointer:fine)').matches,lookMode:DreamLookMode=mouseLook?'free':'touch',lockPending=false
   let guideFocus: {x:number;y:number;z:number}|undefined
@@ -68,7 +68,7 @@ export async function createDreamScene(host: HTMLElement, options: DreamSceneOpt
     if(kind==='wood')for(let i=0;i<38;i++){c.strokeStyle='rgba(25,17,12,.12)';c.beginPath();c.moveTo(0,i*15);c.bezierCurveTo(160,i*15+12,300,i*15-7,512,i*15+3);c.stroke()}
     if(kind==='paper'){c.strokeStyle='#a2957044';for(let i=0;i<16;i++){c.beginPath();c.moveTo(i*31,0);c.lineTo(i*31+5,512);c.stroke()}}
     if(kind==='label'){
-      c.fillStyle='#24372d';c.fillRect(0,0,1024,512);c.strokeStyle='#b59a60';c.lineWidth=5;c.strokeRect(24,24,976,464);c.lineWidth=1;c.strokeRect(35,35,954,442)
+      c.fillStyle=text==='囍'?'#7c332b':'#24372d';c.fillRect(0,0,1024,512);c.strokeStyle='#b59a60';c.lineWidth=5;c.strokeRect(24,24,976,464);c.lineWidth=1;c.strokeRect(35,35,954,442)
       c.fillStyle='#d5c49a';c.textAlign='center';c.textBaseline='middle';c.font='134px MaShan, NotoSerif, serif';c.fillText(text,512,258)
     }
     const tex=new T.CanvasTexture(canvas);tex.colorSpace=T.SRGBColorSpace;tex.wrapS=tex.wrapT=T.RepeatWrapping;tex.anisotropy=renderer.capabilities.getMaxAnisotropy();textures.add(tex);return tex
@@ -78,7 +78,7 @@ export async function createDreamScene(host: HTMLElement, options: DreamSceneOpt
   const darkWood=wood.clone();darkWood.color.set('#7f786e')
   const gold = new T.MeshStandardMaterial({color:'#9c7844',metalness:.72,roughness:.45})
   const paper = new T.MeshStandardMaterial({map:paperMap,color:'#e1cfaa',roughness:.94,side:T.DoubleSide})
-  const red=assets.linen;red.side=T.DoubleSide;red.color.set('#c5bbc0')
+  const red=assets.linen;red.side=T.DoubleSide;red.color.set('#91605b')
   const wall=assets.plaster;wall.color.set('#d7d2be')
   const jade = new T.MeshStandardMaterial({color:'#4e6a5e',roughness:.45,metalness:.15})
   function mesh(geometry:T.BufferGeometry, material:T.Material, x:number,y:number,z:number, parent:T.Object3D=scene) {
@@ -111,7 +111,10 @@ export async function createDreamScene(host: HTMLElement, options: DreamSceneOpt
     for(const [a,b]of [[-18,-14.75],[-11.25,-8.75],[-5.25,-2.75],[.75,3.25],[6.75,10]])box(side*7.35,2.6,(a+b)/2,.4,3,b-a,wall)
     box(side*7.08,.22,-4,.15,.43,28,darkWood);box(side*7.08,4,-4,.15,.14,28,wood)
   }
-  box(0,2.6,10.2,15,5.6,.4,wall);box(0,5.5,-4,15,.2,28,darkWood)
+  box(0,2.6,10.2,15,5.6,.4,wall)
+  box(0,5.5,-8.55,15,.2,18.9,darkWood)
+  box(0,5.5,8.2,15,.2,3.6,darkWood)
+  for (const x of [-5.6, 5.6]) box(x,5.5,3.65,3.8,.2,5.5,darkWood)
   for(const x of [-6.6,6.6])for(const z of [7,2,-3,-8,-13,-17]){
     cylinder(x,2.45,z,.19,5.1,darkWood);box(x,.3,z,.6,.6,.6,wood);cylinder(x,4.95,z,.23,.22,gold)
     box(0,4.9,z,13.7,.3,.32,darkWood)
@@ -127,13 +130,54 @@ export async function createDreamScene(host: HTMLElement, options: DreamSceneOpt
     for(let i=0;i<6;i++)box(x-side*.12,1.4+i*.48,z,.08,.045,3.2,wood)
     for(let i=0;i<4;i++)for(const angle of [-Math.PI/4,Math.PI/4]){const lattice=box(x-side*.14,2.6,z-1.1+i*.7,.08,.55,.035,wood);lattice.rotation.x=angle}
   }
-  // Door and distant courtyard: the way out only acquires its name at the last revelation.
+  // The abandoned wedding hall opens into a snow-covered courtyard.
+  const weddingSign = new T.MeshStandardMaterial({ map: texture('label','囍'), roughness: .95 })
+  mesh(new T.PlaneGeometry(1.25,1.25),weddingSign,0,3.9,6.45).rotation.z=-.14
+  for (const side of [-1,1]) {
+    const valance=box(side*2.4,4.35,6.35,2.5,.6,.1,red)
+    valance.rotation.z=side*.18
+    box(side*3.65,2.55,6.35,.57,3.6,.12,red)
+    cylinder(side*2.4,.7,7,.13,1.4,darkWood)
+    cylinder(side*2.4,1.48,7,.08,.32,red)
+  }
+  const snowMaterial = new T.MeshStandardMaterial({ color:'#b1c4c6', roughness:.99 })
+  const snow = mesh(new T.PlaneGeometry(11.1,5.4,24,14),snowMaterial,0,.027,3.65)
+  const drifts = snow.geometry.attributes.position
+  for (let i=0; i<drifts.count; i++) drifts.setZ(i,noise(i*2.9)*.056)
+  snow.geometry.computeVertexNormals()
+  snow.rotation.x=-Math.PI/2
+  const snowLight=new T.PointLight('#a8cced',18,12,2);snowLight.position.set(2,4.9,3.6);scene.add(snowLight)
+  function branch(from:T.Vector3,to:T.Vector3,width:number) {
+    const axis=to.clone().sub(from),middle=from.clone().addScaledVector(axis,.5)
+    const limb=mesh(new T.CylinderGeometry(width*.55,width,axis.length(),10),darkWood,middle.x,middle.y,middle.z)
+    limb.quaternion.setFromUnitVectors(new T.Vector3(0,1,0),axis.normalize())
+  }
+  const fork=new T.Vector3(4.2,2.4,3.7), crown=new T.Vector3(4.42,3.64,3.71)
+  branch(new T.Vector3(4.2,0,3.8),fork,.33)
+  branch(fork,crown,.23)
+  for (const x of [2.55,3.3,5.25,5.7]) {
+    const tip=new T.Vector3(x,3.95+noise(x)*.52,3.7+noise(x+1)*.45)
+    branch(crown,tip,.10)
+    branch(tip,tip.clone().add(new T.Vector3(x<4?-.26:.25,.58,-.12)),.042)
+  }
+  const hanging=new T.Group();hanging.position.set(3.26,4.06,3.9);scene.add(hanging)
+  const rope=new T.MeshStandardMaterial({color:'#4c4030',roughness:1})
+  const burialRobe=red.clone();burialRobe.color.set('#4c4c4b')
+  cylinder(0,-.42,0,.022,.84,rope,hanging)
+  const hood=mesh(new T.SphereGeometry(.16,16,12),burialRobe,0,-.93,0,hanging);hood.scale.set(.92,1.27,.92)
+  const body=mesh(new T.CylinderGeometry(.24,.38,1.26,16),burialRobe,0,-1.74,0,hanging);body.scale.z=.62
+  for (const x of [-.29,.29]) {
+    const sleeve=cylinder(x,-1.63,0,.115,.73,burialRobe,hanging);sleeve.rotation.z=x*.72
+    box(x*.48,-2.45,.015,.14,.17,.24,darkWood,hanging)
+  }
+  animated.push(t=>{hanging.rotation.z=Math.sin(t*.55)*.021})
+
   box(-4.9,2.5,-17.8,4.3,5.2,.4,wall);box(4.9,2.5,-17.8,4.3,5.2,.4,wall);box(0,4.9,-17.8,6,1,.4,darkWood)
-  const doorLeft=box(-1.25,2,-17.4,2.45,4,.18,darkWood),doorRight=box(1.25,2,-17.4,2.45,4,.18,darkWood)
+  box(-1.25,2,-17.4,2.45,4,.18,darkWood);box(1.25,2,-17.4,2.45,4,.18,darkWood)
   for(const x of [-2.5,2.5])box(x,2.1,-17.3,.18,4.4,.3,wood)
   for(let i=0;i<12;i++)box(-2.2+i*.4,3.1,-17.25,.035,1.2,.12,gold)
   for(const x of [-.3,.3]){const handle=mesh(new T.TorusGeometry(.1,.022,8,22),gold,x,1.85,-17.15);handle.rotation.y=0}
-  const plaque=mesh(new T.PlaneGeometry(3.8,1.9),new T.MeshStandardMaterial({map:texture('label','无面茶楼'),roughness:.9}),0,4.35,-17.04)
+  mesh(new T.PlaneGeometry(3.8,1.9),new T.MeshStandardMaterial({map:texture('label','旧梦'),roughness:.9}),0,4.35,-17.04)
   box(0,4.35,-17.15,4,2.1,.12,darkWood)
   box(0,-.08,-22,16,.12,8,jade)
   const distantMoon=mesh(new T.SphereGeometry(1.2,32,20),new T.MeshBasicMaterial({color:'#c5d7c6'}),0,7,-30)
@@ -152,7 +196,7 @@ export async function createDreamScene(host: HTMLElement, options: DreamSceneOpt
     cylinder(x,4.45,z,.012,1,darkWood);lantern(x,3.65,z,.85)
   }
   // First object: a freestanding paper lamp and a lit path through the hall.
-  assets.place('chinese_tea_table',0,0,4,.6,scene);cylinder(0,.87,4,.04,.55,gold);lantern(0,1.55,4,1.1,scene,'guide')
+  assets.place('chinese_tea_table',1,0,.15,.6,scene);cylinder(1,.87,.15,.04,.55,gold);lantern(1,1.55,.15,1.1,scene,'guide')
   const handheld=new T.Group();camera.add(handheld);handheld.position.set(.42,-.48,-.65);lantern(0,0,0,.24,handheld,'hand');scene.add(camera)
 
   function table(x:number,z:number,w:number,d:number){
@@ -178,12 +222,16 @@ export async function createDreamScene(host: HTMLElement, options: DreamSceneOpt
   const drawingBrush=new T.Group();scene.add(drawingBrush)
   const pen=cylinder(0,.31,0,.018,.48,gold,drawingBrush);pen.rotation.z=-.23
   mesh(new T.ConeGeometry(.022,.12,12),ink,.05,.045,0,drawingBrush).rotation.z=Math.PI
-  let inkReveal=options.seen().length>=2?1:0,scrollReveal=options.seen().length>=3?1:0,mirrorArrival:number|undefined
+  let inkReveal=options.seen().includes('brush')?1:0,scrollReveal=options.seen().includes('scroll')?1:0,mirrorArrival:number|undefined
+  const drawnFace=planeImage(borrowedSpiritPortrait,-4.5,1.135,-1,.51,.71)
+  drawnFace.rotation.x=-Math.PI/2
+  const drawnFaceMaterial=drawnFace.material as T.MeshStandardMaterial
+  drawnFaceMaterial.transparent=true;drawnFaceMaterial.depthWrite=false;drawnFace.castShadow=false
   for(let i=0;i<5;i++)box(-5.4,1.14+i*.045,-1.2,.45,.04,.5,i%2?paper:jade)
   // The scroll is part of the room, with silk backing and carved rollers.
   table(4.8,-5.5,2.1,1.3)
   box(6.8,2.75,-5.5,.12,3.3,2.6,red)
-  const scroll=planeImage('/assets/dream/borrowed-likeness.webp',6.69,2.75,-5.5,1.9,2.8,-Math.PI/2)
+  const scroll=planeImage(borrowedSpiritPortrait,6.67,2.75,-5.5,1.9,2.53,-Math.PI/2)
   const scrollMaterial=scroll.material as T.MeshStandardMaterial;scrollMaterial.transparent=true;scrollMaterial.opacity=0
   const blankScroll=mesh(new T.PlaneGeometry(1.9,2.8),paper,6.7,2.75,-5.5);blankScroll.rotation.y=-Math.PI/2
   for(const y of [1.22,4.28]){const roller=cylinder(6.65,y,-5.5,.065,2.3,darkWood);roller.rotation.x=Math.PI/2}
@@ -198,13 +246,10 @@ export async function createDreamScene(host: HTMLElement, options: DreamSceneOpt
   for(const y of [.8,3.8])box(-6.7,y,-10,.25,.17,2.1,gold)
   for(let i=0;i<7;i++){const ornament=mesh(new T.TorusGeometry(.09,.025,6,12),gold,-6.54,3.8,-10.8+i*.27);ornament.rotation.y=Math.PI/2}
   box(-6.6,.35,-10,.65,.65,2.4,darkWood)
-  function reflectedFigure(url:string,offset:number){
-    const image=url===dreamSpirit.portrait?assets.spirit:new T.TextureLoader().load(assetUrl(url),t=>{if(disposed)t.dispose()});image.colorSpace=T.SRGBColorSpace;textures.add(image)
-    const figure=mesh(new T.PlaneGeometry(1.15,1.85),new T.MeshBasicMaterial({map:image,transparent:true,opacity:0,depthWrite:false,color:'#adc1b2',side:T.FrontSide}),-6.74+offset,2.1,-10)
-    figure.rotation.y=Math.PI/2;return figure
-  }
-  const selfInMirror=reflectedFigure('/assets/portraits/lu-v1.webp',0),borrowedInMirror=reflectedFigure('/assets/portraits/shen-v2.webp',.01)
-  const spiritInMirror=reflectedFigure(dreamSpirit.portrait,.02)
+  const wakingRoom=planeImage('/assets/opening/ink/teahouse-skin-box-v1.webp',-6.76,2.3,-10,1.6,2.58,Math.PI/2)
+  const wakingMaterial=wakingRoom.material as T.MeshStandardMaterial
+  wakingMaterial.map!.repeat.set(.46,1)
+  wakingMaterial.transparent=true;wakingMaterial.depthWrite=false;wakingRoom.castShadow=false
 
   // Hanging cloth parts after the drawing is discovered; paper faces then become visible.
   const curtains:{cloth:T.Mesh;trim:T.Mesh;side:number}[]=[]
@@ -217,11 +262,15 @@ export async function createDreamScene(host: HTMLElement, options: DreamSceneOpt
     const trim=mesh(new T.PlaneGeometry(.055,4.5),gold,side*.55,2.65,-2.98);curtains.push({cloth,trim,side})
   }
   // A depth-tested spectral figure belongs to the room: columns, screens and cloth can hide her.
-  const hauntPositions=[new T.Vector3(2.1,1.48,-2.65),new T.Vector3(-5.1,1.48,-2.45),new T.Vector3(5.75,1.48,-7.2),new T.Vector3(-2.8,1.48,-12.3),new T.Vector3(-1.8,1.48,-15.8)]
+  const hauntPositions=dreamStations.map(station=>new T.Vector3(dreamShadows[station.id].x,1.48,dreamShadows[station.id].z))
   const spiritMaterial=new T.MeshBasicMaterial({map:assets.spirit,transparent:true,opacity:0,color:'#89aba7',depthWrite:false,alphaTest:.008,side:T.DoubleSide})
   const spirit=mesh(new T.PlaneGeometry(1.68,2.52,16,24),spiritMaterial,0,1.48,0)
+  const borrowedMaterial=spiritMaterial.clone()
+  borrowedMaterial.map=scrollMaterial.map
+  const borrowedSpirit=mesh(new T.PlaneGeometry(1.55,2.06),borrowedMaterial,0,0,.04,spirit)
+  borrowedSpirit.castShadow=borrowedSpirit.receiveShadow=false
   spirit.castShadow=spirit.receiveShadow=false
-  let spiritStage=Math.min(options.seen().length,4),lastWhisper:DreamStationId|undefined
+  let spiritStage=Math.min(options.seen().length,dreamStations.length-1),spiritOpacity=0
   spirit.position.copy(hauntPositions[spiritStage])
   const spiritGlow=new T.PointLight('#739d97',.7,3.3,2);scene.add(spiritGlow)
   const mistCanvas=document.createElement('canvas');mistCanvas.width=mistCanvas.height=128
@@ -244,19 +293,16 @@ export async function createDreamScene(host: HTMLElement, options: DreamSceneOpt
   const dustCount=low?100:450,dustGeo=new T.BufferGeometry(),dustPosition=new Float32Array(dustCount*3)
   for(let i=0;i<dustCount;i++){dustPosition[i*3]=(noise(i*5)-.5)*13;dustPosition[i*3+1]=noise(i*5+1)*4.8;dustPosition[i*3+2]=9-noise(i*5+2)*26}
   dustGeo.setAttribute('position',new T.BufferAttribute(dustPosition,3));const dust=new T.Points(dustGeo,new T.PointsMaterial({color:'#d7bb86',size:.018,transparent:true,opacity:.6,depthWrite:false}));scene.add(dust)
-  const markers=dreamStations.map(st=>{const g=new T.Group();g.position.set(st.position[0],.1,st.position[1]);scene.add(g);const ring=mesh(new T.TorusGeometry(.35,.013,6,40),new T.MeshBasicMaterial({color:'#d6b574',transparent:true,opacity:.7}),0,0,0,g);ring.rotation.x=Math.PI/2;return g})
   // Fine rain beyond the windows, moon-blue light and broad transparent shafts.
   const rainGeo=new T.BufferGeometry(),rainPositions=new Float32Array(180*6)
   for(let i=0;i<180;i++){const x=(i%2?1:-1)*(7.6+noise(i)*2),y=noise(i+1)*7,z=9-noise(i+2)*27;rainPositions.set([x,y,z,x-.025,y-.22,z],i*6)}
   rainGeo.setAttribute('position',new T.BufferAttribute(rainPositions,3));const rain=new T.LineSegments(rainGeo,new T.LineBasicMaterial({color:'#a2c8c6',transparent:true,opacity:.16}));scene.add(rain)
 
-  let currentNear:DreamStationId|undefined, raf=0, previous=performance.now(), previousRender=0, elapsed=0, walkingPhase=0
-  function inspect(){if(!paused&&currentNear)options.onInspect(currentNear)}
+  let raf=0, previous=performance.now(), previousRender=0, elapsed=0, walkingPhase=0
   function down(e:KeyboardEvent){
     if(['INPUT','TEXTAREA','SELECT'].includes((e.target as HTMLElement)?.tagName))return
     const k=e.key.toLowerCase()
-    if(k==='e'&&!e.repeat){e.preventDefault();inspect();return}
-    if(['w','a','s','d','arrowup','arrowdown','arrowleft','arrowright','shift'].includes(k)&&!paused&&lookMode!=='free'){e.preventDefault();keys.add(k);route=[];guideFocus=undefined}
+    if(['w','a','s','d','arrowup','arrowdown','arrowleft','arrowright','shift'].includes(k)&&!paused&&!storyActive&&lookMode!=='free'){e.preventDefault();keys.add(k);route=[];guideFocus=undefined}
   }
   function up(e:KeyboardEvent){keys.delete(e.key.toLowerCase())}
   function clear(){keys.clear();touchKeys.clear();lookPointer=undefined;lastPointer=undefined}
@@ -283,9 +329,9 @@ export async function createDreamScene(host: HTMLElement, options: DreamSceneOpt
     if(!Number.isFinite(dx)||!Number.isFinite(dy))return
     pose.yaw-=dx*sensitivity;pose.pitch=Math.max(-1.1,Math.min(1.1,pose.pitch-dy*sensitivity*.82));route=[];guideFocus=undefined
   }
-  function mouseMove(e:MouseEvent){if(!paused&&document.pointerLockElement===renderer.domElement)turn(e.movementX,e.movementY)}
+  function mouseMove(e:MouseEvent){if(!paused&&!storyActive&&document.pointerLockElement===renderer.domElement)turn(e.movementX,e.movementY)}
   function pointerDown(e:PointerEvent){
-    if(paused)return
+    if(paused||storyActive)return
     renderer.domElement.focus({preventScroll:true})
     if(e.pointerType==='mouse'){mouseLook=true;if(e.button===0)requestLook();return}
     if (lookPointer !== undefined) return
@@ -297,7 +343,7 @@ export async function createDreamScene(host: HTMLElement, options: DreamSceneOpt
   function pointerEnter(e:PointerEvent){if(e.pointerType==='mouse')lastPointer={x:e.clientX,y:e.clientY}}
   function pointerLeave(){if(lookPointer===undefined)lastPointer=undefined}
   function pointerMove(e:PointerEvent){
-    if(paused)return
+    if(paused||storyActive)return
     if(document.pointerLockElement===renderer.domElement)return // Relative motion is handled once, by mousemove.
     if(lookPointer===e.pointerId||lookPointer===undefined&&lookMode==='hover'&&e.pointerType==='mouse'){
       if(lastPointer)turn(e.clientX-lastPointer.x,e.clientY-lastPointer.y,.004)
@@ -328,7 +374,7 @@ export async function createDreamScene(host: HTMLElement, options: DreamSceneOpt
     return distance
   }
   function tap(key: string) {
-    if (paused) return
+    if (paused || storyActive) return
     const forward = Number(key === 'w') - Number(key === 's')
     const side = Number(key === 'd') - Number(key === 'a')
     if (!forward && !side) return
@@ -341,13 +387,15 @@ export async function createDreamScene(host: HTMLElement, options: DreamSceneOpt
     if(paused&&now-previousRender<100)return
     previousRender=now
     const dt=Math.min(.045,(now-previous)/1000);previous=now;elapsed+=dt
-    const seen=options.seen(), current=dreamStations[Math.min(seen.length,4)]
+    const seen=options.seen(), stage=Math.min(seen.length,dreamStations.length-1), current=dreamStations[stage]
     let distance=0
-    if(!paused){
+    if(!paused&&!storyActive){
       const forward=Number(held('w')||held('arrowup'))-Number(held('s')||held('arrowdown')),side=Number(held('d'))-Number(held('a'))
       if(keys.has('arrowleft'))pose.yaw+=dt*1.5;if(keys.has('arrowright'))pose.yaw-=dt*1.5
       if(forward||side)distance=walk(forward,side,dt)
       else if(route.length){const target=route[0],dist=Math.hypot(target.x-pose.x,target.z-pose.z);if(dist<.12)route.shift();else{const stride=Math.min(dt*2.2,dist),dx=(target.x-pose.x)/dist,dz=(target.z-pose.z)/dist,next=moveInDream(pose,dx*stride,dz*stride);distance=Math.hypot(next.x-pose.x,next.z-pose.z);pose={...pose,...next};const desired=Math.atan2(-dx,-dz);let delta=desired-pose.yaw;while(delta>Math.PI)delta-=Math.PI*2;while(delta< -Math.PI)delta+=Math.PI*2;pose.yaw+=delta*Math.min(1,dt*6)}}
+    }
+    if(!paused){
       if(!route.length&&guideFocus){
         const dx=guideFocus.x-pose.x,dz=guideFocus.z-pose.z,desired=Math.atan2(-dx,-dz)
         let delta=desired-pose.yaw;while(delta>Math.PI)delta-=Math.PI*2;while(delta< -Math.PI)delta+=Math.PI*2
@@ -360,50 +408,65 @@ export async function createDreamScene(host: HTMLElement, options: DreamSceneOpt
     if(distance)walkingPhase+=distance*7
     camera.position.set(pose.x,1.66+(distance?Math.sin(walkingPhase)*.018:Math.sin(elapsed*.7)*.004),pose.z)
     camera.rotation.set(pose.pitch,pose.yaw,0,'YXZ')
-    const near=Math.hypot(pose.x-current.position[0],pose.z-current.position[1])<2.65?current.id:undefined
-    if(near!==currentNear){currentNear=near;options.onNear(near)}
-    const stage=Math.min(seen.length,4),closeness=1-T.MathUtils.smoothstep(Math.hypot(pose.x-current.position[0],pose.z-current.position[1]),2.5,6)
-    if(stage!==spiritStage){spiritMaterial.opacity=Math.max(0,spiritMaterial.opacity-dt*.65);if(spiritMaterial.opacity<.01){spiritStage=stage;spirit.position.copy(hauntPositions[stage])}}
-    else spiritMaterial.opacity=T.MathUtils.lerp(spiritMaterial.opacity,paused?.14:.21+closeness*.27,dt*1.7)
+    const closeness=1-T.MathUtils.smoothstep(Math.hypot(pose.x-hauntPositions[stage].x,pose.z-hauntPositions[stage].z),1,6)
+    if(stage!==spiritStage){spiritOpacity=Math.max(0,spiritOpacity-dt*.65);if(spiritOpacity<.01){spiritStage=stage;spirit.position.copy(hauntPositions[stage])}}
+    else spiritOpacity=T.MathUtils.lerp(spiritOpacity,seen.length===dreamStations.length?0:storyActive?.025:paused?.32:.21+closeness*.38,dt*1.7)
+    const changedFace=seen.includes('brush') ? T.MathUtils.smoothstep(scrollReveal,.12,.85) : 0
+    spiritMaterial.opacity=spiritOpacity*(1-changedFace)
+    borrowedMaterial.opacity=spiritOpacity*changedFace
     spirit.position.y=1.48+Math.sin(elapsed*.6)*.035;spirit.rotation.y=Math.atan2(pose.x-spirit.position.x,pose.z-spirit.position.z);spirit.rotation.z=Math.sin(elapsed*.4)*.009
-    spiritGlow.position.copy(spirit.position);spiritGlow.intensity=spiritMaterial.opacity*1.4
-    spectralMist.position.set(spirit.position.x,.04,spirit.position.z);mistMaterial.opacity=spiritMaterial.opacity*.5
-    const whisper=!paused&&closeness>.45?current.id:undefined
-    if(whisper!==lastWhisper){lastWhisper=whisper;options.onWhisper?.(whisper)}
-    handheld.visible=seen.length>0;handheld.rotation.z=Math.sin(walkingPhase)*.025
-    if(!paused&&seen.length>=1&&Math.hypot(pose.x+4.5,pose.z+1)<3.5)inkReveal=Math.min(1,inkReveal+dt*.25)
+    spiritGlow.position.copy(spirit.position);spiritGlow.intensity=spiritOpacity*1.4
+    spectralMist.position.set(spirit.position.x,.04,spirit.position.z);mistMaterial.opacity=spiritOpacity*.5
+    handheld.visible=seen.includes('lantern');handheld.rotation.z=Math.sin(walkingPhase)*.025
+    if(seen.includes('brush')) inkReveal=1
+    else if(seen.includes('lantern')&&Math.hypot(pose.x+4.5,pose.z+1)<3.5)inkReveal=Math.min(1,inkReveal+dt*.34)
     const drawn=Math.floor(inkReveal*(inkPath.length-1));inkLine.geometry.setDrawRange(0,drawn+1)
-    drawingBrush.visible=seen.length>=1&&inkReveal<1
+    drawnFaceMaterial.opacity=T.MathUtils.smoothstep(inkReveal,.15,1)
+    drawingBrush.visible=seen.includes('lantern')&&inkReveal<1
     drawingBrush.position.copy(inkPath[drawn]).add(inkLine.position);drawingBrush.position.y+=Math.sin(elapsed*2)*.008
-    if(!paused&&seen.length>=2&&Math.hypot(pose.x-4.5,pose.z+5.5)<3.6)scrollReveal=Math.min(1,scrollReveal+dt*.32)
+    if(seen.includes('scroll')) scrollReveal=1
+    else if(seen.includes('brush')&&Math.hypot(pose.x-4.5,pose.z+5.5)<3.8)scrollReveal=Math.min(1,scrollReveal+dt*.55)
     scrollMaterial.opacity=scrollReveal
-    masks.visible=seen.length>=3;scroll.visible=seen.length>=1;plaque.visible=seen.length>=4
-    const opening=seen.length>=2?1:0
+    masks.visible=seen.includes('scroll');scroll.visible=seen.includes('brush')
+    const opening=seen.includes('lantern')?1:0
     for(const {cloth,trim,side} of curtains){cloth.position.x=T.MathUtils.lerp(cloth.position.x,side*(2.15+opening*1.75),dt*2);trim.position.x=cloth.position.x-side*1.6;cloth.rotation.y=trim.rotation.y=Math.sin(elapsed*.5)*.025}
-    if(!paused&&seen.length>=3&&Math.hypot(pose.x+5.7,pose.z+10)<3.2&&mirrorArrival===undefined)mirrorArrival=elapsed
-    const borrowed=mirrorArrival===undefined?0:T.MathUtils.smoothstep(elapsed-mirrorArrival,1.8,4.8)
-    const grieving=mirrorArrival===undefined?0:T.MathUtils.smoothstep(elapsed-mirrorArrival,5.5,8)
-    ;(selfInMirror.material as T.MeshBasicMaterial).opacity=mirrorArrival===undefined?0:(1-borrowed)*.7
-    ;(borrowedInMirror.material as T.MeshBasicMaterial).opacity=borrowed*(1-grieving)*(.55+Math.sin(elapsed*.8)*.08)
-    ;(spiritInMirror.material as T.MeshBasicMaterial).opacity=grieving*(.48+Math.sin(elapsed*.7)*.06)
-    doorLeft.position.x=T.MathUtils.lerp(doorLeft.position.x,seen.length>=4?-2:-1.25,dt*1.3);doorRight.position.x=T.MathUtils.lerp(doorRight.position.x,seen.length>=4?2:1.25,dt*1.3)
-    markers.forEach((m,i)=>{m.visible=i===seen.length;m.rotation.y=elapsed*.2;m.scale.setScalar(1+Math.sin(elapsed*2)*.08)})
+    if(seen.includes('scroll')&&Math.hypot(pose.x+5.7,pose.z+10)<3.2&&mirrorArrival===undefined)mirrorArrival=elapsed
+    wakingMaterial.opacity=mirrorArrival===undefined?0:T.MathUtils.smoothstep(elapsed-mirrorArrival,0,2)
     animated.forEach(a=>a(elapsed));dust.rotation.y=Math.sin(elapsed*.03)*.018;rain.position.y=-(elapsed*1.5)%2
     renderer.domElement.dataset.station=current.id;renderer.domElement.dataset.x=pose.x.toFixed(2);renderer.domElement.dataset.z=pose.z.toFixed(2)
     renderer.domElement.dataset.yaw=pose.yaw.toFixed(3);renderer.domElement.dataset.pitch=pose.pitch.toFixed(3)
     if(low)renderer.render(scene,camera);else composer.render()
+    const contact=dreamContact(seen,pose,spiritStage,paused||storyActive||spiritOpacity<.15)
+    if(contact)options.onTouch(contact)
+    if(dreamMirrorContact(seen,pose,paused||storyActive))options.onMirrorTouch()
   }
   frame(performance.now());options.onReady()
   return {
     setPaused(value:boolean){paused=value;if(value)releaseLook()},
-    inspect,
-    guide(){if(paused)return;const station=dreamStations[Math.min(options.seen().length,4)];route=dreamPath(pose,{x:station.approach[0],z:station.approach[1]});pose.pitch=-.04;guideFocus=station.id==='brush'?{x:-4.5,y:1.15,z:-1}:station.id==='scroll'?{x:6.69,y:2.75,z:-5.5}:station.id==='mirror'?{x:-6.8,y:2.3,z:-10}:station.id==='door'?{x:0,y:3,z:-17.4}:{x:0,y:1.55,z:4}},
+    story(id:DreamStationId|undefined){
+      storyActive=!!id;clear();route=[]
+      if(id){
+        const focus:Record<DreamStationId,[number,number,number]>={hall:[0,1.7,5.5],courtyard:[3.26,2.45,3.9],lantern:[1,1.55,.15],brush:[-4.5,1.15,-1],scroll:[6.69,2.75,-5.5],mirror:[-6.8,2.3,-10]}
+        const [x,y,z]=focus[id];guideFocus={x,y,z}
+      }else{
+        const next=dreamStations[options.seen().length]
+        guideFocus=next?{...dreamShadows[next.id],y:1.55}:{x:dreamMirror.x,y:2.3,z:dreamMirror.z}
+      }
+    },
+    guide(){
+      if(paused||storyActive)return
+      const station=dreamStations[options.seen().length]
+      const target=station?dreamShadows[station.id]:dreamMirror.approach
+      route=dreamPath(pose,target)
+      pose.pitch=-.04
+      guideFocus=station?{...target,y:1.55}:{x:dreamMirror.x,y:2.3,z:dreamMirror.z}
+    },
     look:requestLook,
     releaseLook,
     tap,
     direction(key: string, active: boolean) {
       if (!active) { touchKeys.delete(key); return }
-      if (paused) return
+      if (paused || storyActive) return
       touchKeys.add(key)
       tap(key)
     },

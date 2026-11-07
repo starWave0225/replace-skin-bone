@@ -3,6 +3,7 @@ import { onMounted, onUnmounted, ref } from 'vue'
 import { assetUrl } from '../game/asset-url'
 import Icon from './Icon.vue'
 import MusicControls from './MusicControls.vue'
+import { isPrologueDemo } from '../game/build-profile'
 
 const props = defineProps<{ ready: boolean; canContinue: boolean; paused: boolean }>()
 const emit = defineEmits<{
@@ -54,13 +55,13 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
       <div class="title-menu-block">
         <div class="title-brand">
           <p class="title-series"><span aria-hidden="true"></span>未闻志异</p>
-          <h1 aria-label="画皮：借面"><span>画皮</span><i>借面</i></h1>
+          <h1 aria-label="画皮：千面"><span>画皮</span><i>千面</i></h1>
           <p class="title-tagline">是人是妖，是皮是相。</p>
         </div>
 
         <nav ref="menu" class="title-menu" aria-label="主菜单">
           <button class="title-menu-entry" :class="{ 'is-preferred': !canContinue }" :disabled="!ready" @click="emit('start')">
-            <span>开始游戏</span><small aria-hidden="true">NEW GAME</small>
+            <span>{{ isPrologueDemo ? '开始试玩' : '开始游戏' }}</span><small aria-hidden="true">NEW GAME</small>
           </button>
           <button class="title-menu-entry" :class="{ 'is-preferred': canContinue }" :disabled="!ready || !canContinue" @click="emit('continue')">
             <span>继续游戏</span><small aria-hidden="true">CONTINUE</small>
@@ -73,14 +74,15 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
           </button>
         </nav>
 
-        <nav class="title-demos" aria-label="独立试玩">
+        <nav v-if="!isPrologueDemo" class="title-demos" aria-label="独立试玩">
+          <a href="?view=chapter-one" target="_blank" rel="noopener">第一章试玩 <span aria-hidden="true">↗</span></a>
           <a href="?view=dream" target="_blank" rel="noopener">梦境试玩 <span aria-hidden="true">↗</span></a>
           <a href="?view=combat" target="_blank" rel="noopener">战斗试玩 <span aria-hidden="true">↗</span></a>
         </nav>
       </div>
 
       <footer class="title-screen-footer">
-        <p class="title-chapter"><span>序章</span>雨夜寻凶</p>
+        <p class="title-chapter"><span>{{ isPrologueDemo ? '序章试玩' : '序章' }}</span>雨夜寻凶</p>
         <p class="title-key-hint" aria-hidden="true">↑ ↓ 选择 <span>·</span> Enter 确认</p>
         <div class="title-utilities">
           <button @click="emit('credits')">制作鸣谢</button>

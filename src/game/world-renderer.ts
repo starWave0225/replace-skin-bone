@@ -116,6 +116,21 @@ export function drawObject(c: Ctx, object: WorldObject, art?: WorldArt) {
   else if (object.kind === 'pot') stamp('pot', x, y - 8, 32, 32)
   else if (object.kind === 'flowers') { for (let i = 0; i < 3; i++) stamp('flowers', x + i * 12, y - 10 + i % 2 * 10, 24, 24) }
   else if (object.kind === 'mirror') stamp('mirror', x - 24, y - 24, 48, 56)
+  else if (object.kind === 'door') stamp('door', x, y, w, h)
+  else if (object.kind === 'chest') {
+    texture(c, art, 'wood', x, y, w, h)
+    rect(c, x, y + h / 2, w, 3, '#3a261b')
+    rect(c, x + w / 2 - 4, y + h / 2 - 2, 8, 9, '#b89153')
+  } else if (object.kind === 'tracks') {
+    c.save()
+    for (let step = 0; step < 11; step++) {
+      const left = x + (step % 2 ? 9 : -9), top = y + h * step / 11
+      c.globalAlpha = .28 + step * .06
+      rect(c, left, top, 8, 9, '#302922')
+      rect(c, left + 1, top + 10, 6, 5, '#302922')
+    }
+    c.restore()
+  }
   else if (object.kind === 'well') {
     texture(c, art, 'brick', x, y + 14, w, h - 14)
     rect(c, x, y + h - 4, w, 5, '#25393488')

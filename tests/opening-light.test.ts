@@ -1,87 +1,52 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { observeOpeningLight, openingBrightnessFromLux, type OpeningLightMode } from '../src/game/opening-light'
-import { openingPoemBrightnessThreshold, openingPoemVisibility } from '../src/game/opening-book'
+import { openingCandleDimDuration, openingCandleDuration, openingCandleFrame, openingCandleLayout } from '../src/game/opening-light'
 
-class LightSensor extends EventTarget {
-  static latest: LightSensor
-  illuminance: number | null = null
-  stopped = false
-  constructor(_options: { frequency: number }) { super(); LightSensor.latest = this }
-  start() {}
-  stop() { this.stopped = true }
-  read(lux: number | null) { this.illuminance = lux; this.dispatchEvent(new Event('reading')) }
-}
-
-test('环境越暗诗越清楚，极端照度有界，非法读数不当作黑暗', () => {
-  let previous = 0
-  for (const lux of [0, 1, 5, 10, 20, 50, 200, 500, 1000, 100000]) {
-    const brightness = openingBrightnessFromLux(lux)!
-    assert.ok(brightness >= .05 && brightness <= 1)
-    assert.ok(brightness >= previous)
-    previous = brightness
+test('烛火先摇曳再熄灭，余烬与烟丝衔接，光线只向暗处变化', () => {
+  assert.equal(openingCandleFrame(null).brightness, 1)
+  assert.equal(openingCandleFrame(null).smoke, 0)
+  assert.ok(openingCandleFrame(350).lean > .8)
+  assert.ok(openingCandleFrame(350).flame > 0)
+  assert.equal(openingCandleFrame(720).flame, 0)
+  assert.ok(openingCandleFrame(1100).smoke > .9)
+  assert.ok(openingCandleFrame(1100).ember > 0)
+  let previous = 1
+  for (let ms = 0; ms <= openingCandleDuration; ms += 10) {
+    const frame = openingCandleFrame(ms)
+    assert.ok(frame.brightness <= previous)
+    assert.ok(frame.brightness >= .079 && frame.brightness <= 1)
+    previous = frame.brightness
   }
-  const dim = openingBrightnessFromLux(10)!, bright = openingBrightnessFromLux(500)!
-  assert.ok(dim <= openingPoemBrightnessThreshold)
-  assert.ok(openingPoemVisibility(dim) > .99)
-  assert.ok(openingPoemVisibility(bright) < .03)
-  for (const lux of [-1, Number.NaN, Infinity]) assert.equal(openingBrightnessFromLux(lux), null)
+  assert.ok(openingCandleFrame(openingCandleDimDuration).brightness < .1)
+  assert.equal(openingCandleFrame(openingCandleDuration).smoke, 0)
+  assert.equal(openingCandleFrame(openingCandleDuration).ember, 0)
 })
 
-test('无感光能力时直接使用手动灯火，不伪造设备亮度', () => {
-  const modes: OpeningLightMode[] = [], readings: number[] = []
-  const stop = observeOpeningLight(value => readings.push(value), mode => modes.push(mode))
-  assert.deepEqual(modes, ['manual'])
-  assert.deepEqual(readings, [])
-  stop()
+test('减少动态时保留熄火与暗光，不摆动火苗或移动烟丝', () => {
+  for (const ms of [null, 350, 800, 1600, 3600]) {
+    const frame = openingCandleFrame(ms, 1234, true)
+    assert.equal(frame.lean, 0)
+    assert.equal(frame.rise, .45)
+    assert.equal(frame.brightness, openingCandleFrame(ms, 1234).brightness)
+    assert.deepEqual(frame, openingCandleFrame(ms, 9999, true))
+  }
 })
 
-test('有效感光更新灯火，手动接管或退出后迟到的读数无效', () => {
-  const modes: OpeningLightMode[] = [], readings: number[] = []
-  const stop = observeOpeningLight(value => readings.push(value), mode => modes.push(mode), LightSensor)
-  const sensor = LightSensor.latest
-  try {
-    assert.deepEqual(modes, ['sensing'])
-    for (const lux of [null, Number.NaN, -1]) sensor.read(lux)
-    assert.deepEqual(readings, [])
-    sensor.read(10)
-    assert.deepEqual(readings, [openingBrightnessFromLux(10)])
-    assert.deepEqual(modes, ['sensing', 'ambient'])
-    stop()
-    assert.equal(sensor.stopped, true)
-    sensor.read(500)
-    sensor.dispatchEvent(new Event('error'))
-    assert.equal(readings.length, 1)
-    assert.deepEqual(modes, ['sensing', 'ambient'])
-  } finally { stop() }
+test('烛火触碰区覆盖烛身，在桌面和手机横竖屏保持至少四十四像素宽', () => {
+  for (const [width, height] of [[1280, 720], [390, 219.375], [422, 237.375], [320, 180]]) {
+    const { x, wick, hit } = openingCandleLayout(width, height)
+    assert.ok(hit.width >= 44 && hit.height >= 44)
+    assert.ok(hit.left >= 0 && hit.left + hit.width <= width)
+    assert.ok(hit.top >= 0 && hit.top + hit.height <= height)
+    assert.ok(x > hit.left && x < hit.left + hit.width)
+    assert.ok(wick > hit.top && wick < hit.top + hit.height)
+  }
 })
 
-test('权限拒绝或传感器故障时停止感光并允许手动继续', () => {
-  const modes: OpeningLightMode[] = []
-  const stop = observeOpeningLight(() => assert.fail('不应产生读数'), mode => modes.push(mode), LightSensor)
-  const sensor = LightSensor.latest
-  sensor.dispatchEvent(new Event('error'))
-  assert.deepEqual(modes, ['sensing', 'manual'])
-  assert.equal(sensor.stopped, true)
-  sensor.read(0)
-  stop()
-})
-
-test('构造或启动感光失败也能回退；没有读数时三秒内开放手动模式', t => {
-  const modes: OpeningLightMode[] = []
-  class BlockedSensor extends LightSensor { start() { throw new Error('NotAllowedError') } }
-  observeOpeningLight(() => {}, mode => modes.push(mode), BlockedSensor)()
-  assert.deepEqual(modes, ['sensing', 'manual'])
-  assert.equal(LightSensor.latest.stopped, true)
-  class UnavailableSensor extends LightSensor { constructor(options: { frequency: number }) { super(options); throw new Error('SecurityError') } }
-  modes.length = 0
-  observeOpeningLight(() => {}, mode => modes.push(mode), UnavailableSensor)()
-  assert.deepEqual(modes, ['manual'])
-  t.mock.timers.enable({ apis: ['setTimeout'] })
-  modes.length = 0
-  const stop = observeOpeningLight(() => {}, mode => modes.push(mode), LightSensor)
-  t.mock.timers.tick(3000)
-  assert.deepEqual(modes, ['sensing', 'manual'])
-  assert.equal(LightSensor.latest.stopped, true)
-  stop()
+test('非有限动画时刻不误认为已吹灭，长时停留不会重新点亮', () => {
+  for (const ms of [Number.NaN, Infinity]) assert.equal(openingCandleFrame(ms).brightness, 1)
+  const later = openingCandleFrame(60000)
+  assert.equal(later.flame, 0)
+  assert.equal(later.smoke, 0)
+  assert.ok(later.brightness < .1)
 })

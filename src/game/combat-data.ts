@@ -3,7 +3,7 @@ export type CombatFace='shen'|'guard'
 export type CombatAction='attack'|'observe'|'outline'|'reveal'|'parry'|'bind'|'verdict'|'breathe'|'swap'
 export const combatFaces={
   shen:{name:'沈砚之面',role:'画师 · 辨相与破相',portrait:assetUrl('/assets/portraits/shen-v2.webp'),passive:'入微',passiveText:'亲手破相时，额外回复 1 墨息。',moves:['attack','observe','outline','reveal'] as CombatAction[]},
-  guard:{name:'周平之面',role:'故捕快 · 格挡与截招',portrait:assetUrl('/assets/portraits/guard-v2.webp'),passive:'不退',passiveText:'守息或架刀实际减伤后，下一次攻击 +4。换面不触发。',moves:['attack','parry','bind','verdict'] as CombatAction[]},
+  guard:{name:'周平之面',role:'故游侠 · 格挡与截招',portrait:assetUrl('/assets/portraits/guard-v2.webp'),passive:'不退',passiveText:'守息或架刀实际减伤后，下一次攻击 +4。换面不触发。',moves:['attack','parry','bind','verdict'] as CombatAction[]},
 }
 export const combatMoves:Record<CombatAction,{name:string;cost:number;skin:number;body:number;face?:CombatFace;description:string}>={
   attack:{name:'普攻',cost:0,skin:0,body:0,description:'结算后回复 1 墨息。'},
@@ -16,7 +16,14 @@ export const combatMoves:Record<CombatAction,{name:string;cost:number;skin:numbe
   breathe:{name:'守息',cost:0,skin:0,body:0,description:'回复 2 墨息，本次敌方阶段伤害减半。'},
   swap:{name:'换面',cost:0,skin:0,body:0,description:'占一次行动，切换另一张面；本次敌方伤害减半，下回合不能再换。'},
 }
-export interface CombatIntent {name:string;kind:'attack'|'hex'|'charge';hits:number[];description:string;danger:string;interruptible?:boolean;concealed?:boolean}
+export interface CombatIntent {name:string;kind:'attack'|'hex'|'charge'|'repair';hits:number[];description:string;danger:string;interruptible?:boolean;concealed?:boolean}
+export const paperPuppetIntents:CombatIntent[]=[
+  {name:'纸刃扫墨',kind:'attack',hits:[8],description:'纸臂扫过，伤形 8。',danger:'轻'},
+  {name:'胶矾补相',kind:'repair',hits:[],description:'尚有皮相时回复 8 皮相。破相可打断；显形期间无法修补。',danger:'补相'},
+  {name:'背画蓄势',kind:'charge',hits:[],description:'攒起纸刃，本回合不伤人；下一回合重击。',danger:'蓄势'},
+  {name:'碎纸夺卷',kind:'attack',hits:[20],description:'扑向持卷人，伤形 20。破相打断或守息减伤。',danger:'重',interruptible:true},
+  {name:'双折纸刃',kind:'attack',hits:[5,5],description:'两道纸刃，各伤形 5。',danger:'连击'},
+]
 export const combatIntents:CombatIntent[]=[
   {name:'扯袖',kind:'attack',hits:[8],description:'近身扑击，伤形 8。',danger:'轻'},
   {name:'浮面',kind:'hex',hits:[10],description:'假面隔空施术，伤形 10；架刀不会反击。',danger:'中',concealed:true},

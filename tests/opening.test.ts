@@ -2,7 +2,8 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync, existsSync } from 'node:fs'
 import { openingShots, openingDuration, openingFrame, crossedOpeningCues, continuingOpeningCues, openingCues, openingBeats, openingWeather } from '../src/game/opening'
-import { openingBookPages, openingBookTurnDuration, openingBookReducedTurnDuration, openingPoemRevealDuration, openingPoemVisibility, setOpeningBookBrightness } from '../src/game/opening-book'
+import { openingBookPages, openingBookTurnDuration, openingBookReducedTurnDuration, openingPoemRevealDuration, openingPoemVisibility, blowOutOpeningCandle } from '../src/game/opening-book'
+import { openingCandleDimDuration } from '../src/game/opening-light'
 import { openingPoem } from '../src/game/opening-poem'
 import { advanceOpeningPlayback, createOpeningPlayback, isOpeningBookWaiting, openingBookStart, openingBookReveal, openingBookAftermath, turnOpeningPage } from '../src/game/opening-playback'
 import { openingCamera } from '../src/game/opening-camera'
@@ -123,7 +124,7 @@ test('镜头到达旧谱后等待玩家，长帧和长时间阅读都不能自�
   assert.ok(playback.ambienceTime > playback.elapsed)
 })
 
-test('一次点击只翻一页，末页必须调暗灯火才可继续，确认后进入片尾', () => {
+test('一次点击只翻一页，末页必须吹灭蜡烛并读清残谶才可继续', () => {
   const playback = createOpeningPlayback(true)
   assert.ok(openingBookPages.slice(0, -1).every(page => page.kind === 'text' && page.lines.length > 0))
   assert.equal(openingBookPages.at(-1)!.kind, 'poem')
@@ -145,7 +146,9 @@ test('一次点击只翻一页，末页必须调暗灯火才可继续，确认�
   advanceOpeningPlayback(playback, 60000)
   assert.equal(playback.elapsed, openingBookReveal)
   assert.equal(playback.book.revealed, false)
-  setOpeningBookBrightness(playback.book, .2)
+  assert.equal(blowOutOpeningCandle(playback.book), true)
+  advanceOpeningPlayback(playback, openingCandleDimDuration)
+  assert.equal(playback.book.revealed, false)
   advanceOpeningPlayback(playback, openingPoemRevealDuration - 1)
   assert.equal(turnOpeningPage(playback), false)
   advanceOpeningPlayback(playback, 1)
@@ -158,9 +161,9 @@ test('一次点击只翻一页，末页必须调暗灯火才可继续，确认�
   assert.equal(openingFrame(playback.elapsed).finished, true)
 })
 
-test('暗处显诗随亮度渐变，提前调暗和一闪而过的低亮度不能绕过发现过程', () => {
+test('吹烛不可提前或重复触发，暂停不耗动画时长，重播恢复烛火', () => {
   const playback = createOpeningPlayback(true)
-  setOpeningBookBrightness(playback.book, .1)
+  assert.equal(blowOutOpeningCandle(playback.book), false)
   assert.equal(playback.book.brightness, 1)
   for (let i = 0; i < openingBookPages.length - 1; i++) {
     turnOpeningPage(playback)
@@ -169,24 +172,24 @@ test('暗处显诗随亮度渐变，提前调暗和一闪而过的低亮度不�
   assert.ok(openingPoemVisibility(1) < .03)
   assert.ok(openingPoemVisibility(.5) > openingPoemVisibility(1))
   assert.ok(openingPoemVisibility(.2) > .99)
-  setOpeningBookBrightness(playback.book, .5)
   advanceOpeningPlayback(playback, 10000)
   assert.equal(playback.book.revealed, false)
-  setOpeningBookBrightness(playback.book, .2)
+  assert.equal(blowOutOpeningCandle(playback.book), true)
   advanceOpeningPlayback(playback, 600)
-  setOpeningBookBrightness(playback.book, 1)
-  advanceOpeningPlayback(playback, 1)
+  assert.equal(playback.book.candleElapsed, 600)
+  assert.ok(playback.book.brightness > .3 && playback.book.brightness < 1)
   assert.equal(playback.book.revealElapsed, 0)
-  setOpeningBookBrightness(playback.book, Number.NaN)
-  assert.equal(playback.book.brightness, 1)
-  setOpeningBookBrightness(playback.book, -1)
-  assert.equal(playback.book.brightness, .05)
-  advanceOpeningPlayback(playback, openingPoemRevealDuration)
+  assert.equal(blowOutOpeningCandle(playback.book), false)
+  const paused = structuredClone(playback)
+  for (const delta of [0, -1, Number.NaN, Infinity]) advanceOpeningPlayback(playback, delta)
+  assert.deepEqual(playback, paused)
+  advanceOpeningPlayback(playback, openingCandleDimDuration + openingPoemRevealDuration - 600)
   assert.equal(playback.book.revealed, true)
-  setOpeningBookBrightness(playback.book, 1)
-  assert.ok(openingPoemVisibility(playback.book.brightness) < .03)
-  assert.equal(playback.book.revealed, true, '重新调亮隐藏诗文，但保留已读记录')
+  assert.ok(openingPoemVisibility(playback.book.brightness) > .99)
   assert.equal(turnOpeningPage(playback), true)
+  assert.equal(blowOutOpeningCandle(playback.book), false)
+  assert.equal(createOpeningPlayback(true).book.candleElapsed, null)
+  assert.equal(createOpeningPlayback(true).book.brightness, 1)
 })
 
 test('减少动态效果仍需逐页确认，暂停的零增量不会推进，重播从第一页开始', () => {

@@ -1,111 +1,201 @@
 <script setup lang="ts">
-import ScreenPages from './ScreenPages.vue'
-import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
-import { discoveredDreamNotes, dreamSpirit, dreamStations, originalPassage } from '../game/prologue'
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
+import { assetUrl } from '../game/asset-url'
+import { borrowedSpiritPortrait, dreamSpirit, dreamStations } from '../game/prologue'
 import type { DreamPose, DreamStationId } from '../game/prologue'
 import type { createDreamScene, DreamLookMode } from '../game/dream-scene'
+import { dreamPlaybackDuration, dreamSubtitle } from '../game/dream-presence'
 import MusicControls from './MusicControls.vue'
 import TouchPad from './TouchPad.vue'
 import { useSceneMusic } from '../game/music'
-import { clickTone } from '../game/audio'
 import '../dream.css'
-const props=defineProps<{visited:DreamStationId[];pose?:DreamPose;preview?:boolean;paused?:boolean}>()
-useSceneMusic(() => props.preview ? 'dream' : 'prologue', 100)
-const emit=defineEmits<{inspect:[id:DreamStationId];pose:[pose:DreamPose];finish:[];exit:[]}>()
-const host=ref<HTMLElement>(),ready=ref(false),intro=ref(true),reading=ref<DreamStationId>(),near=ref<DreamStationId>(),error=ref(''),lowQuality=ref(false)
-const casebookOpen=ref(false),whisper=ref<DreamStationId>()
-const simpleMode = ref(false)
-const lookMode=ref<DreamLookMode>(matchMedia('(pointer:fine)').matches?'free':'touch')
-let control:Awaited<ReturnType<typeof createDreamScene>>|undefined,alive=true,launchId=0
-const current=computed(()=>dreamStations[Math.min(props.visited.length,dreamStations.length-1)])
-const passage=computed(()=>dreamStations.find(s=>s.id===reading.value))
-const original=computed(()=>originalPassage(passage.value?.originalId))
-const complete=computed(()=>props.visited.length===dreamStations.length)
-const notes=computed(()=>discoveredDreamNotes(props.visited))
-const whispered=computed(()=>dreamStations.find(station=>station.id===whisper.value))
-const blocked=computed(()=>!ready.value||intro.value||!!reading.value||casebookOpen.value||complete.value||!!props.paused)
-watch(blocked,value=>control?.setPaused(value))
-watch(()=>props.visited.length,()=>whisper.value=undefined)
-function openPassage(id: DreamStationId) {
-  if (blocked.value || id !== current.value.id) return
-  reading.value = id
-  control?.setPaused(true)
-  chime()
+
+const props = defineProps<{ visited: DreamStationId[]; pose?: DreamPose; preview?: boolean; paused?: boolean }>()
+const emit = defineEmits<{ inspect: [id: DreamStationId]; pose: [pose: DreamPose]; finish: []; exit: [] }>()
+const host = ref<HTMLElement>(), menuPanel = ref<HTMLElement>()
+const ready = ref(false), intro = ref(true), menu = ref(false), simpleMode = ref(false), lowQuality = ref(false)
+const hidden = ref(document.hidden), error = ref(''), playing = ref<DreamStationId>(), elapsed = ref(0), hintRemaining = ref(0)
+const lookMode = ref<DreamLookMode>(matchMedia('(pointer:fine)').matches ? 'free' : 'touch')
+const current = computed(() => dreamStations[Math.min(props.visited.length, dreamStations.length - 1)])
+const mirrorReady = computed(() => props.visited.length >= dreamStations.length)
+const waking = ref(false)
+const blocked = computed(() => !ready.value || intro.value || menu.value || !!error.value || waking.value || !!props.paused || hidden.value)
+const subtitle = computed(() => playing.value ? dreamSubtitle(playing.value, elapsed.value) : undefined)
+const fallbackArt = computed(() => assetUrl(props.visited.length < 2 ? '/assets/opening/ink/guestroom-storm.webp' : '/assets/opening/ink/teahouse-skin-box-v1.webp'))
+const shadowPortrait = computed(() => props.visited.includes('brush') ? borrowedSpiritPortrait : dreamSpirit.portrait)
+useSceneMusic(() => props.preview ? 'dream' : 'prologue', 100, () => !menu.value && !props.paused && !hidden.value)
+
+let control: Awaited<ReturnType<typeof createDreamScene>> | undefined
+let alive = true, launchId = 0, raf = 0, previousTime = 0, finishing = false, wakeElapsed = 0
+watch(blocked, value => {
+  control?.setPaused(value)
+  if (!value && playing.value) control?.story(playing.value)
+}, { flush: 'sync' })
+watch(menu, async value => { if (value) { await nextTick(); menuPanel.value?.querySelector<HTMLButtonElement>('button')?.focus() } })
+
+function encounter(id: DreamStationId) {
+  if (blocked.value || mirrorReady.value || playing.value || id !== current.value.id) return
+  playing.value = id
+  elapsed.value = 0
+  hintRemaining.value = 0
+  control?.story(id)
 }
-function useSimpleMode() {
-  control?.dispose()
-  ++launchId
-  control = undefined
-  near.value = undefined
-  whisper.value = undefined
-  simpleMode.value = true
-  ready.value = true
-  error.value = ''
-  intro.value = false
-}
-async function launch(low=false){
-  if(!host.value)return
-  control?.dispose();control=undefined
-  const request=++launchId
-  ready.value=false;error.value='';lowQuality.value=low;simpleMode.value=false;near.value=undefined
-  try{
+
+async function launch(low = false) {
+  if (!host.value) return
+  const request = ++launchId
+  control?.dispose(); control = undefined
+  ready.value = false; error.value = ''; lowQuality.value = low; simpleMode.value = false
+  try {
     await document.fonts.ready
-    const module=await import('../game/dream-scene')
-    if(!alive||!host.value||request!==launchId)return
-    const created=await module.createDreamScene(host.value,{pose:props.pose,lowQuality:low,seen:()=>props.visited,onNear:id=>{if(request===launchId)near.value=id},onWhisper:id=>{if(request===launchId)whisper.value=id},onLookMode:mode=>{if(alive&&request===launchId)lookMode.value=mode},onInspect:openPassage,onPose:pose=>{if(alive&&request===launchId)emit('pose',pose)},onReady:()=>{if(alive&&request===launchId)ready.value=true}})
-    if(!alive||request!==launchId){created.dispose();return}
-    control=created
+    const module = await import('../game/dream-scene')
+    if (!alive || !host.value || request !== launchId) return
+    const created = await module.createDreamScene(host.value, {
+      pose: props.pose, lowQuality: low, seen: () => props.visited,
+      onTouch: encounter,
+      onMirrorTouch: enterMirror,
+      onLookMode: mode => {
+        if (!alive || request !== launchId) return
+        const released = lookMode.value === 'captured' && mode === 'free'
+        lookMode.value = mode
+        if (released && !blocked.value) openMenu()
+      },
+      onPose: pose => { if (alive && request === launchId) emit('pose', pose) },
+      onReady: () => { if (alive && request === launchId) ready.value = true },
+    })
+    if (!alive || request !== launchId) { created.dispose(); return }
+    control = created
     control.setPaused(blocked.value)
-  }catch(e){if(alive&&request===launchId){error.value='三维画面暂时无法载入。可以继续简易探索，照常查验线索。';console.warn('Dream renderer:',e)}}
+    if (playing.value) control.story(playing.value)
+  } catch (reason) {
+    if (alive && request === launchId) {
+      error.value = '梦境未能展开。'
+      console.warn('Dream renderer:', reason)
+    }
+  }
+}
+
+function useSimpleMode() {
+  ++launchId
+  control?.dispose(); control = undefined
+  simpleMode.value = true; ready.value = true; error.value = ''
+  enter()
 }
 function contextLost() {
   if (simpleMode.value || !alive) return
   useSimpleMode()
 }
-function resumeLook(){control?.setPaused(blocked.value);if(!blocked.value)control?.look();host.value?.querySelector('canvas')?.focus({preventScroll:true})}
-function enter(){intro.value=false;resumeLook()}
-function remember(){if(!reading.value)return;const last=reading.value==='door';emit('inspect',reading.value);reading.value=undefined;if(!last)resumeLook()}
-function toggleCasebook(){if(reading.value||props.paused)return;casebookOpen.value=!casebookOpen.value;if(casebookOpen.value)control?.setPaused(true);else resumeLook()}
-function keyboard(e:KeyboardEvent){
-  if(props.paused)return
-  const key=e.key.toLowerCase()
-  if(key==='escape'){control?.releaseLook();if(casebookOpen.value)casebookOpen.value=false;else if(reading.value)reading.value=undefined;else if(!intro.value&&!complete.value)intro.value=true}
-  else if(key==='e'&&reading.value){e.preventDefault();e.stopImmediatePropagation();remember()}
-  else if(key==='j'&&!e.repeat&&!intro.value&&!reading.value&&!complete.value){e.preventDefault();e.stopImmediatePropagation();toggleCasebook()}
-  else if(key==='g'&&!e.repeat&&!blocked.value){e.preventDefault();control?.guide()}
-  else if(key==='tab'&&!blocked.value){e.preventDefault();control?.releaseLook()}
+function resumeLook() {
+  control?.setPaused(blocked.value)
+  if (!blocked.value) control?.look()
+  host.value?.querySelector('canvas')?.focus({ preventScroll: true })
 }
-function chime(){clickTone()}
+function enter() {
+  intro.value = false; menu.value = false
+  hintRemaining.value = mirrorReady.value ? 0 : 6500
+  resumeLook()
+}
+function openMenu() { menu.value = true }
+function resume() { menu.value = false; resumeLook() }
+function guide() {
+  menu.value = false
+  resumeLook()
+  control?.guide()
+}
+function finish() { if (!finishing) { finishing = true; emit('finish') } }
+function enterMirror() {
+  if (blocked.value || playing.value || !mirrorReady.value) return
+  waking.value = true
+  wakeElapsed = 0
+}
+
+function tick(now: number) {
+  if (!alive) return
+  const dt = previousTime ? Math.min(100, now - previousTime) : 0
+  previousTime = now
+  if (!blocked.value) {
+    hintRemaining.value = Math.max(0, hintRemaining.value - dt)
+    const id = playing.value
+    if (id) {
+      elapsed.value += dt
+      if (elapsed.value >= dreamPlaybackDuration(id)) {
+        emit('inspect', id)
+        playing.value = undefined
+        control?.story(undefined)
+      }
+    }
+  }
+  if (waking.value && !hidden.value && !props.paused) {
+    wakeElapsed += dt
+    if (wakeElapsed >= 750) finish()
+  }
+  raf = requestAnimationFrame(tick)
+}
+function keyboard(event: KeyboardEvent) {
+  if (props.paused || intro.value || waking.value) return
+  if (event.key === 'Escape' || event.key === 'Tab') {
+    if (event.key === 'Tab' && menu.value) {
+      const items = [...(menuPanel.value?.querySelectorAll<HTMLButtonElement>('button:not(:disabled)') ?? [])]
+      if (event.shiftKey && document.activeElement === items[0]) { event.preventDefault(); items.at(-1)?.focus() }
+      else if (!event.shiftKey && document.activeElement === items.at(-1)) { event.preventDefault(); items[0]?.focus() }
+      return
+    }
+    event.preventDefault(); event.stopImmediatePropagation()
+    if (menu.value) resume(); else openMenu()
+  }
+}
+function visibility() { hidden.value = document.hidden }
+function blur() { if (!intro.value && !waking.value) openMenu() }
 function touch(key: string, active: boolean) { control?.direction(key, active) }
 function tap(key: string) { control?.tap(key) }
-onMounted(()=>{
-  if (!complete.value) void launch(matchMedia('(any-pointer: coarse), (max-width: 760px), (max-height: 520px) and (max-width: 1100px)').matches)
-  window.addEventListener('keydown',keyboard,true)
+
+onMounted(() => {
+  void launch(matchMedia('(any-pointer: coarse), (max-width: 760px), (max-height: 520px) and (max-width: 1100px)').matches)
+  raf = requestAnimationFrame(tick)
+  window.addEventListener('keydown', keyboard, true)
+  window.addEventListener('blur', blur)
+  document.addEventListener('visibilitychange', visibility)
 })
-onUnmounted(()=>{control?.dispose();alive=false;window.removeEventListener('keydown',keyboard,true)})
+onUnmounted(() => {
+  alive = false; ++launchId; cancelAnimationFrame(raf); control?.dispose()
+  window.removeEventListener('keydown', keyboard, true)
+  window.removeEventListener('blur', blur)
+  document.removeEventListener('visibilitychange', visibility)
+})
 </script>
 
 <template>
-  <main class="dream-experience" :class="{ 'dream-simple-mode': simpleMode }" aria-label="序章末尾的第一人称梦境探索">
-    <div v-show="!simpleMode" ref="host" class="dream-renderer" @webglcontextlost.capture="contextLost"></div><div class="dream-film"></div><div class="dream-border"></div>
-    <header class="dream-header"><div class="dream-brand"><span>画皮</span><i>借面</i><b>序章 · 梦中寻相</b></div><div class="dream-tools"><MusicControls/><button :disabled="!!reading||paused" @click="toggleCasebook">案记 · {{notes.length}}</button><button :disabled="!!reading||complete||paused" @click="intro=true;casebookOpen=false">操作</button><button :disabled="!ready||!!reading||complete||paused" @click="launch(simpleMode || !lowQuality)">{{simpleMode?'重试三维':lowQuality?'画质 · 轻量':'画质 · 精细'}}</button><button @click="emit('exit')">离梦</button></div></header>
-    <aside v-if="!blocked" class="dream-objective" :class="{ 'dream-objective-simple': simpleMode }"><span>{{simpleMode?'简易探索':'循灯而行'}}</span><h1>{{current.title}}</h1><p>{{visited.length ? dreamStations[visited.length-1].revelation : '提起纸灯。'}}</p><div class="dream-progress" aria-label="梦境发现进度"><i v-for="(station,index) in dreamStations" :key="station.id" :class="{done:index<visited.length,active:index===visited.length}"><b>{{['壹','贰','叁','肆','伍'][index]}}</b></i><small>{{visited.length}} / 5</small></div><button v-if="simpleMode" class="dream-primary" @click="openPassage(current.id)">{{current.action}} <b>→</b></button><button v-else class="dream-guide" @click="control?.guide()">随灯引路 <span>↗</span></button></aside>
-    <span v-if="!blocked&&!simpleMode" class="dream-reticle" aria-hidden="true"></span>
-    <div v-if="!blocked&&!simpleMode&&lookMode!=='touch'&&lookMode!=='captured'" class="dream-look-state"><button v-if="lookMode==='free'" :disabled="!ready" @click="resumeLook">点击画面，继续鼠标环顾</button><span v-else>鼠标移入画面即可环顾 · Esc 暂停</span></div>
-    <Transition name="dream-sheet"><aside v-if="!blocked&&whispered" class="dream-whisper" role="status"><span>{{dreamSpirit.name}} · 光外低语</span><p>“{{whispered.whisper}}”</p></aside></Transition>
-    <div v-if="!blocked&&!simpleMode" class="dream-bottom"><p>W A S D 行走 <i>·</i> 鼠标环顾 <i>·</i> E 查验 <i>·</i> J 案记 <i>·</i> G 引路</p><button v-if="near" class="dream-interact" @click="control?.inspect()"><kbd>E</kbd>{{current.action}}<span>↗</span></button></div>
-    <TouchPad v-if="!blocked&&!simpleMode" class="dream-pad" label="梦中触屏行走" @direction="touch" @tap="tap"/>
-    <Transition name="dream-sheet"><section v-if="reading&&passage" class="dream-reading" role="dialog" aria-modal="true" :aria-label="passage.title"><span class="dream-kicker">梦中拾遗 · {{visited.length+1}} / 5</span><h2>{{passage.title}}</h2><ScreenPages :key="reading"><p class="dream-narrative">{{passage.text}}</p><div class="dream-spirit-dialogue"><img :src="dreamSpirit.portrait" :alt="`${dreamSpirit.name} · 显影`"/><div><span>{{dreamSpirit.name}}</span><p>“{{passage.whisper}}”</p></div></div><details v-if="original" class="dream-original"><summary>《画皮》原文</summary><blockquote>{{original.text}}</blockquote></details></ScreenPages><footer><button class="dream-primary" @click="remember">记下 <b>→</b></button></footer></section></Transition>
-    <section v-if="casebookOpen" class="dream-casebook" role="dialog" aria-modal="true" aria-label="梦中案记"><span class="dream-kicker">许文卿遇害案 · 梦中闻见</span><h2>梦中案记</h2><ScreenPages class="dream-casebook-notes"><article v-for="(entry,index) in notes" :key="entry.id"><span>{{['壹','贰','叁','肆','伍'][index]}} · {{entry.clueTitle}}</span><p>{{entry.clueNote}}</p></article><p v-if="!notes.length" class="dream-empty-note">暂无记录。</p></ScreenPages><button class="dream-primary" @click="toggleCasebook">收起案记 <b>→</b></button></section>
-    <section v-if="intro&&!error&&!complete&&!casebookOpen" class="dream-intro"><ScreenPages><span class="dream-kicker">梦中寻相</span><h1>灯外，有人。</h1><div class="dream-title-rule"></div><p>闭眼时，你还在栖雨客舍。<br/>睁眼后，白衣女魂停在灯照不到的地方。</p><small><span class="dream-mouse-help">移动鼠标环顾，WASD 行走，Shift 疾行。<br/>E 查验，J 案记，G 引路，Esc 暂停。</span><span class="dream-touch-help">拖动画面环顾，点按方向键行走。点「疾行」切换速度，靠近后点查验。</span></small></ScreenPages><div class="dream-mode-actions"><button class="dream-primary" :disabled="!ready||paused" @click="enter">{{ready?'步入梦中':'点灯入梦…'}}<b>→</b></button><button v-if="!simpleMode" class="dream-simple-button" :disabled="paused" @click="useSimpleMode">简易探索</button></div></section>
-    <section v-if="complete&&!reading" class="dream-waking"><span class="dream-kicker">梦醒</span><h1>天明，往西街。</h1><p>无面茶楼。执笔之人。</p><button class="dream-primary" @click="emit('finish')">醒来 <b>→</b></button></section>
-    <section v-if="error||(!ready&&!intro&&!complete)" class="dream-error" role="status"><h2>灯尚未点起</h2><p>{{error||'正在点灯。也可直接进入简易探索。'}}</p><div class="dream-mode-actions"><button class="dream-primary" @click="useSimpleMode">简易探索 <b>→</b></button><button v-if="error" class="dream-simple-button" @click="launch(true)">轻量画质重试</button></div></section>
+  <main class="dream-experience dream-immersive" :class="{ 'is-waking': waking }" aria-label="第一人称雪宅梦境">
+    <div v-show="!simpleMode" ref="host" class="dream-renderer" @webglcontextlost.capture="contextLost"></div>
+    <div v-if="simpleMode" class="dream-shadow-room" :style="{ backgroundImage: `url('${fallbackArt}')` }">
+      <button v-if="!blocked && !mirrorReady" :key="current.id" class="dream-shadow-touch" :class="{ speaking: !!playing }" :disabled="!!playing" aria-label="触碰女鬼的影子" @click="encounter(current.id)"><img :src="shadowPortrait" alt=""/></button>
+      <button v-else-if="!blocked && mirrorReady" class="dream-mirror-touch" :style="{ backgroundImage: `url('${fallbackArt}')` }" aria-label="穿过铜镜" @click="enterMirror"></button>
+    </div>
+    <div class="dream-film"></div>
+    <button v-if="!intro && !menu && !waking && !error" class="dream-pause-control" aria-label="暂停梦境" title="暂停 · Esc" @click="openMenu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14"/></svg></button>
+
+    <Transition name="dream-caption"><p v-if="hintRemaining > 0 && !blocked && !playing" class="dream-entry-hint"><template v-if="simpleMode">触碰她的影子</template><template v-else><span class="dream-mouse-help">WASD 行走 · 鼠标环顾</span><span class="dream-touch-help">方向键行走 · 划动画面环顾</span><br/>走近她的影子</template></p></Transition>
+    <Transition name="dream-caption" mode="out-in"><p v-if="subtitle && !menu && !paused" :key="`${playing}-${subtitle.index}`" class="dream-subtitle" aria-live="polite">{{ subtitle.text }}</p></Transition>
+    <TouchPad v-if="!blocked && !playing && !simpleMode" class="dream-pad dream-quiet-pad" label="梦中触屏行走" @direction="touch" @tap="tap"/>
+
+    <section v-if="intro && !error && !waking" class="dream-entry">
+      <h1>灯外，有人。</h1>
+      <button class="dream-enter-button" :disabled="!ready || paused" @click="enter">{{ ready ? '入梦' : '入梦中…' }}</button>
+      <button v-if="!ready" class="dream-entry-alternative" @click="useSimpleMode">轻触入梦</button>
+    </section>
+
+    <section v-if="menu && !error" ref="menuPanel" class="dream-pause-menu" role="dialog" aria-modal="true" aria-label="梦境暂停">
+      <h2>梦未醒</h2>
+      <button class="dream-enter-button" @click="resume">继续入梦</button>
+      <MusicControls/>
+      <button v-if="!simpleMode && !playing" @click="guide">{{ mirrorReady ? '走向铜镜' : '随影前行' }}</button>
+      <button :disabled="!ready || !!playing" @click="launch(simpleMode || !lowQuality)">{{ simpleMode ? '重试三维画面' : lowQuality ? '画质 · 轻量' : '画质 · 精细' }}</button>
+      <button v-if="!simpleMode" @click="useSimpleMode">轻触探索</button>
+      <button @click="emit('exit')">{{ preview ? '返回首页' : '返回标题' }}</button>
+      <small><span class="dream-mouse-help">WASD 行走 · 鼠标环顾 · Esc 暂停</span><span class="dream-touch-help">方向键行走 · 划动画面环顾</span></small>
+    </section>
+
+    <section v-if="error" class="dream-fallback-prompt" role="status"><p>{{ error }}</p><button class="dream-enter-button" @click="useSimpleMode">轻触入梦</button><button @click="launch(true)">重新入梦</button><button @click="emit('exit')">{{ preview ? '返回首页' : '返回标题' }}</button></section>
+    <div class="dream-wake-fade" aria-hidden="true"></div>
   </main>
 </template>
-
-<style scoped>
-.dream-original{margin-top:20px;font-size:14px;color:#8b896c}
-.dream-original>summary{cursor:pointer;letter-spacing:1px}
-.dream-original>blockquote{margin-top:12px;padding-left:12px;border-left:1px solid #b0a17c;font-size:16px;line-height:2}
-.dream-reading>footer{justify-content:flex-end}
-</style>

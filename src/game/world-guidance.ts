@@ -41,15 +41,15 @@ function storyTarget(state: GameState): { map: Location; spots: readonly string[
   if (id === 'case_archive') return { map: 'yamen', spots: ['archive'] }
   const map = node?.location ?? 'street'
   const spots: Record<Location, readonly string[]> = {
-    inn: ['owner'], inn_well: ['well_spirit'], theatre: ['faceless'], home: id.startsWith('relic') ? ['relic'] : ['mother'],
+    inn: ['owner'], inn_well: ['well_spirit'], theatre: ['faceless'], theatre_upper: [], home: id.startsWith('relic') ? ['relic'] : ['mother'],
     street: node?.speaker === '韩七' || node?.portraitSpeaker === '韩七' ? ['han_street'] : ['mother_street'],
-    yamen: ['han'], well: ['well', 'child'], mansion: ['echo'],
+    studio: [], yamen: ['han'], well: ['well', 'child'], mansion: ['echo'],
   }
   return { map, spots: spots[map] }
 }
 export function worldGuidance(state: GameState, map: Location, trackedActivity = ''): WorldGuidance {
   if (state.mode === 'ending') return { hints: [], primary: [] }
-  if (state.prologue && state.prologue.phase !== 'completed') {
+  if (state.prologue) {
     const hints = map === state.prologue.world.map ? prologueHintIds(state.prologue) : []
     return { hints, primary: hints }
   }

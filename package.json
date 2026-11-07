@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 4173 --strictPort",
     "build": "vue-tsc --noEmit && vite build",
+    "build:demo": "node scripts/build-prologue-demo.mjs",
     "preview": "vite preview --host 127.0.0.1 --port 4173 --strictPort",
     "test": "tsx --test tests/*.test.ts"
   },

@@ -76,6 +76,6 @@ test('所有引导均指向本地图真实交互点，序章沿用逐条查验�
     }
   }
   const intro = startGame(true); intro.prologue!.phase = 'investigation'; intro.prologue!.clues = ['letter']
-  assert.deepEqual(worldGuidance(intro, 'inn').primary, ['ledger', 'tracks', 'owner'])
+  assert.deepEqual(worldGuidance(intro, 'inn').primary, ['ledger', 'tracks'])
   assert.deepEqual(worldGuidance(intro, 'street').hints, [])
 })

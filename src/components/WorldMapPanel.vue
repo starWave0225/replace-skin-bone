@@ -18,9 +18,11 @@ const places = [
   { id: 'street', x: 500, y: 356, note: '北侧通县衙，东边可去戚家，过桥便到茶楼。' },
   { id: 'yamen', x: 548, y: 179, note: '从南街北侧偏西的门进入。' },
   { id: 'home', x: 818, y: 355, note: '从南街北侧偏东的门入院。' },
+  { id: 'studio', x: 780, y: 510, note: '南街过桥向东，沈记纸铺旁的画舍。戚婆婆交给你钥匙后可入。' },
   { id: 'well', x: 820, y: 218, note: '穿过戚家小院北门，便到后井。' },
 ] as const satisfies readonly { id: Location; x: number; y: number; note: string }[]
 
+const visiblePlaces=computed(()=>places.filter(p=>props.state.chapterOne?!['well','yamen'].includes(p.id):p.id!=='studio'))
 type Place = typeof places[number]['id']
 const roads: readonly { from: Place; to: Place; d: string }[] = [
   { from: 'inn_well', to: 'inn', d: 'M132 168 C165 174 202 177 218 192 C228 214 225 249 208 266 Q191 276 169 273' },
@@ -28,12 +30,14 @@ const roads: readonly { from: Place; to: Place; d: string }[] = [
   { from: 'theatre', to: 'street', d: 'M273 480 C322 477 366 455 396 432 C437 396 481 393 527 413 Q541 417 543 397 Q528 369 500 356' },
   { from: 'street', to: 'yamen', d: 'M500 356 C530 336 557 302 570 280 Q595 244 599 225 Q583 205 548 179' },
   { from: 'street', to: 'home', d: 'M500 356 C535 370 549 391 587 391 C648 391 695 385 742 371 Q788 357 818 355' },
+  { from: 'street', to: 'studio', d: 'M500 356 Q527 413 580 460 Q665 495 780 510' },
   { from: 'home', to: 'well', d: 'M818 355 C865 364 910 349 923 312 C938 271 899 260 865 253 Q841 240 820 218' },
 ]
 
-const prologue = computed(() => props.state.prologue?.phase === 'completed' ? undefined : props.state.prologue)
+const visibleRoads=computed(()=>roads.filter(r=>visiblePlaces.value.some(p=>p.id===r.from)&&visiblePlaces.value.some(p=>p.id===r.to)))
+const prologue = computed(() => props.state.prologue)
 const current = computed(() => prologue.value?.world.map ?? props.state.world?.map ?? 'theatre')
-const currentLabel = computed(() => prologue.value?.phase === 'dream' ? '栖雨客舍 · 梦中' : locations[current.value].name)
+const currentLabel = computed(() => prologue.value?.phase === 'dream' ? '梦中雪宅' : locations[current.value].name)
 const selection = ref<Place>()
 const activePlace = computed(() => selection.value ?? current.value)
 const selectedPlace = computed(() => places.find(place => place.id === selection.value))
@@ -43,15 +47,11 @@ const note = computed(() => {
   if (!place) return '点图上地点，查看相邻道路和入口。'
   if (!chapter) return place.note
 
-  if (place.id === 'inn_well' && chapter.phase !== 'morning') return '后井在客舍东厢之后，天亮后可去查探。'
-  if (place.id === 'theatre' && chapter.phase === 'morning') {
-    return chapter.wellEncounter?.stage === 'complete'
-      ? '回到东厢，从客舍出口往西街尽处走。'
-      : '先去客舍后井，了结井边的事后再往西街。'
-  }
+  if (place.id === 'inn_well') return '从客舍东厢进入后堂。问过无面娘枯井的事再来。'
+  if (place.id === 'theatre') return '沿街巷往西走，茶楼里有一条上二楼的木梯。'
   return place.note
 })
-const activityEntries = computed(() => prologue.value ? [] : activities.map(activity => ({
+const activityEntries = computed(() => prologue.value || props.state.chapterOne ? [] : activities.map(activity => ({
   activity, reason: activityReason(props.state, activity),
 })))
 </script>
@@ -61,12 +61,12 @@ const activityEntries = computed(() => prologue.value ? [] : activities.map(acti
     <div class="county-sheet">
       <img class="county-art" :src="artwork" alt="斜俯视的未闻县全景，山坡下有客舍，石桥相连两岸，街巷旁有茶楼、县衙和戚家小院。" width="1586" height="992"/>
       <svg class="county-roads" viewBox="0 0 1000 625" preserveAspectRatio="none" aria-hidden="true">
-        <g v-for="road in roads" :key="road.from + road.to" :class="{ 'county-road-active': road.from === activePlace || road.to === activePlace }">
+        <g v-for="road in visibleRoads" :key="road.from + road.to" :class="{ 'county-road-active': road.from === activePlace || road.to === activePlace }">
           <path class="county-road-edge" :d="road.d"/>
           <path class="county-road-dash" :d="road.d"/>
         </g>
       </svg>
-      <button v-for="place in places" :key="place.id" type="button" class="county-pin"
+      <button v-for="place in visiblePlaces" :key="place.id" type="button" class="county-pin"
         :class="{ 'county-here': place.id === current }"
         :style="{ left: `${place.x / 10}%`, top: `${place.y / 6.25}%` }"
         :aria-label="locations[place.id].name" :aria-current="place.id === current ? 'location' : undefined"

@@ -3,7 +3,7 @@ import ScreenPages from './ScreenPages.vue'
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import type { WorldState } from '../game/types'
 import { PLAYER_SPEED, TILE, findPath, movePlayer, nearestSpot, worldMaps } from '../game/world'
-import type { WorldSpot } from '../game/world'
+import type { WorldMap, WorldSpot } from '../game/world'
 import { makeBackground, renderWorld, renderInteractionHints } from '../game/world-renderer'
 import { appearanceNames, DISGUISE_DURATION } from '../game/player-sprite'
 import type { DisguiseFrame, PlayerAppearance } from '../game/player-sprite'
@@ -13,7 +13,7 @@ import { interactionRingsEnabled } from '../game/hints'
 import { loadWorldArt } from '../game/world-art'
 import type { WorldArt } from '../game/world-art'
 
-const props = defineProps<{ world: WorldState; paused: boolean; night: boolean; appearance: PlayerAppearance; motion: boolean; quest: string; hints?: readonly string[]; primaryHints?: readonly string[] }>()
+const props = defineProps<{ world: WorldState; paused: boolean; night: boolean; appearance: PlayerAppearance; motion: boolean; quest: string; hints?: readonly string[]; primaryHints?: readonly string[]; mapOverride?: WorldMap }>()
 const emit=defineEmits<{ interact:[spot:WorldSpot]; position:[world:WorldState] }>()
 const canvas=ref<HTMLCanvasElement>()
 const host=ref<HTMLElement>()
@@ -21,7 +21,7 @@ const nearby=ref<WorldSpot>()
 const moving=ref(false)
 const routesOpen = ref(false)
 const touchKeys = new Set<string>()
-const map=computed(()=>worldMaps[props.world.map])
+const map=computed(()=>props.mapOverride ?? worldMaps[props.world.map])
 const hintIds = computed(() => interactionRingsEnabled.value ? (props.hints ?? map.value.spots.map(spot => spot.id)) : [])
 const primaryIds = computed(() => interactionRingsEnabled.value ? (props.primaryHints ?? props.hints ?? []) : [])
 let player={...props.world},keys=new Set<string>(),raf=0,last=0,background:HTMLCanvasElement|undefined
@@ -32,6 +32,7 @@ let gait=0,disguise:{from:PlayerAppearance;to:PlayerAppearance;startedAt:number}
 function sendPosition(){emit('position',{...player})}
 function setMap(){player={...props.world};keys.clear();touchKeys.clear();path=[];targetSpot=undefined;nearby.value=undefined;routesOpen.value=false;background=makeBackground(map.value,art);camera={x:player.x-size.w/zoom/2,y:player.y-size.h/zoom/2}}
 watch(()=>props.world.map,setMap)
+watch(()=>props.mapOverride,()=>{background=makeBackground(map.value,art)})
 watch(()=>props.appearance,(to,from)=>{disguise=props.motion?{from,to,startedAt:performance.now()}:undefined})
 watch(()=>props.motion,enabled=>{if(!enabled)disguise=undefined})
 watch(()=>props.paused,paused=>{if(paused)blur()})
@@ -101,7 +102,7 @@ function draw(now:number){
         dx=(point.x-player.x)/distance;dy=(point.y-player.y)/distance
         const stride=Math.min(4,distance,budget),oldX=player.x,oldY=player.y
         step(dx*stride,dy*stride);budget-=stride
-        if(Math.hypot(player.x-oldX,player.y-oldY)<.01){path=[];targetSpot=undefined;break}
+        if(Math.hypot(player.x-oldX,player.y-oldY)<stride*.1){path=[];targetSpot=undefined;break}
       }
       if(!path.length&&targetSpot){const spot=targetSpot;targetSpot=undefined;if(Math.hypot(spot.x*TILE-player.x,spot.y*TILE-player.y)<70){sendPosition();emit('interact',spot)}}
     }
@@ -142,7 +143,7 @@ onUnmounted(()=>{alive=false;cancelAnimationFrame(raf);observer?.disconnect();wi
     <div class="world-top"><div class="world-place"><span class="small-diamond"></span><h2>{{ map.name }}</h2><span>{{ night ? '夜雨' : '未闻县' }}</span></div><div class="world-key-guide"><kbd>W A S D</kbd> 行走 <i></i><kbd>E</kbd> 交互</div></div>
     <button v-if="!paused" class="world-route-toggle" :aria-expanded="routesOpen" @click="routesOpen=!routesOpen">{{ routesOpen ? '收起' : '寻路' }}</button>
     <ScreenPages class="world-destinations" :class="{ 'routes-open': routesOpen }" aria-label="场景中的人物与出入口"><span>寻路</span><button v-for="spot in map.spots" :key="spot.id" :disabled="paused" @click="walkTo(spot)">{{ spot.name }}<small>{{ spot.kind==='door'?'↗':'·' }}</small></button></ScreenPages>
-    <div v-if="!paused" class="world-bottom"><p><span class="small-diamond"></span>{{ quest }}</p><button class="world-interact" :disabled="!nearby" @click="interact"><kbd>E</kbd><span>{{ nearby ? `${nearby.hint} · ${nearby.name}` : '靠近人物或物件互动' }}</span><Icon :name="nearby?.kind==='door'?'arrow':'leaf'" :size="17"/></button></div>
+    <div v-if="!paused" class="world-bottom"><p v-if="quest"><span class="small-diamond"></span>{{ quest }}</p><button class="world-interact" :disabled="!nearby" @click="interact"><kbd>E</kbd><span>{{ nearby ? `${nearby.hint} · ${nearby.name}` : '靠近人物或物件互动' }}</span><Icon :name="nearby?.kind==='door'?'arrow':'leaf'" :size="17"/></button></div>
     <TouchPad v-if="!paused" :key="map.id" class="world-pad" label="地图触屏行走" @direction="touchDirection" @tap="touchTap"/>
   </section>
 </template>

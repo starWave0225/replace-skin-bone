@@ -83,6 +83,26 @@ export function clickTone() {
   if (!openingAmbience && context && master && master.gain.value > 0) pluck(440)
 }
 
+export function openingCandleBlow(offsetMs = 0): () => void {
+  if (!context || !master || context.state !== 'running' || !Number.isFinite(offsetMs) || offsetMs < 0 || offsetMs >= 760) return () => {}
+  const audio = context, now = audio.currentTime, duration = .76, offset = offsetMs / 1000
+  const buffer = audio.createBuffer(1, Math.ceil(audio.sampleRate * duration), audio.sampleRate)
+  const data = buffer.getChannelData(0)
+  let breath = 0
+  for (let i = 0; i < data.length; i++) {
+    breath = (breath + (Math.random() * 2 - 1) * .22) / 1.22
+    data[i] = breath * Math.sin(Math.PI * i / data.length) ** 1.5
+  }
+  const source = audio.createBufferSource(); source.buffer = buffer
+  const filter = audio.createBiquadFilter(); filter.type = 'bandpass'; filter.frequency.value = 1100; filter.Q.value = .5
+  const output = audio.createGain(); output.gain.value = 2.4
+  source.connect(filter).connect(output).connect(master)
+  let stopped = false
+  const stop = () => { if (stopped) return; stopped = true; try { source.stop() } catch { /* ended */ } source.disconnect(); filter.disconnect(); output.disconnect() }
+  source.onended = stop; source.start(now, offset); source.stop(now + duration - offset)
+  return stop
+}
+
 export function openingCue(cue: OpeningCue, offsetMs = 0): () => void {
   if (!context || !master || context.state !== 'running') return () => {}
   const duration = openingCueDuration(cue) / 1000, offset = Math.max(0, offsetMs) / 1000

@@ -1,0 +1,27 @@
+{
+  "mode": "built-in imagegen",
+  "date": "2026-11-07",
+  "assets": [
+    {
+      "path": "public/assets/opening/ink/teahouse-ambush-v1.webp",
+      "source": "C:/Users/junji/.codex/generated_images/01a1900b-3653-7d03-8eff-0053a729d011/exec-614de1ec-7e21-492c-9270-1ba84a9843e2.png",
+      "prompt": "Use case: historical-scene. Create the next cinematic frame of the supplied teahouse scene, preserving the exact Chinese woodcut engraving / fine crosshatched ink and muted warm russet watercolor style of image 1. Input 1 is scene/style reference; input 2 is Wumian Niang identity/costume reference; input 3 is Lu Zhiwei identity/costume reference. Landscape 1536x1024 or wider 16:9 composition. Night in the same wooden upstairs tea-house secret room, open wooden chest containing a folded thin painted face, faint candle light. Lu Zhiwei, dark cloth scholar cap, faded blue cross-collar robe, brown vest and cloth shoulder bag, in left-center foreground bending over the chest and turning his head too late. Immediately behind him at center-right Wumian Niang wears the plain pale oval mask with narrow eye openings, black bun with simple pin, weathered deep rust-red robe with dark patterned edging. She is delivering a sudden open-palm strike to the back of his neck, one sleeved hand poised very close behind his neck, decisive gesture readable and anatomically natural, no weapon. His hand opens in surprise beside the chest. Her threatening shadow stretches across the timber wall. Candle right edge guttering. All action in the central 65 percent for mobile cropping. Carefully detailed wood grain, crosshatched robe folds, aged paper pigments. Ominous restrained Liaozhai ghost story, not anime, not glossy 3D, not photoreal, no modern things, no speech bubbles, no letters, no title, no watermark, no gore or wounds. One seamless full-screen story illustration, no panels."
+    },
+    {
+      "path": "public/assets/opening/ink/well-child-v1.webp",
+      "source": "C:/Users/junji/.codex/generated_images/01a1900b-3653-7d03-8eff-0053a729d011/exec-a1d0048a-c807-4086-9d9c-8ab69f9f734b.png",
+      "prompt": "Use case: historical-scene. Make a matching exterior cinematic illustration in the exact dense Chinese woodcut crosshatching, aged paper and restrained muted watercolor style of input 1. Input 1 is STYLE ONLY, do not reproduce its interior/chest; input 2 is reference for the child face and blue robe with worn green vest, retain the ordinary asymmetrical face, disheveled dark short hair and thin braid. Wide 16:9 landscape 1536x1024 or wider. A deserted late-imperial Chinese inn backyard at predawn, cold blue-gray shadows, mossy stone dry well at left foreground, roof eaves, wet courtyard stone slabs, three old timber doors spaced along the rear courtyard walls. The central/right rear door is ajar with an amber oil lamp behind it. In its threshold stands a small spectral Chinese boy about eight years old in faded blue long clothes and worn green cloth vest, seen whole body, hovering just above the ground, mist partly veiling the hem. His face looks frightened and guarded rather than evil or cute; one hand reaches forward, the other grips a torn corner of blue cloth. Two small detached blank paper faces float beside his shoulders as an ominous illusion, one crossing the side of his face. No blood, no wounds, no corpse. Strong cinematic silhouette, ghost child around x=66% y=53%, dry well x=24% y=65%; scene readable as one quiet encounter, nuanced haunted setting with detailed carved stone, moss, timber and tiled roofs. Central objects can crop into portrait. Dark cinematic ink engraving with sparse warm light and cold gray-green fog. No protagonist, no modern objects, no English or Chinese text, no watermark, no anime, no plastic 3D. One seamless image."
+    },
+    {
+      "path": "public/assets/characters/ink/combat/well-child-v1.webp",
+      "source": "C:/Users/junji/.codex/generated_images/01a1900b-3653-7d03-8eff-0053a729d011/exec-a78e53e3-0000-4cff-adec-56c30e036b23.png",
+      "transparent": true,
+      "prompt": "Use case: background-extraction and identity-preserve. From reference image 1 isolate ONLY the small spectral boy, preserving his ordinary face, disheveled dark hair and little braid, faded blue cross-collar clothes, patched gray-green vest and ragged hems. Reference image 2 supplies the finely ink-engraved game battle cutout treatment, NOT its adult female character. Produce a complete full body single boy ghost battle sprite, 3/4 facing left toward an off-screen opponent, one hand outstretched, other holding torn blue cloth, knees slightly bent, lower hem fading into narrow wisps. No floating paper masks (the game renders these separately). Cohesive crosshatched watercolor texture with clear outlined readable silhouette, restrained cold gray-blue and green pigment, large natural head with child proportions but not chibi/anime. All body visible with transparent margins. No scene, no ground, no text, no shadow backdrop. True transparent alpha background. No blood, no injuries, no adult figure. Portrait 2:3 composition."
+    }
+  ],
+  "playback": {
+    "ambush": "13s, open box / ambush / strike / blackout",
+    "well": "14.6s, well / door / child / masks",
+    "controls": "pause, skip, mute, mobile, reduced motion; transitions freeze when hidden; dock hidden"
+  }
+}

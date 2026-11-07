@@ -1,0 +1,6 @@
+<!doctype html><meta charset="utf-8"><title>门诗验收</title><button id="prepare">准备门诗测试存档</button><output id="status"></output><a href="/">打开试玩</a><script type="module">
+import { startGame } from '/src/game/engine.ts';
+import { advancePrologue,caseClues,inspectCase,recordPrologueEvent,travelPrologue } from '/src/game/prologue.ts';
+import { writeSave } from '/src/game/saves.ts';
+document.querySelector('#prepare').onclick=async()=>{if(location.hostname!=='well-qa.localhost')return;const s=startGame(true),p=s.prologue;advancePrologue(p);caseClues.forEach(c=>inspectCase(p,c.id));recordPrologueEvent(p,'owner');for(const m of ['street','theatre','theatre_upper'])travelPrologue(p,m);await writeSave('auto',s);document.querySelector('#status').textContent='门诗测试存档已就绪'};
+</script>
