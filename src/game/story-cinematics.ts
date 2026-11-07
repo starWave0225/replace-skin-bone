@@ -19,9 +19,9 @@ export const storyCinematics: Record<StoryCinematicId, { title: string; shots: S
     title: '栖雨客舍 · 井畔童影',
     shots: [
       { id: 'well', duration: 3600, art: '/assets/opening/ink/well-child-v1.webp', caption: '三叩已过。井底的回声，竟落在门后。', focus: [16, 65], zoom: [1.7, 1.8] },
-      { id: 'door', duration: 3800, art: '/assets/opening/ink/well-child-v1.webp', caption: '门开一线，青布先从雾里露出来。', focus: [66, 60], zoom: [1.03, 1.1] },
-      { id: 'child', duration: 4200, art: '/assets/opening/ink/well-child-v1.webp', caption: '「别过来……它又要借我的脸。」', focus: [70, 38], zoom: [1.18, 1.32] },
-      { id: 'masks', duration: 3000, art: '/assets/opening/ink/well-child-v1.webp', caption: '假相扑面。你握紧笔，记起梦中的落墨之法。', focus: [65, 45], zoom: [1.08, 1.17] },
+      { id: 'door', duration: 3800, art: '/assets/opening/ink/well-child-v1.webp', caption: '循声推门，湿脚印一直走到脚边。', focus: [66, 60], zoom: [1.03, 1.1] },
+      { id: 'child', duration: 4200, art: '/assets/opening/ink/well-child-v1.webp', caption: '孩子抓着井栏抬头，脸上贴着一张不合尺寸的纸相。', focus: [70, 38], zoom: [1.18, 1.32] },
+      { id: 'masks', duration: 3000, art: '/assets/opening/ink/well-child-v1.webp', caption: '纸相忽然扯开嘴扑来。寒意透骨，你记起梦中的辨相之法。', focus: [65, 45], zoom: [1.08, 1.17] },
     ],
     cues: [{ at: 300, sound: 'echo' }, { at: 3800, sound: 'wood' }, { at: 7500, sound: 'whisper' }, { at: 11800, sound: 'cloth' }],
   },

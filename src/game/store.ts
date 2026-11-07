@@ -4,7 +4,7 @@ import type { GameState, SaveData, Location, WorldState } from './types'
 import { worldSpawn } from './world'
 import { advance, beginActivity, changeFace, choose, rest, startGame, visibleChoices } from './engine'
 import { advancePrologue, inspectCase, inspectDream, knockAtWell, recordPrologueEvent, travelPrologue, startWellEncounter, unlockPrologueBox } from './prologue'
-import { advanceWellEncounter, performWellAction } from './prologue-battle'
+import { advanceWellEncounter, collectWellRelic, performWellAction } from './prologue-battle'
 import type { CombatAction } from './combat-data'
 import type { DreamPose, DreamStationId } from './prologue'
 import { story } from './story'
@@ -54,10 +54,7 @@ export const useGame = defineStore('game', () => {
     const s=state.value,e=s?.prologue?.wellEncounter
     if(!s||!e||!advanceWellEncounter(e))return
     if(e.stage==='complete'){
-      s.flags.prologue_well_resolved=true
-      s.flags.prologue_finished=true
-      if(!s.inventory.includes('well_cloth'))s.inventory.push('well_cloth')
-      if(!s.journal.includes('well_witness'))s.journal.push('well_witness')
+      collectWellRelic(s)
       advancePrologue(s.prologue!)
     }
     autosave()

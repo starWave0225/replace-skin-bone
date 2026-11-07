@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { advanceWellEncounter, isValidWellEncounter, newWellEncounter, performWellAction, wellCombat, wellLessons } from '../src/game/prologue-battle'
+import { advanceWellEncounter, collectWellRelic, isValidWellEncounter, newWellEncounter, performWellAction, wellCombat, wellLessons } from '../src/game/prologue-battle'
 import { advancePrologue, initialPrologue, isValidPrologue, knockAtWell, prologueHintIds, startWellEncounter, travelPrologue, caseClues, dreamStations } from '../src/game/prologue'
 import { combatActionReason } from '../src/game/combat'
 import { isValidState, startGame } from '../src/game/engine'
@@ -52,7 +52,7 @@ test('五步教学使用真实回合结算，包含敌意、破相取消、两�
   assert.equal(performWellAction(e, 'reveal'), true); s = wellCombat(e)
   assert.deepEqual([s.status, s.enemy.hp, s.turn, e.stage], ['won', 0, 5, 'aftermath'])
   assert.equal(performWellAction(e, 'attack'), false)
-  assert.ok(s.log.at(-1)!.text.includes('且听鬼童诉说'))
+  assert.ok(s.log.at(-1)!.text.includes('鬼童将油伞推到井沿'))
 })
 test('每一步存档可确定性恢复，战后只结算一次，不会提前取得面谱', () => {
   const state = startGame(true); state.prologue = morning()
@@ -70,10 +70,16 @@ test('每一步存档可确定性恢复，战后只结算一次，不会提前�
   }
   assert.equal(advanceWellEncounter(e), true)
   assert.equal(advanceWellEncounter(e), false)
+  assert.equal(collectWellRelic(state), true)
+  assert.equal(collectWellRelic(state), false)
+  assert.equal(state.inventory.filter(id => id === 'well_umbrella').length, 1)
+  assert.equal(state.inventory.includes('well_cloth'), false, '序章只发油伞，青布留待第一章发现')
+  assert.equal(state.journal.filter(id => id === 'well_witness').length, 1)
   assert.equal(advancePrologue(p), true)
   assert.equal(p.phase, 'curtain')
   assert.equal(state.flags.wearing_first_face, undefined)
   assert.equal(state.inventory.includes('face_shen'), false)
+  assert.ok(isValidState(JSON.parse(JSON.stringify(state))), '拾伞片尾可保存并恢复')
   assert.equal(startWellEncounter(p), false)
 })
 test('拒绝跳过斗法、房间错位或越界的序章记录', () => {

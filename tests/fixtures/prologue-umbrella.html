@@ -1,0 +1,15 @@
+<!doctype html><html lang="zh"><meta charset="utf-8"><title>拾伞片尾验收</title><body style="background:#17231f;color:#eee;font:22px/1.8 system-ui;padding:30px"><h1>井边战后验收</h1><button id="prepare" style="font:inherit">准备拾伞前存档</button><p id="result">仅限 well-qa.localhost</p><a href="/" style="color:inherit">打开游戏</a><script type="module">
+import { startGame } from '/src/game/engine.ts'
+import { caseClues,dreamStations } from '/src/game/prologue.ts'
+import { newWellEncounter,advanceWellEncounter,performWellAction,wellLessons } from '/src/game/prologue-battle.ts'
+import { worldSpawn } from '/src/game/world.ts'
+import { writeSave } from '/src/game/saves.ts'
+document.querySelector('#prepare').onclick=async()=>{
+ if(location.hostname!=='well-qa.localhost')return
+ const state=startGame(true),e=newWellEncounter()
+ advanceWellEncounter(e);advanceWellEncounter(e)
+ wellLessons.forEach(l=>performWellAction(e,l.action))
+ Object.assign(state.prologue,{phase:'morning',clues:caseClues.map(c=>c.id),dreamSeen:dreamStations.map(s=>s.id),wallOpen:true,briefed:true,knocks:3,echo:'up',world:worldSpawn('inn_well'),wellEncounter:e})
+ await writeSave('auto',state);document.querySelector('#result').textContent='已准备；打开游戏继续前缘。'
+}
+</script></body></html>

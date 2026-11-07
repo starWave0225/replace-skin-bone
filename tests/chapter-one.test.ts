@@ -126,4 +126,8 @@ test('正式序章完成井边教学后可进入第一章，不能提前跳章�
   assert.ok(startChapterOne(root));assert.equal(root.prologue,undefined);assert.equal(root.chapterOne!.face,'self');assert.ok(root.chapterOne!.flags.heardAppeal)
   assert.ok(isValidState(root));assert.equal(startChapterOne(root),false)
   assert.ok(root.chapterOne!.evidence.includes('case-letter'))
+  assert.ok(root.chapterOne!.evidence.includes('umbrella'))
+  assert.ok(root.chapterOne!.evidence.includes('cloth'))
+  assert.equal(root.chapterOne!.unlocked,false,'倒影易相不提前解锁可切换身份')
+  assert.ok(root.chapterOne!.dialogue!.lines.some(l=>l.text.includes('从伞柄解下')),'第一章交代青布来自油伞')
 })

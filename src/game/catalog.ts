@@ -20,7 +20,8 @@ export const activities: Activity[] = [
   { id: 'watch', title: '在后井守夜', subtitle: '水面之下，有人在等', location: 'well', times: ['night'], start: 'watch_1', mark: '异' },
 ]
 export const itemInfo: Record<string, { title: string; text: string; mark: string }> = {
-  well_cloth: { title: '冤魂留下的青布', text: '针脚与梦中书案上的青布相同。日后可凭它继续查问。', mark: '布' },
+  well_umbrella: { title: '鬼童留下的油伞', text: '井边鬼童留下的旧油伞。握住伞柄时，陌生记忆涌入，雨水倒影中浮现了另一张脸。', mark: '伞' },
+  well_cloth: { title: '伞柄上的青布', text: '从旧油伞柄上解下的缠布，有墨痕与细密针脚。', mark: '布' },
   invitation: { title: '许文卿的邀书', text: '许文卿邀你来未闻县校谱，约定戌时在客舍东厢相见。', mark: '约' },
   originals: { title: '《画皮》残卷', text: '蒲松龄《画皮》的古文摘句。', mark: '典' },
   mirror: { title: '旧铜镜', text: '镜缘生了绿锈。它照得出你借来的脸，却照不见脸后的人。', mark: '镜' },
@@ -34,7 +35,7 @@ export const itemInfo: Record<string, { title: string; text: string; mark: strin
   clue_mansion: { title: '王宅旧印', text: '藏在画轴中的半枚朱印。它与无面茶楼镜后的旧画，出自同一个地方。', mark: '印' },
 }
 export const journalInfo: Record<string, { title: string; text: string; status: string }> = {
-  well_witness: { title: '井畔怨声', text: '三叩枯井后循回声推门，你以梦中笔法压下怨势，拾起一角青布。针脚与梦里书案上的布相同。', status: '井边线索 · 尚待核实' },
+  well_witness: { title: '井畔怨声', text: '三叩枯井后循声推门，以本相拆去鬼童的纸相。孩子留下油伞；拾伞时，陌生记忆涌入，骤雨中的倒影已非自己的面容。', status: '井边线索 · 尚待核实' },
   dream_witness: {title:'灯外的冤声',text:'女魂提到戌初的窗下、半笺的重笔，以及旧谱的经手人。',status:'梦中证词 · 尚待核实'},
   murder: {title:'一封未赴的旧约',text:'你以陆知微的姓名来到未闻县，故友许文卿却先一步遇害。半笺、住客簿和窗下鞋印尚未拼出答案。一夜梦后，你往西街寻找无面茶楼。',status:'序章已记 · 命案未明'},
   awakening: { title: '借来的姓名', text: '你借用了沈砚之面。', status: '因果初起' },

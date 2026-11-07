@@ -127,7 +127,7 @@ function tick(now: number) {
   }
   if (waking.value && !hidden.value && !props.paused) {
     wakeElapsed += dt
-    if (wakeElapsed >= 750) finish()
+    if (wakeElapsed >= 4000) finish()
   }
   raf = requestAnimationFrame(tick)
 }
@@ -197,5 +197,6 @@ onUnmounted(() => {
 
     <section v-if="error" class="dream-fallback-prompt" role="status"><p>{{ error }}</p><button class="dream-enter-button" @click="useSimpleMode">轻触入梦</button><button @click="launch(true)">重新入梦</button><button @click="emit('exit')">{{ preview ? '返回首页' : '返回标题' }}</button></section>
     <div class="dream-wake-fade" aria-hidden="true"></div>
+    <p v-if="waking" class="dream-subtitle dream-last-whisper" aria-live="polite">若见到那人，问他为何欺我。</p>
   </main>
 </template>

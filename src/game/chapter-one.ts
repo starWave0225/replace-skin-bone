@@ -30,7 +30,8 @@ export const chapterOneEvidence:Record<string,{name:string;text:string}>={
   'case-letter':{name:'客舍半笺',text:'许文卿的半封信，末尾相约的笔锋与前文不同。凶手身份仍未查明。'},
   'case-ledger':{name:'客舍入宿簿',text:'簿上只记许文卿一人，小二却听见屋里有人交谈，始终不见第二人的身影。'},
   'case-tracks':{name:'镜前湿鞋印',text:'湿鞋印从铜镜延续到后窗，越近窗台越淡。它不是从窗外踏进来的。'},
-  cloth:{name:'一角青布',text:'从客舍后井拾得。边角缝着细密回针，布上残留极淡的墨色。'},
+  umbrella:{name:'鬼童的旧油伞',text:'鬼童推到井沿的油伞。拾起时曾见陌生记忆与倒影；那张脸未能停留。'},
+  cloth:{name:'一角青布',text:'第一章初，从井边油伞的伞柄上解下。边角缝着细密回针，布上残留极淡的墨色。'},
   letter:{name:'沈砚的托付书',text:'「娘：若我不归，莫替我告官。客舍后井有个孩子，怕黑。烦来人替我留一盏灯。砚。」末笔迟疑，确是同一人写成。'},
   'fragment-bridge':{name:'残画 · 桥栏',text:'两道桥栏穿过断口；纸背留下画框的压痕。'},
   'fragment-tree':{name:'残画 · 树梢',text:'柳枝与远山各有一处断线，恰可同旁片相接。'},
@@ -46,8 +47,8 @@ function note(s:ChapterOneState,text:string){if(!s.journal.includes(text))s.jour
 function gain(s:ChapterOneState,id:string){if(!s.evidence.includes(id))s.evidence.push(id)}
 function say(s:ChapterOneState,text:string,speaker='陆知微'){talk(s,'aside',[line(speaker,text)])}
 export function createChapterOne():ChapterOneState{
-  const s:ChapterOneState={version:1,stage:'visit',world:worldSpawn('theatre'),face:'self',unlocked:false,stats:{selfhood:60,bond:0,trust:0},flags:{},evidence:['cloth'],journal:['井边怨声散了。一角青布在手，女魂给的七日之期才刚开始。'],history:[],pieces:[{id:'well',turns:1},{id:'bridge',turns:3},{id:'tree',turns:2}],lampOrder:[],message:''}
-  talk(s,'arrival',[line('旁白','天将亮时，陆知微再次推开茶楼的门。青布晾在掌心，像从一场梦里带回的一角夜色。'),line('无面娘','这是裹画的布，不是裹尸的。针脚这么密，缝它的人怕东西丢了。去南街戚家问问。'),line('陆知微','你说过，我能借沈砚的脸。'),line('无面娘','先用你自己的脸，问明白他留下了什么。借一张面，容易；接住那个人没做完的事，难。')])
+  const s:ChapterOneState={version:1,stage:'visit',world:worldSpawn('theatre'),face:'self',unlocked:false,stats:{selfhood:60,bond:0,trust:0},flags:{},evidence:['umbrella','cloth'],journal:['油伞引来陌生记忆与倒影，那张脸转瞬即逝。无面娘从伞柄解下一角青布，女魂给的七夜才刚开始。'],history:[],pieces:[{id:'well',turns:1},{id:'bridge',turns:3},{id:'tree',turns:2}],lampOrder:[],message:''}
+  talk(s,'arrival',[line('旁白','天将亮时，陆知微携油伞回到茶楼。铜镜里已恢复自己的面目。无面娘从伞柄解下一角缠布，布上还留着旧墨。'),line('无面娘','这是沈砚裹画的旧布，后来缠在这把伞上。针脚这么密，缝它的人怕东西丢了。去南街戚家问问。'),line('陆知微','我拿起伞时，看见许多陌生的旧事，水里的脸也变了。那是谁？'),line('无面娘','旧物牵出残相，还不是你能收放的面。先用自己的脸，问明白沈砚留下了什么，再来学借面。接住那个人没做完的事，比借一张脸难。')])
   return s
 }
 export function startChapterOne(s:GameState){
@@ -56,7 +57,7 @@ export function startChapterOne(s:GameState){
   s.chapterOne=createChapterOne();s.chapterOne.flags.heardAppeal=heard
   for(const id of s.prologue.clues)if(chapterOneEvidence[`case-${id}`])gain(s.chapterOne,`case-${id}`)
   note(s.chapterOne,'许文卿之死尚未查明。半笺异笔、入宿簿的人声与镜前鞋印，仍要与王宅旧事相印证。')
-  if(heard)note(s.chapterOne,'街上有人为儿伸冤，称官府找不出真凶，便拿与县衙有过节的人充作嫌犯。')
+  if(heard)note(s.chapterOne,'卖灯人坚称儿子不是凶手，欲到县衙请命。旁人怕受牵连，劝他莫喊。')
   delete s.prologue;s.mode='hub';s.world=s.chapterOne.world;s.flags.wearing_first_face=false;s.day=1;s.time='day';s.stats.selfhood=s.chapterOne.stats.selfhood;s.stats.shen=0;s.stats.mother=0;return true
 }
 export function chapterOneCanChangeFace(s:ChapterOneState){return s.unlocked&&chapterOneMap(s).spots.some(p=>p.id==='mirror'&&Math.hypot(p.x*TILE-s.world.x,p.y*TILE-s.world.y)<80)}
@@ -172,7 +173,7 @@ function interactChapter(s:ChapterOneState,id:string):boolean{
     else say(s,s.unlocked?'你用沈砚的眼睛看见了什么，也别忘了用陆知微的心再想一遍。':'先去戚家。死人留下的东西，有时活人还认得。','无面娘');return true
   }
   if(id==='mother'){
-    if(s.stage==='visit')talk(s,'mother-first',[line('陆知微','婆婆，我姓陆。这角青布，是昨夜在客舍后井找到的。您认得么？'),line('戚婆婆','……这针脚是我缝的。阿砚出门总忘带伞，我拿旧衣给他缝了块裹画布。'),line('戚婆婆','他们说他死在牢里了。我连最后一面都没见着。你若是为他来的，把这张字带上。'),line('旁白','她从砚下抽出一页纸。纸上说的不是申冤，而是替一个怕黑的孩子留灯。'),line('陆知微','我会去看看。以我自己的名字答应您。')])
+    if(s.stage==='visit')talk(s,'mother-first',[line('陆知微','婆婆，我姓陆。这角青布，是从昨夜井边拾得的油伞上解下的。您认得么？'),line('戚婆婆','……这针脚是我缝的。阿砚出门总忘带伞，我拿旧衣给他缝了块裹画布。'),line('戚婆婆','他们说他死在牢里了。我连最后一面都没见着。你若是为他来的，把这张字带上。'),line('旁白','她从砚下抽出一页纸。纸上说的不是申冤，而是替一个怕黑的孩子留灯。'),line('陆知微','我会去看看。以我自己的名字答应您。')])
     else if(s.stage==='meal'){
       if(s.face==='self'){say(s,s.flags.toldTruth?'陆先生，陪我吃碗面吧。只是那幅没画完的画，还要借他的眼睛才能看清。':'陆先生，你回来了。茶楼可有消息？','戚婆婆');return true}
       if(!s.flags.identityChosen)talk(s,'identity',[line('戚婆婆','……阿砚？', [{id:'truth',text:'我叫陆知微，借他的面，是为查清他的死。'},{id:'silent',text:'先扶她坐下，暂且不答。'},{id:'mask',text:'娘，我回来了。'}])])

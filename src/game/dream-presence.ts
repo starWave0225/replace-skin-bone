@@ -21,11 +21,11 @@ export function dreamMirrorContact(seen: readonly DreamStationId[], position: { 
 
 export const dreamLines: Record<DreamStationId, readonly string[]> = {
   hall: ['轻些。那时候，堂上还有人在等。'],
-  courtyard: ['那夜还是喜筵。天亮时，院里只剩下雪。', '别去解绳。且随我来。'],
+  courtyard: ['那夜还是喜筵。天亮时，院里只剩下雪。', '你看见的，也未必是真的。且随我来。'],
   lantern: ['纸灯还亮着，执笔的人却不在了。', '你近些，看看那支笔如何落墨。'],
   brush: ['「鋪人皮於榻上，執采筆而繪之。」', '一张脸，也可以这样画出来。'],
-  scroll: ['人非我所杀。有人借这法子驱鬼杀人。', '借你此术七日，替我问个清白。', '再找一找，我那年等的人。'],
-  mirror: ['七日之内，记住你自己的名字。', '铜镜里那盏茶尚温。走近些，穿过去。'],
+  scroll: ['你见到的脸，未必是来见你的人。', '陆知微：许文卿……是你杀的么？', '不是。有人借此法驱使鬼影。', '我死在这宅里，却替他担了多年的恶名。', '我不知道那人如今在哪里。你是第一个到访此处的人。', '我余下的气力，只够七夜。全数借你，还人清白。'],
+  mirror: ['铜镜里那盏茶尚温。'],
 }
 
 export function dreamContact(seen: readonly DreamStationId[], position: { x: number; z: number }, renderedStage: number, blocked = false): DreamStationId | undefined {

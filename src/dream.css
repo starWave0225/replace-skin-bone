@@ -31,6 +31,7 @@
 .dream-pause-menu small { font-size: 15px; color: #8c9b94; line-height: 1.6; margin-top: 10px; }
 .dream-wake-fade { position: absolute; inset: 0; z-index: 12; pointer-events: none; background: #06090a; opacity: 0; transition: opacity .65s; }
 .is-waking .dream-wake-fade { opacity: 1; }
+.dream-last-whisper { z-index: 13; }
 .dream-immersive .dream-quiet-pad { position: absolute; z-index: 4; left: max(14px, env(safe-area-inset-left)); bottom: max(14px, env(safe-area-inset-bottom)); opacity: .55; }
 .dream-immersive .dream-quiet-pad > button { border-color: #cad5c233; background: #14241b65; border-radius: 50%; }
 .dream-immersive .dream-quiet-pad > button:active, .dream-immersive .dream-quiet-pad > button[aria-pressed="true"] { background: #8b8d615e; }

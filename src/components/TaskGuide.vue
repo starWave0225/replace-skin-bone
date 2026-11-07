@@ -12,9 +12,9 @@ const guide=computed(()=>{
   const chapter='序章 · 雨夜寻凶'
   if(p.phase==='investigation')return {chapter,title:'客舍寻凶',text:hasCaseEvidence(p)?'带着查到的疑点，再问客舍掌柜。':'调查客舍东厢，寻找许文卿遇害的线索。'}
   if(p.phase==='search')return {chapter,title:'循迹茶楼',text:['inn','street'].includes(p.world.map)?'穿过街巷，到无面茶楼打听。':p.world.map==='theatre'?'无面娘无心接待。可以在前堂走走，也可以上楼看看。':p.wallOpen?'看看墙后的木匣。':p.verseRoomFound?'留意房内高挂的楹联与墙板接缝。':'读读二楼各门题诗，找出韵脚不合的一间。'}
-  if(p.phase==='morning')return {chapter,title:'梦醒问井',text:p.wellEncounter?.stage==='complete'?'拾得的青布似有来历，继续启程。':p.world.map!=='inn_well'?(p.briefed?'回栖雨客舍，去后堂查看枯井。':'问无面娘梦中借面的事。'):p.echo?'三道门已出现。循回声推门，或回井边重听。':p.knocks?'井里尚未应声。再想想旧谱的残谶。':'枯井里没有水。想想书册末页的残谶。'}
+  if(p.phase==='morning')return {chapter,title:'梦醒问井',text:p.wellEncounter?.stage==='complete'?'井沿留下一把旧油伞，拿起查看。':p.world.map!=='inn_well'?(p.briefed?'回栖雨客舍，去后堂查看枯井。':'问无面娘梦中借面的事。'):p.echo?'三道门已出现。循回声推门，或回井边重听。':p.knocks?'井里尚未应声。再想想旧谱的残谶。':'枯井里没有水。想想书册末页的残谶。'}
   if(p.phase==='dream')return {chapter,title:'雪宅残梦',text:'循白衣身影前行，触碰她的影子。最后从铜镜离开梦境。'}
-  return {chapter,title:p.phase==='curtain'?'序章已毕':'雨夜来书',text:p.phase==='curtain'?'带上青布，进入第一章。':'翻阅许文卿留下的书册。'}
+  return {chapter,title:p.phase==='curtain'?'序章已毕':'雨夜来书',text:p.phase==='curtain'?'油伞引出了陌生面容，带上它继续查问。':'翻阅许文卿留下的书册。'}
 })
 </script>
 <template>

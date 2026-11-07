@@ -56,7 +56,7 @@ export function performCombatAction(previous:CombatState,id:CombatAction,expecte
   const intent=currentCombatIntent(s),alreadyExposed=s.enemy.skin===0&&s.exposure>0,oldMark=s.mark
   let broken=false,cancelled=false,markCreated=false,counterGranted=false
   const say=(side:CombatLog['side'],text:string)=>s.log.push({turn:s.turn,side,text})
-  function win(){if(s.enemy.hp<=0){s.status='won';say('system',s.context==='chapter-one'?'纸傀散作旧纸。值夜录保住了，快取去给韩七辨认。':s.context==='prologue'?'皮相散尽，怨势暂息。井中哭声渐低，且听鬼童诉说。':'皮相散尽，怨势暂息。此处只演练压制，不替任何人决定归宿。');return true}return false}
+  function win(){if(s.enemy.hp<=0){s.status='won';say('system',s.context==='chapter-one'?'纸傀散作旧纸。值夜录保住了，快取去给韩七辨认。':s.context==='prologue'?'皮相散尽，怨势暂息。井中哭声渐低，鬼童将油伞推到井沿。':'皮相散尽，怨势暂息。此处只演练压制，不替任何人决定归宿。');return true}return false}
   function hitEnemy(values:{skin:number;body:number},name:string){
     const skin=s.enemy.skin>0,base=skin?values.skin:values.body
     if(base<=0)return

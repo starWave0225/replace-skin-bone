@@ -164,7 +164,7 @@ onUnmounted(()=>{window.removeEventListener('keydown',keyboard);if(animation)cle
             <div v-if="chapter"><button :disabled="paused" @click="battle.status==='won'?emit('next'):emit('retry')">{{battle.status==='won'?'收起值夜录 →':'重整笔墨，再战一次 →'}}</button></div><div v-else><button @click="reset()">再试一阵 →</button><button @click="reset(startingFace==='shen'?'guard':'shen')">换一面起手</button></div>
           </section>
       <section v-if="encounter?.stage==='aftermath'" class="combat-lesson encounter-aftermath" aria-label="战后井边线索" role="dialog">
-        <img :src="characterPortraits.child.src" alt="井畔鬼童"/><div class="combat-story-copy"><ScreenPages><span>怨势暂歇 · 人鬼未明</span><h2>「这布……还给等它的人。」</h2><p>鬼童松开手，指间的青布落在门槛上。他的身影随雾淡去。{{wellClue.text}}</p><p>你已学会：查看敌意 → 积攒墨息 → 破相打断 → 趁两次显形行动伤形。守息也占一回合。</p></ScreenPages><button :disabled="paused||busy" @click="emit('next')">拾起青布 →</button></div>
+        <img :src="characterPortraits.child.src" alt="井畔鬼童"/><div class="combat-story-copy"><ScreenPages><span>怨势暂歇 · 人鬼未明</span><h2>井沿，只剩一把油伞。</h2><p>{{wellClue.text}}</p><p>你已学会：查看敌意 → 积攒墨息 → 破相打断 → 趁两次显形行动伤形。守息也占一回合。</p></ScreenPages><button :disabled="paused||busy" @click="emit('next')">拿起油伞 →</button></div>
       </section>
       <section v-if="helpPanel" class="combat-help" role="dialog" :aria-label="helpPanel==='lesson'?'本回合机制教学':'招式小抄与斗法录'">
         <header><h2>{{helpPanel==='lesson'?lesson?.title:'招式小抄与斗法录'}}</h2><button @click="helpPanel=undefined">收起</button></header>

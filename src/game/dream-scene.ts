@@ -131,7 +131,7 @@ export async function createDreamScene(host: HTMLElement, options: DreamSceneOpt
     for(let i=0;i<4;i++)for(const angle of [-Math.PI/4,Math.PI/4]){const lattice=box(x-side*.14,2.6,z-1.1+i*.7,.08,.55,.035,wood);lattice.rotation.x=angle}
   }
   // The abandoned wedding hall opens into a snow-covered courtyard.
-  const weddingSign = new T.MeshStandardMaterial({ map: texture('label','囍'), roughness: .95 })
+  const weddingSign = new T.MeshStandardMaterial({ map: texture('label','囍'), roughness: .95, transparent:true, opacity:.48 })
   mesh(new T.PlaneGeometry(1.25,1.25),weddingSign,0,3.9,6.45).rotation.z=-.14
   for (const side of [-1,1]) {
     const valance=box(side*2.4,4.35,6.35,2.5,.6,.1,red)
@@ -162,15 +162,16 @@ export async function createDreamScene(host: HTMLElement, options: DreamSceneOpt
   }
   const hanging=new T.Group();hanging.position.set(3.26,4.06,3.9);scene.add(hanging)
   const rope=new T.MeshStandardMaterial({color:'#4c4030',roughness:1})
-  const burialRobe=red.clone();burialRobe.color.set('#4c4c4b')
+  const burialRobe=new T.MeshBasicMaterial({color:'#9daeb2',transparent:true,opacity:.18,depthWrite:false});rope.transparent=true;rope.opacity=.12;rope.depthWrite=false
   cylinder(0,-.42,0,.022,.84,rope,hanging)
   const hood=mesh(new T.SphereGeometry(.16,16,12),burialRobe,0,-.93,0,hanging);hood.scale.set(.92,1.27,.92)
   const body=mesh(new T.CylinderGeometry(.24,.38,1.26,16),burialRobe,0,-1.74,0,hanging);body.scale.z=.62
   for (const x of [-.29,.29]) {
     const sleeve=cylinder(x,-1.63,0,.115,.73,burialRobe,hanging);sleeve.rotation.z=x*.72
-    box(x*.48,-2.45,.015,.14,.17,.24,darkWood,hanging)
+    box(x*.48,-2.45,.015,.14,.17,.24,burialRobe,hanging)
   }
-  animated.push(t=>{hanging.rotation.z=Math.sin(t*.55)*.021})
+  hanging.traverse(o=>{o.castShadow=false;o.receiveShadow=false});
+  animated.push(t=>{hanging.rotation.z=Math.sin(t*.55)*.021;burialRobe.opacity=.12+Math.sin(t*.7)*.07})
 
   box(-4.9,2.5,-17.8,4.3,5.2,.4,wall);box(4.9,2.5,-17.8,4.3,5.2,.4,wall);box(0,4.9,-17.8,6,1,.4,darkWood)
   box(-1.25,2,-17.4,2.45,4,.18,darkWood);box(1.25,2,-17.4,2.45,4,.18,darkWood)
