@@ -105,6 +105,7 @@ function interact(spot: WorldSpot) {
 }
 function chooseVerseRoom(id:string){
   const door=verseDoors.find(d=>d.id===id)
+  emit('event','open_'+id)
   if(!door?.wrong){say('陆知微','韵脚相应','两句尾字读来相应。推门只见寻常客房，秘密应在别处。');return}
   emit('event','enter_'+id)
   say('陆知微','一字失韵','“明”与“水”不押韵。推门入内，一幅旧楹联挂得比旁边的画略高，墙板下沿露着细缝。')

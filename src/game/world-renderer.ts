@@ -103,6 +103,10 @@ export function drawObject(c: Ctx, object: WorldObject, art?: WorldArt) {
     stamp(region, x - width / 2, y - height + 12, width, height)
   } else if (object.kind === 'bamboo') {
     for (let i = 0; i < 3; i++) stamp('bamboo', x - 20 + i * 14, y - 66 - i % 2 * 8, 32, 64)
+  } else if (object.kind === 'ceiling') {
+    texture(c,art,'plaster',x,y,w,h)
+    rect(c,x,y,w,8,'#3a3028');rect(c,x,y,5,h,'#4d3e2e');rect(c,x+w-5,y,5,h,'#4d3e2e')
+    texture(c,art,'wood',x,y+h-9,w,9)
   } else if (object.kind === 'wall') wall(c, art, x, y, w, h)
   else if (object.kind === 'table') {
     stamp('table', x, y, w, h + 10)

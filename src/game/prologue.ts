@@ -19,6 +19,7 @@ export interface PrologueState {
   dreamPose?: DreamPose
   heardAppeal?: true
   verseDoorsSeen?: string[]
+  openedVerseDoors?: string[]
   verseRoomFound?: true
   wallOpen?: true
   briefed?: true
@@ -81,6 +82,9 @@ export function recordPrologueEvent(p: PrologueState, id: string): boolean {
   else if (id.startsWith('read_verse_') && p.phase === 'search' && p.world.map === 'theatre_upper' && verseDoors.some(d => 'read_' + d.id === id)) {
     const key=id.slice(5);p.verseDoorsSeen??=[];if(p.verseDoorsSeen.includes(key))return false;p.verseDoorsSeen.push(key)
   }
+  else if (id.startsWith('open_verse_') && p.phase === 'search' && p.world.map === 'theatre_upper' && verseDoors.some(d=>'open_'+d.id===id)) {
+    const key=id.slice(5);p.openedVerseDoors??=[];if(p.openedVerseDoors.includes(key))return false;p.openedVerseDoors.push(key)
+  }
   else if (verseDoors.some(d=>'enter_'+d.id===id&&d.wrong) && p.phase === 'search' && p.world.map === 'theatre_upper' && !p.verseRoomFound) p.verseRoomFound=true
   else if (id === 'wall' && p.phase === 'search' && p.world.map === 'theatre_upper' && p.verseRoomFound && !p.wallOpen) p.wallOpen = true
   else if (id === 'briefing' && p.phase === 'morning' && p.world.map === 'theatre_upper' && !p.briefed) p.briefed = true
@@ -102,8 +106,8 @@ export function unlockPrologueBox(p: PrologueState, text: string): boolean {
 const routes: Partial<Record<Location, Partial<Record<Location, [number, number]>>>> = {
   inn: { street: [20, 17], inn_well: [11, 16] },
   street: { inn: [14, 18], theatre: [13, 15] },
-  theatre: { street: [8, 29], theatre_upper: [4, 10.5] },
-  theatre_upper: { theatre: [21, 11] },
+  theatre: { street: [8, 29], theatre_upper: [2.4, 10.5] },
+  theatre_upper: { theatre: [2.4, 14.5] },
   inn_well: { inn: [3, 12] },
 }
 export function travelPrologue(p: PrologueState, destination: Location): boolean {
@@ -167,6 +171,7 @@ export function isValidPrologue(value: unknown): value is PrologueState {
   if (p.wellEncounter !== undefined && (!p.echo || p.world.map !== 'inn_well' || !isValidWellEncounter(p.wellEncounter))) return false
   if (p.phase === 'curtain' && p.wellEncounter?.stage !== 'complete') return false
   if (p.verseDoorsSeen !== undefined && (!Array.isArray(p.verseDoorsSeen) || new Set(p.verseDoorsSeen).size !== p.verseDoorsSeen.length || !p.verseDoorsSeen.every(id=>verseDoors.some(d=>d.id===id)))) return false
+  if (p.openedVerseDoors !== undefined && (!Array.isArray(p.openedVerseDoors) || new Set(p.openedVerseDoors).size !== p.openedVerseDoors.length || !p.openedVerseDoors.every(id=>verseDoors.some(d=>d.id===id)))) return false
   if (p.verseRoomFound !== undefined && p.verseRoomFound !== true) return false
   const map = worldMaps[p.world.map]
   if (!Number.isFinite(p.world.x) || !Number.isFinite(p.world.y) || p.world.x < 0 || p.world.x > map.width * TILE || p.world.y < 0 || p.world.y > map.height * TILE || !['up', 'down', 'left', 'right'].includes(p.world.facing)) return false
