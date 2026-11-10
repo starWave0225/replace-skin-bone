@@ -3,8 +3,8 @@ import type { WorldNpc } from './world-actors'
 export const TILE = 32
 export const PLAYER_SPEED = { walk: 160, run: 245, path: 190, tap: 6 } as const
 export interface Rect { x: number; y: number; w: number; h: number }
-export interface WorldObject { kind: 'house' | 'tree' | 'pine' | 'willow' | 'wall' | 'table' | 'bed' | 'shelf' | 'well' | 'pot' | 'stage' | 'mirror' | 'lantern' | 'bench' | 'bamboo' | 'flowers' | 'door' | 'chest' | 'tracks'; x: number; y: number; w?: number; h?: number; title?: string; color?: string }
-export interface WorldSpot { id: string; name: string; hint: string; x: number; y: number; kind: 'npc' | 'door' | 'object'; character?: WorldNpc; destination?: Location; arrival?: [number, number] }
+export interface WorldObject { kind: 'house' | 'tree' | 'pine' | 'willow' | 'wall' | 'table' | 'bed' | 'shelf' | 'well' | 'pot' | 'stage' | 'mirror' | 'lantern' | 'bench' | 'bamboo' | 'flowers' | 'door' | 'chest' | 'tracks' | 'stairs'; x: number; y: number; w?: number; h?: number; title?: string; color?: string; couplet?: readonly string[]; open?: boolean; direction?: 'up' | 'down' }
+export interface WorldSpot { id: string; name: string; hint: string; x: number; y: number; kind: 'npc' | 'door' | 'object'; character?: WorldNpc; destination?: Location; arrival?: [number, number]; stairs?: 'up' | 'down' }
 export interface WorldMap { id: Location; name: string; width: number; height: number; interior: boolean; spawn: [number,number]; solids: Rect[]; objects: WorldObject[]; spots: WorldSpot[] }
 const R=(x:number,y:number,w:number,h:number):Rect=>({x:x*TILE,y:y*TILE,w:w*TILE,h:h*TILE})
 const trees=(points:[number,number][]):WorldObject[]=>points.map(([x,y],index)=>({kind:index%3===0?'willow':index%3===1?'tree':'pine',x,y}))
@@ -22,8 +22,14 @@ export const worldMaps: Record<Location,WorldMap> = {
   theatre:{ id:'theatre', name:'无面茶楼',width:26,height:20,interior:true,spawn:[13,14],solids:[...boundary(26,20),R(3,2,20,3),R(4,7,3,2),R(9,7,4,1),R(18,7,4,2),R(2,11,3,3),R(22,11,2,3)],objects:[
     {kind:'stage',x:3,y:2,w:20,h:3,title:'无面戏台'}, {kind:'table',x:9,y:7,w:4,h:1}, {kind:'mirror',x:5,y:7}, {kind:'shelf',x:19,y:7,w:3,h:2,title:'面谱'}, {kind:'shelf',x:2,y:11,w:2,h:3}, {kind:'pot',x:22,y:12}, {kind:'lantern',x:6,y:5}, {kind:'lantern',x:20,y:5}, {kind:'lantern',x:4,y:15}, {kind:'lantern',x:22,y:15}, {kind:'bench',x:5,y:11}, {kind:'bench',x:19,y:11},
   ],spots:[{id:'faceless',name:'无面娘',hint:'交谈',x:12,y:8,kind:'npc',character:'faceless'},{id:'mirror',name:'旧铜镜',hint:'照镜',x:6,y:9,kind:'object'},{id:'skin',name:'画师的面皮',hint:'查看',x:19,y:9.5,kind:'object'},{id:'exit',name:'未闻县南街',hint:'离开戏楼',x:13,y:18,kind:'door',destination:'street',arrival:[8,29]}]},
-  theatre_upper:{id:'theatre_upper',name:'无面茶楼 · 二楼',width:22,height:17,interior:true,spawn:[4,13],solids:[...boundary(22,17),R(1,5,14,1),R(18,5,3,1),R(4,7,5,3),R(10,7,3,2)],objects:[
-    {kind:'wall',x:1,y:5,w:14,h:1},{kind:'wall',x:18,y:5,w:3,h:1},{kind:'bed',x:4,y:7,w:5,h:3},{kind:'table',x:10,y:7,w:3,h:2},{kind:'lantern',x:4,y:11},{kind:'lantern',x:16,y:9},{kind:'shelf',x:10,y:2,w:4,h:2}
+  theatre_upper:{id:'theatre_upper',name:'无面茶楼 · 二楼客房',width:22,height:17,interior:true,spawn:[4,10.5],solids:[...boundary(22,17),R(7,1,.4,7),R(13,1,.4,7),R(1,8,14,.4),R(18,8,3,.4),R(2,2,3,1.5),R(8,2,3,1.5),R(1,14,20,.4)],objects:[
+    {kind:'wall',x:7,y:1,w:.4,h:7},{kind:'wall',x:13,y:1,w:.4,h:7},
+    {kind:'wall',x:1,y:8,w:14,h:.4},{kind:'wall',x:18,y:8,w:3,h:.4},
+    {kind:'bed',x:2,y:2,w:3,h:1.5},{kind:'bed',x:8,y:2,w:3,h:1.5},
+    {kind:'stairs',x:2.8,y:11,w:2.4,h:2.5,direction:'down'},
+    {kind:'bench',x:8,y:12,w:3},{kind:'pot',x:19.5,y:12},
+    {kind:'lantern',x:7,y:10},{kind:'lantern',x:13,y:10},{kind:'lantern',x:20,y:10},
+    {kind:'wall',x:1,y:14,w:20,h:.4}
   ],spots:[]},
   street:{id:'street',name:'未闻县南街',width:42,height:32,interior:false,spawn:[20,16],solids:[...boundary(42,32),R(3,3,10,7),R(29,3,10,7),R(3,22,10,6),R(29,23,10,5),R(1,20,17,2),R(23,20,18,2),R(25,12,4,2),R(2,13,4,3)],objects:[
     {kind:'house',x:3,y:3,w:10,h:7,title:'县 衙',color:'#616b65'},{kind:'house',x:29,y:3,w:10,h:7,title:'戚 家',color:'#657069'},{kind:'house',x:3,y:22,w:10,h:6,title:'无面茶楼',color:'#744d42'},{kind:'house',x:29,y:23,w:10,h:5,title:'沈记纸铺',color:'#606760'},

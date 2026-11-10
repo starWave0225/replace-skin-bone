@@ -100,20 +100,23 @@ test('梦中案记按已查验顺序出现，拒绝非法位置和乱序节点',
 })
 
 
-test('门诗须先逐门读过，错误房门不能开暗墙，读档保留辨韵进度',()=>{
+test('门联直接呈现，无须逐门读过即可辨韵选门，错误房门不能开暗墙',()=>{
  const p=initialPrologue();advancePrologue(p);caseClues.forEach(c=>inspectCase(p,c.id));recordPrologueEvent(p,'owner');travelPrologue(p,'street');travelPrologue(p,'theatre');travelPrologue(p,'theatre_upper')
  const map=prologueMap(p)
  const doors=map.spots.filter(s=>s.id.startsWith('verse_'))
  assert.equal(doors.length,3)
  for(const door of doors)assert.ok(findPath(map,p.world,{x:door.x*TILE,y:door.y*TILE}).length,door.id)
- assert.equal(recordPrologueEvent(p,'enter_verse_moon'),false)
+ assert.equal(map.objects.filter(o=>o.couplet?.length===2).length,3)
+ assert.ok(map.objects.some(o=>o.kind==='stairs'&&o.direction==='down'))
  recordPrologueEvent(p,'read_verse_rain');recordPrologueEvent(p,'read_verse_snow')
  const restored=JSON.parse(JSON.stringify(p));assert.ok(isValidPrologue(restored))
  assert.equal(recordPrologueEvent(restored,'wall'),false)
- recordPrologueEvent(restored,'read_verse_moon')
+ assert.ok(recordPrologueEvent({...restored,verseDoorsSeen:[]},'enter_verse_moon'),'不再要求按 E 阅读三扇门')
  assert.equal(recordPrologueEvent(restored,'enter_verse_rain'),false)
  assert.equal(recordPrologueEvent(restored,'enter_verse_snow'),false)
  assert.equal(recordPrologueEvent(restored,'enter_verse_moon'),true)
  assert.ok(prologueMap(restored).spots.some(s=>s.id==='hidden_wall'))
+ const roomMap=prologueMap(restored),seam=roomMap.spots.find(s=>s.id==='hidden_wall')!
+ assert.ok(findPath(roomMap,restored.world,{x:seam.x*TILE,y:seam.y*TILE}).length,'选对门后可进入房间摸到暗墙')
  assert.ok(recordPrologueEvent(restored,'wall'));assert.ok(unlockPrologueBox(restored,'红褪墨残'))
 })

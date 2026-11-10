@@ -30,13 +30,13 @@ let observer:ResizeObserver|undefined
 let art:WorldArt|undefined,alive=false
 let gait=0,disguise:{from:PlayerAppearance;to:PlayerAppearance;startedAt:number}|undefined
 function sendPosition(){emit('position',{...player})}
-function setMap(){player={...props.world};keys.clear();touchKeys.clear();path=[];targetSpot=undefined;nearby.value=undefined;routesOpen.value=false;background=makeBackground(map.value,art);camera={x:player.x-size.w/zoom/2,y:player.y-size.h/zoom/2}}
+function setMap(){player={...props.world};keys.clear();touchKeys.clear();path=[];targetSpot=undefined;nearby.value=undefined;routesOpen.value=false;background=makeBackground(map.value,art);resize();camera={x:player.x-size.w/zoom/2,y:player.y-size.h/zoom/2}}
 watch(()=>props.world.map,setMap)
 watch(()=>props.mapOverride,()=>{background=makeBackground(map.value,art)})
 watch(()=>props.appearance,(to,from)=>{disguise=props.motion?{from,to,startedAt:performance.now()}:undefined})
 watch(()=>props.motion,enabled=>{if(!enabled)disguise=undefined})
 watch(()=>props.paused,paused=>{if(paused)blur()})
-function resize(){if(!canvas.value||!host.value)return;const box=host.value.getBoundingClientRect();size={w:box.width,h:box.height};const dpr=Math.min(2,window.devicePixelRatio||1);canvas.value.width=Math.round(size.w*dpr);canvas.value.height=Math.round(size.h*dpr);zoom=size.w<520?1.18:1.45}
+function resize(){if(!canvas.value||!host.value)return;const box=host.value.getBoundingClientRect();size={w:box.width,h:box.height};const dpr=Math.min(2,window.devicePixelRatio||1);canvas.value.width=Math.round(size.w*dpr);canvas.value.height=Math.round(size.h*dpr);zoom=map.value.id==='theatre_upper'?1.18:size.w<520?1.18:1.45}
 function step(dx:number,dy:number){
   const result=movePlayer(map.value,player,dx,dy);player.x=result.x;player.y=result.y
   if(Math.abs(dx)>Math.abs(dy))player.facing=dx>0?'right':'left';else if(dy)player.facing=dy>0?'down':'up'
@@ -113,7 +113,7 @@ function draw(now:number){
   if(moving.value!==walking)moving.value=walking
   const nearest=nearestSpot(map.value,player.x,player.y);if(nearby.value?.id!==nearest?.id)nearby.value=nearest
   const viewW=size.w/zoom,viewH=size.h/zoom
-  const desiredX=Math.max(0,Math.min(map.value.width*TILE-viewW,player.x-viewW/2)),desiredY=Math.max(0,Math.min(map.value.height*TILE-viewH,player.y-viewH*(props.paused?.28:.53)))
+  const desiredX=Math.max(0,Math.min(map.value.width*TILE-viewW,player.x-viewW/2)),desiredY=Math.max(0,Math.min(map.value.height*TILE-viewH,player.y-viewH*(map.value.id==='theatre_upper'?.9:props.paused?.28:.53)))
   camera.x+=(desiredX-camera.x)*Math.min(1,dt*9);camera.y+=(desiredY-camera.y)*Math.min(1,dt*9)
   if(map.value.width*TILE<viewW)camera.x=(map.value.width*TILE-viewW)/2
   if(map.value.height*TILE<viewH)camera.y=(map.value.height*TILE-viewH)/2
@@ -139,11 +139,11 @@ onUnmounted(()=>{alive=false;cancelAnimationFrame(raf);observer?.disconnect();wi
 </script>
 <template>
   <section ref="host" class="world-view" :class="{ 'world-paused':paused }" :aria-label="`${map.name}俯视角探索地图`">
-    <canvas ref="canvas" class="world-canvas" :data-player-appearance="appearance" :aria-label="`${map.name}。当前形貌：${appearanceNames[appearance]}。点地面或用方向按钮行走。靠近后点交互按钮。也可用 WASD 和 E。${hintIds.length ? '交互光圈：'+map.spots.filter(spot=>hintIds.includes(spot.id)).map(spot=>spot.name).join('、')+'。' : ''}${primaryIds.length ? '任务光圈：'+map.spots.filter(spot=>primaryIds.includes(spot.id)).map(spot=>spot.name).join('、')+'。' : ''}`" tabindex="0" @click="point"></canvas>
+    <canvas ref="canvas" class="world-canvas" :data-player-appearance="appearance" :aria-label="`${map.name}。当前形貌：${appearanceNames[appearance]}。${map.objects.filter(o=>o.couplet).map(o=>o.title+'：'+o.couplet!.join('，')).join('；')}。点地面或用方向按钮行走。靠近后点交互按钮。也可用 WASD 和 E。${hintIds.length ? '交互光圈：'+map.spots.filter(spot=>hintIds.includes(spot.id)).map(spot=>spot.name).join('、')+'。' : ''}${primaryIds.length ? '任务光圈：'+map.spots.filter(spot=>primaryIds.includes(spot.id)).map(spot=>spot.name).join('、')+'。' : ''}`" tabindex="0" @click="point"></canvas>
     <div class="world-top"><div class="world-place"><span class="small-diamond"></span><h2>{{ map.name }}</h2><span>{{ night ? '夜雨' : '未闻县' }}</span></div><div class="world-key-guide"><kbd>W A S D</kbd> 行走 <i></i><kbd>E</kbd> 交互</div></div>
     <button v-if="!paused" class="world-route-toggle" :aria-expanded="routesOpen" @click="routesOpen=!routesOpen">{{ routesOpen ? '收起' : '寻路' }}</button>
-    <ScreenPages class="world-destinations" :class="{ 'routes-open': routesOpen }" aria-label="场景中的人物与出入口"><span>寻路</span><button v-for="spot in map.spots" :key="spot.id" :disabled="paused" @click="walkTo(spot)">{{ spot.name }}<small>{{ spot.kind==='door'?'↗':'·' }}</small></button></ScreenPages>
-    <div v-if="!paused" class="world-bottom"><p v-if="quest"><span class="small-diamond"></span>{{ quest }}</p><button class="world-interact" :disabled="!nearby" @click="interact"><kbd>E</kbd><span>{{ nearby ? `${nearby.hint} · ${nearby.name}` : '靠近人物或物件互动' }}</span><Icon :name="nearby?.kind==='door'?'arrow':'leaf'" :size="17"/></button></div>
+    <ScreenPages class="world-destinations" :class="{ 'routes-open': routesOpen }" aria-label="场景中的人物与出入口"><span>寻路</span><button v-for="spot in map.spots" :key="spot.id" :disabled="paused" @click="walkTo(spot)">{{ spot.name }}<Icon v-if="spot.stairs" :name="'stairs-'+spot.stairs" :size="20"/><small v-else>{{ spot.kind==='door'?'↗':'·' }}</small></button></ScreenPages>
+    <div v-if="!paused" class="world-bottom"><p v-if="quest"><span class="small-diamond"></span>{{ quest }}</p><button class="world-interact" :disabled="!nearby" @click="interact"><kbd>E</kbd><span>{{ nearby ? `${nearby.hint} · ${nearby.name}` : '靠近人物或物件互动' }}</span><Icon :name="nearby?.stairs?'stairs-'+nearby.stairs:nearby?.kind==='door'?'arrow':'leaf'" :size="17"/></button></div>
     <TouchPad v-if="!paused" :key="map.id" class="world-pad" label="地图触屏行走" @direction="touchDirection" @tap="touchTap"/>
   </section>
 </template>

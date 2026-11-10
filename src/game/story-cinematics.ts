@@ -13,7 +13,7 @@ export const storyCinematics: Record<StoryCinematicId, { title: string; shots: S
       { id: 'strike', duration: 1900, art: '/assets/opening/ink/teahouse-ambush-v1.webp', caption: '「好看吗？」', focus: [45, 42], zoom: [1.1, 1.22] },
       { id: 'blackout', duration: 3000, art: '/assets/opening/ink/teahouse-ambush-v1.webp', caption: '后颈一痛。灯火，远了。', focus: [45, 42], zoom: [1.22, 1.25], shade: true },
     ],
-    cues: [{ at: 400, sound: 'wood' }, { at: 4000, sound: 'cloth' }, { at: 8300, sound: 'strike' }],
+    cues: [{ at: 400, sound: 'wood' }, { at: 4000, sound: 'cloth' }, { at: 10000, sound: 'strike' }],
   },
   well: {
     title: '栖雨客舍 · 井畔童影',

@@ -27,7 +27,7 @@ export function createCinematicAudio() {
         source.buffer = buffer; source.connect(filter).connect(gain).connect(ctx.destination); live.add(source)
         source.onended = () => { live.delete(source); source.disconnect(); filter.disconnect(); gain.disconnect() }; source.start(now)
       }
-      if (cue === 'strike') { tone(0, 110, .28, .26); rustle(.17, 340, .25) }
+      if (cue === 'strike') { tone(0, 145, .22, .38); tone(.025, 72, .38, .2); rustle(.085, 920, .38) }
       else if (cue === 'cloth') rustle(.8, 1300, .18)
       else if (cue === 'whisper') { rustle(1.8, 700, .08); tone(0, 390, 1.6, .025) }
       else if (cue === 'wood') { tone(0, 190, .45, .11); rustle(.65, 450, .14) }

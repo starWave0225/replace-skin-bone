@@ -116,7 +116,33 @@ export function drawObject(c: Ctx, object: WorldObject, art?: WorldArt) {
   else if (object.kind === 'pot') stamp('pot', x, y - 8, 32, 32)
   else if (object.kind === 'flowers') { for (let i = 0; i < 3; i++) stamp('flowers', x + i * 12, y - 10 + i % 2 * 10, 24, 24) }
   else if (object.kind === 'mirror') stamp('mirror', x - 24, y - 24, 48, 56)
-  else if (object.kind === 'door') stamp('door', x, y, w, h)
+  else if (object.kind === 'door') {
+    if(object.open){texture(c,art,'wood',x,y,6,h);texture(c,art,'wood',x+w-6,y,6,h)}
+    else if(object.couplet){
+      texture(c,art,'wood',x,y,w,h);rect(c,x,y,w,5,'#bd9460')
+      for(const side of [0,1]){
+        const px=x+4+side*w/2
+        rect(c,px,y+8,w/2-8,h*.42,'#28332a')
+        for(let i=1;i<4;i++)rect(c,px+i*(w/2-8)/4,y+8,2,h*.42,'#987348')
+        texture(c,art,'wood',px,y+h*.52,w/2-8,h*.4)
+      }
+      rect(c,x+w/2-1,y+5,2,h-5,'#261c15')
+      for(const dx of [-5,5]){c.strokeStyle='#bea36b';c.lineWidth=2;c.beginPath();c.arc(x+w/2+dx,y+h*.6,3,0,Math.PI*2);c.stroke()}
+    }
+    else stamp('door', x, y, w, h)
+  }
+  else if (object.kind === 'stairs') {
+    rect(c,x-4,y-4,w+8,h+8,'#201a17')
+    for(let i=0;i<7;i++){
+      const sy=y+i*h/7
+      texture(c,art,'wood',x+5,sy,w-10,h/7-1)
+      rect(c,x+5,sy,w-10,2,'#c4a87d')
+      rect(c,x+5,sy+h/7-3,w-10,3,'#2b231e')
+    }
+    rect(c,x-2,y,5,h,'#8b6a42');rect(c,x+w-3,y,5,h,'#8b6a42')
+    const down=object.direction==='down',cy=y+h/2
+    c.save();c.strokeStyle='#f5dfad';c.lineWidth=3;c.beginPath();c.moveTo(x+w/2,cy+(down?-15:15));c.lineTo(x+w/2,cy+(down?15:-15));c.lineTo(x+w/2-7,cy+(down?8:-8));c.moveTo(x+w/2,cy+(down?15:-15));c.lineTo(x+w/2+7,cy+(down?8:-8));c.stroke();c.restore()
+  }
   else if (object.kind === 'chest') {
     texture(c, art, 'wood', x, y, w, h)
     rect(c, x, y + h / 2, w, 3, '#3a261b')
@@ -213,7 +239,7 @@ export function renderWorld(c: Ctx, background: HTMLCanvasElement, map: WorldMap
       if (nearest?.id === spot.id) label(c, '◆', spot.x * TILE, nameY - 17, 12, '#f2cc7d')
     } })
     if (spot.kind === 'door') {
-      label(c, '⌄', spot.x * TILE, spot.y * TILE + 3, 22, '#e2c38b')
+      if(!spot.stairs)label(c, '⌄', spot.x * TILE, spot.y * TILE + 3, 22, '#e2c38b')
       label(c, spot.name, spot.x * TILE, spot.y * TILE + 24, 12)
     }
   }
@@ -229,4 +255,16 @@ export function renderWorld(c: Ctx, background: HTMLCanvasElement, map: WorldMap
   const vignette = c.createRadialGradient(player.x, player.y, 120, player.x, player.y, 650)
   vignette.addColorStop(0, '#102a2400'); vignette.addColorStop(1, '#102a2455')
   c.fillStyle = vignette; c.fillRect(0, 0, map.width * TILE, map.height * TILE)
+  // Door inscriptions belong to the scenery, independent of interaction rings or proximity.
+  for(const object of map.objects)if(object.couplet){
+    const center=(object.x+(object.w??1)/2)*TILE,top=object.y*TILE
+    label(c,object.title??'',center,top-14,17,'#f4e0b2')
+    object.couplet.forEach((line,index)=>{
+      const x=center+(index===0?1:-1)*((object.w??1)*TILE/2+19)
+      rect(c,x-12,top-2,24,line.length*18+8,'#603f32')
+      rect(c,x-11,top-1,22,line.length*18+6,'#c1a06e')
+      c.save();c.font='17px MaShan, NotoSerif, serif';c.textAlign='center';c.textBaseline='middle';c.fillStyle='#211d18'
+      Array.from(line).forEach((char,i)=>c.fillText(char,x,top+11+i*18));c.restore()
+    })
+  }
 }

@@ -81,15 +81,15 @@ export function recordPrologueEvent(p: PrologueState, id: string): boolean {
   else if (id.startsWith('read_verse_') && p.phase === 'search' && p.world.map === 'theatre_upper' && verseDoors.some(d => 'read_' + d.id === id)) {
     const key=id.slice(5);p.verseDoorsSeen??=[];if(p.verseDoorsSeen.includes(key))return false;p.verseDoorsSeen.push(key)
   }
-  else if (verseDoors.some(d=>'enter_'+d.id===id&&d.wrong) && p.phase === 'search' && p.world.map === 'theatre_upper' && verseDoors.every(d=>p.verseDoorsSeen?.includes(d.id)) && !p.verseRoomFound) p.verseRoomFound=true
+  else if (verseDoors.some(d=>'enter_'+d.id===id&&d.wrong) && p.phase === 'search' && p.world.map === 'theatre_upper' && !p.verseRoomFound) p.verseRoomFound=true
   else if (id === 'wall' && p.phase === 'search' && p.world.map === 'theatre_upper' && p.verseRoomFound && !p.wallOpen) p.wallOpen = true
   else if (id === 'briefing' && p.phase === 'morning' && p.world.map === 'theatre_upper' && !p.briefed) p.briefed = true
   else return false
   return true
 }
 export const verseDoors = [
-  { id: 'verse_rain', name: '听雨房', x: 2.5, lines: ['隔窗残烛照秋江', '一夜疏雨过空窗'], sounds: '江 jiāng · 窗 chuāng', wrong: false },
-  { id: 'verse_snow', name: '候雪房', x: 13.5, lines: ['雪落空庭掩旧门', '灯残犹照旧苔痕'], sounds: '门 mén · 痕 hén', wrong: false },
+  { id: 'verse_rain', name: '听雨房', x: 4, lines: ['隔窗残烛照秋江', '一夜疏雨过空窗'], sounds: '江 jiāng · 窗 chuāng', wrong: false },
+  { id: 'verse_snow', name: '候雪房', x: 10, lines: ['雪落空庭掩旧门', '灯残犹照旧苔痕'], sounds: '门 mén · 痕 hén', wrong: false },
   { id: 'verse_moon', name: '待月房', x: 16.5, lines: ['半卷残书待月明', '隔帘旧梦逐秋水'], sounds: '明 míng · 水 shuǐ', wrong: true },
 ] as const
 export const boxAnswer = '红褪墨残'
@@ -102,7 +102,7 @@ export function unlockPrologueBox(p: PrologueState, text: string): boolean {
 const routes: Partial<Record<Location, Partial<Record<Location, [number, number]>>>> = {
   inn: { street: [20, 17], inn_well: [11, 16] },
   street: { inn: [14, 18], theatre: [13, 15] },
-  theatre: { street: [8, 29], theatre_upper: [4, 13] },
+  theatre: { street: [8, 29], theatre_upper: [4, 10.5] },
   theatre_upper: { theatre: [21, 11] },
   inn_well: { inn: [3, 12] },
 }

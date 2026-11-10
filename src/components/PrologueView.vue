@@ -57,7 +57,7 @@ function interact(spot: WorldSpot) {
     return
   }
   const door = verseDoors.find(d=>d.id===spot.id)
-  if(door){emit('event','read_'+door.id);note.value={speaker:'陆知微',title:door.name+' · 门上题诗',text:door.lines.join('\n'),room:door.id};return}
+  if(door){chooseVerseRoom(door.id);return}
   const clue = caseClues.find(entry => entry.id === spot.id)
   if (clue) {
     emit('inspect', clue.id)
@@ -105,7 +105,6 @@ function interact(spot: WorldSpot) {
 }
 function chooseVerseRoom(id:string){
   const door=verseDoors.find(d=>d.id===id)
-  if(!verseDoors.every(d=>props.state.verseDoorsSeen?.includes(d.id))){say('陆知微','尚缺两相对照','先把三扇门上的诗都读一遍，再辨哪一处不合韵。');return}
   if(!door?.wrong){say('陆知微','韵脚相应','两句尾字读来相应。推门只见寻常客房，秘密应在别处。');return}
   emit('event','enter_'+id)
   say('陆知微','一字失韵','“明”与“水”不押韵。推门入内，一幅旧楹联挂得比旁边的画略高，墙板下沿露着细缝。')
